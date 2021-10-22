@@ -6,6 +6,9 @@
     "build": "svelte-kit build",
     "preview": "svelte-kit preview"
   },
+  "server": {
+    "host": true
+  },
   "devDependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.55",
     "@sveltejs/kit": "next",
