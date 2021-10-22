@@ -4,7 +4,6 @@ const config = {
 	kit: {
 		target: '#svelte',
 		adapter: adapter({
-			// default options are shown
 			out: 'build',
 			precompress: false,
 			env: {
