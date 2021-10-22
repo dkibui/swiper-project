@@ -2,8 +2,8 @@
   "name": "swiperjs",
   "version": "0.0.1",
   "scripts": {
-    "dev": "HOST=0.0.0.0 svelte-kit dev",
-    "build": "svelte-kit build --host",
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
     "preview": "svelte-kit preview"
   },
   "devDependencies": {
