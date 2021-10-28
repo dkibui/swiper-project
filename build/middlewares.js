@@ -5002,14 +5002,14 @@ function stringifyString(str) {
   result += '"';
   return result;
 }
-function noop$1() {
+function noop() {
 }
 function safe_not_equal(a, b) {
   return a != a ? b == b : a !== b || (a && typeof a === "object" || typeof a === "function");
 }
 Promise.resolve();
 var subscriber_queue = [];
-function writable(value, start = noop$1) {
+function writable(value, start = noop) {
   let stop;
   const subscribers = new Set();
   function set(new_value) {
@@ -5033,11 +5033,11 @@ function writable(value, start = noop$1) {
   function update2(fn) {
     set(fn(value));
   }
-  function subscribe2(run2, invalidate = noop$1) {
+  function subscribe(run2, invalidate = noop) {
     const subscriber = [run2, invalidate];
     subscribers.add(subscriber);
     if (subscribers.size === 1) {
-      stop = start(set) || noop$1;
+      stop = start(set) || noop;
     }
     run2(value);
     return () => {
@@ -5048,7 +5048,7 @@ function writable(value, start = noop$1) {
       }
     };
   }
-  return { set, update: update2, subscribe: subscribe2 };
+  return { set, update: update2, subscribe };
 }
 function hash(value) {
   let hash2 = 5381;
@@ -5116,7 +5116,7 @@ async function render_response({
   page_config,
   status,
   error: error2,
-  page: page2
+  page
 }) {
   const css2 = new Set(options2.entry.css);
   const js = new Set(options2.entry.js);
@@ -5149,7 +5149,7 @@ async function render_response({
         navigating: writable(null),
         session
       },
-      page: page2,
+      page,
       components: branch.map(({ node }) => node.module.default)
     };
     for (let i = 0; i < branch.length; i += 1) {
@@ -5191,7 +5191,7 @@ async function render_response({
 				session: ${try_serialize($session, (error3) => {
       throw new Error(`Failed to serialize session data: ${error3.message}`);
     })},
-				host: ${page2 && page2.host ? s$1(page2.host) : "location.host"},
+				host: ${page && page.host ? s$1(page.host) : "location.host"},
 				route: ${!!page_config.router},
 				spa: ${!page_config.ssr},
 				trailing_slash: ${s$1(options2.trailing_slash)},
@@ -5202,10 +5202,10 @@ async function render_response({
 						${(branch || []).map(({ node }) => `import(${s$1(node.entry)})`).join(",\n						")}
 					],
 					page: {
-						host: ${page2 && page2.host ? s$1(page2.host) : "location.host"}, // TODO this is redundant
-						path: ${s$1(page2 && page2.path)},
-						query: new URLSearchParams(${page2 ? s$1(page2.query.toString()) : ""}),
-						params: ${page2 && s$1(page2.params)}
+						host: ${page && page.host ? s$1(page.host) : "location.host"}, // TODO this is redundant
+						path: ${s$1(page && page.path)},
+						query: new URLSearchParams(${page ? s$1(page.query.toString()) : ""}),
+						params: ${page && s$1(page.params)}
 					}
 				}` : "null"}
 			});
@@ -5318,7 +5318,7 @@ async function load_node({
   options: options2,
   state,
   route,
-  page: page2,
+  page,
   node,
   $session,
   stuff,
@@ -5333,7 +5333,7 @@ async function load_node({
   const fetched = [];
   let set_cookie_headers = [];
   let loaded;
-  const page_proxy = new Proxy(page2, {
+  const page_proxy = new Proxy(page, {
     get: (target, prop, receiver) => {
       if (prop === "query" && prerender_enabled) {
         throw new Error("Cannot access query on a page with prerendering enabled");
@@ -5374,7 +5374,7 @@ async function load_node({
         if (asset) {
           response = options2.read ? new Response(options2.read(asset.file), {
             headers: asset.type ? { "content-type": asset.type } : {}
-          }) : await fetch(`http://${page2.host}/${asset.file}`, opts);
+          }) : await fetch(`http://${page.host}/${asset.file}`, opts);
         } else if (resolved.startsWith("/") && !resolved.startsWith("//")) {
           const relative = resolved;
           const headers = __spreadValues({}, opts.headers);
@@ -5514,7 +5514,7 @@ function resolve(base2, path) {
 async function respond_with_error({ request, options: options2, state, $session, status, error: error2 }) {
   const default_layout = await options2.load_component(options2.manifest.layout);
   const default_error = await options2.load_component(options2.manifest.error);
-  const page2 = {
+  const page = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -5525,7 +5525,7 @@ async function respond_with_error({ request, options: options2, state, $session,
     options: options2,
     state,
     route: null,
-    page: page2,
+    page,
     node: default_layout,
     $session,
     stuff: {},
@@ -5540,7 +5540,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       options: options2,
       state,
       route: null,
-      page: page2,
+      page,
       node: default_error,
       $session,
       stuff: loaded ? loaded.stuff : {},
@@ -5563,7 +5563,7 @@ async function respond_with_error({ request, options: options2, state, $session,
       status,
       error: error2,
       branch,
-      page: page2
+      page
     });
   } catch (err) {
     const error3 = coalesce_to_error(err);
@@ -5731,7 +5731,7 @@ async function render_page(request, route, match, options2, state) {
     };
   }
   const params = route.params(match);
-  const page2 = {
+  const page = {
     host: request.host,
     path: request.path,
     query: request.query,
@@ -5744,7 +5744,7 @@ async function render_page(request, route, match, options2, state) {
     state,
     $session,
     route,
-    page: page2
+    page
   });
   if (response) {
     return response;
@@ -5964,8 +5964,6 @@ async function respond(incoming, options2, state = {}) {
     };
   }
 }
-function noop() {
-}
 function run(fn) {
   return fn();
 }
@@ -5974,13 +5972,6 @@ function blank_object() {
 }
 function run_all(fns) {
   fns.forEach(run);
-}
-function subscribe(store, ...callbacks) {
-  if (store == null) {
-    return noop;
-  }
-  const unsub = store.subscribe(...callbacks);
-  return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
 }
 function compute_rest_props(props, keys) {
   const rest = {};
@@ -6021,9 +6012,6 @@ function createEventDispatcher() {
 }
 function setContext(key, context) {
   get_current_component().$$.context.set(key, context);
-}
-function getContext(key) {
-  return get_current_component().$$.context.get(key);
 }
 var dirty_components = [];
 var binding_callbacks = [];
@@ -6224,7 +6212,7 @@ var css$9 = {
 };
 var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { stores } = $$props;
-  let { page: page2 } = $$props;
+  let { page } = $$props;
   let { components } = $$props;
   let { props_0 = null } = $$props;
   let { props_1 = null } = $$props;
@@ -6233,8 +6221,8 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   afterUpdate(stores.page.notify);
   if ($$props.stores === void 0 && $$bindings.stores && stores !== void 0)
     $$bindings.stores(stores);
-  if ($$props.page === void 0 && $$bindings.page && page2 !== void 0)
-    $$bindings.page(page2);
+  if ($$props.page === void 0 && $$bindings.page && page !== void 0)
+    $$bindings.page(page);
   if ($$props.components === void 0 && $$bindings.components && components !== void 0)
     $$bindings.components(components);
   if ($$props.props_0 === void 0 && $$bindings.props_0 && props_0 !== void 0)
@@ -6245,7 +6233,7 @@ var Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     $$bindings.props_2(props_2);
   $$result.css.add(css$9);
   {
-    stores.page.set(page2);
+    stores.page.set(page);
   }
   return `
 
@@ -6286,7 +6274,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   handle
 });
-var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <link rel="icon" href="/favicon.png" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
+var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <meta charset="utf-8" />\n    <link rel="icon" href="/favicon.svg" />\n    <meta name="viewport" content="width=device-width, initial-scale=1" />\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
 var options = null;
 var default_settings = { paths: { "base": "", "assets": "" } };
 function init(settings = default_settings) {
@@ -6297,9 +6285,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-3372cc46.js",
+      file: assets + "/_app/start-c7182663.js",
       css: [assets + "/_app/assets/start-61d1577b.css"],
-      js: [assets + "/_app/start-3372cc46.js", assets + "/_app/chunks/vendor-d854c7a1.js"]
+      js: [assets + "/_app/start-c7182663.js", assets + "/_app/chunks/vendor-336043de.js"]
     },
     fetched: void 0,
     floc: false,
@@ -6328,7 +6316,7 @@ function init(settings = default_settings) {
 }
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "favicon.png", "size": 1571, "type": "image/png" }, { "file": "img/1.jpg", "size": 73445, "type": "image/jpeg" }, { "file": "img/2.jpg", "size": 90526, "type": "image/jpeg" }, { "file": "img/3.jpg", "size": 92454, "type": "image/jpeg" }, { "file": "img/4.jpg", "size": 95291, "type": "image/jpeg" }, { "file": "img/5.jpg", "size": 59664, "type": "image/jpeg" }, { "file": "img/6.jpg", "size": 175714, "type": "image/jpeg" }, { "file": "img/krzysztof-13 - Copy.jpg", "size": 4175631, "type": "image/jpeg" }, { "file": "img/Liberte juices.svg", "size": 16694, "type": "image/svg+xml" }, { "file": "img/logos/amsco.png", "size": 25602, "type": "image/png" }, { "file": "img/logos/anchor.jpg", "size": 29460, "type": "image/jpeg" }, { "file": "img/logos/anchor.png", "size": 16130, "type": "image/png" }, { "file": "img/logos/EA law.jpg", "size": 19581, "type": "image/jpeg" }, { "file": "img/logos/EA law.png", "size": 6439, "type": "image/png" }, { "file": "img/logos/eaglehr.jpg", "size": 15864, "type": "image/jpeg" }, { "file": "img/logos/eaglehr.png", "size": 17439, "type": "image/png" }, { "file": "img/logos/EALaw.svg", "size": 7397, "type": "image/svg+xml" }, { "file": "img/logos/farmhouse.png", "size": 21973, "type": "image/png" }, { "file": "img/logos/imex.jpg", "size": 33450, "type": "image/jpeg" }, { "file": "img/logos/imex.png", "size": 10315, "type": "image/png" }, { "file": "img/logos/keynessian.jpg", "size": 35434, "type": "image/jpeg" }, { "file": "img/logos/keynessian.png", "size": 31736, "type": "image/png" }, { "file": "img/logos/Liberte.jpg", "size": 20405, "type": "image/jpeg" }, { "file": "img/logos/Liberte.png", "size": 14739, "type": "image/png" }, { "file": "img/logos/maxed.jpg", "size": 17989, "type": "image/jpeg" }, { "file": "img/logos/maxed.png", "size": 11693, "type": "image/png" }, { "file": "img/logos/strathmore.png", "size": 47987, "type": "image/png" }, { "file": "img/recent/1.jpg", "size": 128385, "type": "image/jpeg" }, { "file": "img/recent/2.jpg", "size": 96914, "type": "image/jpeg" }, { "file": "img/recent/3.jpg", "size": 332560, "type": "image/jpeg" }, { "file": "img/recent/anchor 1.jpg", "size": 221444, "type": "image/jpeg" }, { "file": "img/recent/anchor 2.jpg", "size": 249503, "type": "image/jpeg" }, { "file": "img/recent/anchor 3.jpg", "size": 238771, "type": "image/jpeg" }, { "file": "img/recent/anchor hero.png", "size": 16110, "type": "image/png" }, { "file": "img/recent/branded.jpg", "size": 327867, "type": "image/jpeg" }, { "file": "img/recent/branded.png", "size": 2183196, "type": "image/png" }, { "file": "img/recent/brochure.jpg", "size": 367777, "type": "image/jpeg" }, { "file": "img/recent/cards.jpg", "size": 200629, "type": "image/jpeg" }, { "file": "img/recent/carrier bags.jpg", "size": 264702, "type": "image/jpeg" }, { "file": "img/recent/poloshirts.jpg", "size": 342323, "type": "image/jpeg" }, { "file": "img/social/behance.png", "size": 8712, "type": "image/png" }, { "file": "img/social/instagram.png", "size": 10743, "type": "image/png" }, { "file": "img/social/linkedin.png", "size": 6742, "type": "image/png" }, { "file": "img/social/twitter.png", "size": 8726, "type": "image/png" }, { "file": "robots.txt", "size": 67, "type": "text/plain" }, { "file": "svelte-welcome.png", "size": 360807, "type": "image/png" }, { "file": "svelte-welcome.webp", "size": 115470, "type": "image/webp" }],
+  assets: [{ "file": "favicon.svg", "size": 2489, "type": "image/svg+xml" }, { "file": "img/1.jpg", "size": 73445, "type": "image/jpeg" }, { "file": "img/2.jpg", "size": 90526, "type": "image/jpeg" }, { "file": "img/3.jpg", "size": 92454, "type": "image/jpeg" }, { "file": "img/krzysztof-13 - Copy.jpg", "size": 4175631, "type": "image/jpeg" }, { "file": "img/Liberte juices.svg", "size": 16694, "type": "image/svg+xml" }, { "file": "img/logos/absa.png", "size": 14358, "type": "image/png" }, { "file": "img/logos/amsco.png", "size": 21859, "type": "image/png" }, { "file": "img/logos/anchor.jpg", "size": 29460, "type": "image/jpeg" }, { "file": "img/logos/anchor.png", "size": 15083, "type": "image/png" }, { "file": "img/logos/EA law.jpg", "size": 19581, "type": "image/jpeg" }, { "file": "img/logos/EA law.png", "size": 6439, "type": "image/png" }, { "file": "img/logos/eaglehr.jpg", "size": 15864, "type": "image/jpeg" }, { "file": "img/logos/eaglehr.png", "size": 20874, "type": "image/png" }, { "file": "img/logos/EALaw.svg", "size": 7397, "type": "image/svg+xml" }, { "file": "img/logos/farmhouse.png", "size": 18187, "type": "image/png" }, { "file": "img/logos/imex.jpg", "size": 33450, "type": "image/jpeg" }, { "file": "img/logos/imex.png", "size": 10315, "type": "image/png" }, { "file": "img/logos/keynessian.jpg", "size": 35434, "type": "image/jpeg" }, { "file": "img/logos/keynessian.png", "size": 31736, "type": "image/png" }, { "file": "img/logos/Liberte.jpg", "size": 20405, "type": "image/jpeg" }, { "file": "img/logos/Liberte.png", "size": 15520, "type": "image/png" }, { "file": "img/logos/maxed.jpg", "size": 17989, "type": "image/jpeg" }, { "file": "img/logos/maxed.png", "size": 11693, "type": "image/png" }, { "file": "img/logos/strathmore.png", "size": 64625, "type": "image/png" }, { "file": "img/recent/1.jpg", "size": 122952, "type": "image/jpeg" }, { "file": "img/recent/2.jpg", "size": 51702, "type": "image/jpeg" }, { "file": "img/recent/3.jpg", "size": 285918, "type": "image/jpeg" }, { "file": "img/recent/4.jpg", "size": 26439, "type": "image/jpeg" }, { "file": "img/recent/5.jpg", "size": 21e3, "type": "image/jpeg" }, { "file": "img/recent/6.jpg", "size": 45873, "type": "image/jpeg" }, { "file": "img/recent/7.jpg", "size": 42114, "type": "image/jpeg" }, { "file": "img/recent/8.jpg", "size": 87353, "type": "image/jpeg" }, { "file": "img/recent/9.jpg", "size": 51720, "type": "image/jpeg" }, { "file": "img/recent/anchor 1.jpg", "size": 58739, "type": "image/jpeg" }, { "file": "img/recent/anchor 2.jpg", "size": 57693, "type": "image/jpeg" }, { "file": "img/recent/anchor 3.jpg", "size": 55053, "type": "image/jpeg" }, { "file": "img/recent/anchor hero.png", "size": 20394, "type": "image/png" }, { "file": "img/recent/branded.jpg", "size": 111541, "type": "image/jpeg" }, { "file": "img/recent/branded.png", "size": 254485, "type": "image/png" }, { "file": "img/recent/brochure.jpg", "size": 120185, "type": "image/jpeg" }, { "file": "img/recent/calendar.jpg", "size": 78286, "type": "image/jpeg" }, { "file": "img/recent/calendar2.jpg", "size": 122816, "type": "image/jpeg" }, { "file": "img/recent/cards.jpg", "size": 32990, "type": "image/jpeg" }, { "file": "img/recent/carrier bags.jpg", "size": 86224, "type": "image/jpeg" }, { "file": "img/recent/liberte.jpg", "size": 98601, "type": "image/jpeg" }, { "file": "img/recent/mask.jpg", "size": 69932, "type": "image/jpeg" }, { "file": "img/recent/poloshirts.jpg", "size": 99363, "type": "image/jpeg" }, { "file": "img/social/behance.png", "size": 8712, "type": "image/png" }, { "file": "img/social/instagram.png", "size": 10743, "type": "image/png" }, { "file": "img/social/linkedin.png", "size": 6742, "type": "image/png" }, { "file": "img/social/twitter.png", "size": 8726, "type": "image/png" }, { "file": "img/visign-logo.svg", "size": 2657, "type": "image/svg+xml" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -6344,6 +6332,13 @@ var manifest = {
       pattern: /^\/about\/?$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/about.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/menu\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/menu.svelte"],
       b: [".svelte-kit/build/components/error.svelte"]
     },
     {
@@ -6374,11 +6369,14 @@ var module_lookup = {
   "src/routes/about.svelte": () => Promise.resolve().then(function() {
     return about;
   }),
+  "src/routes/menu.svelte": () => Promise.resolve().then(function() {
+    return menu;
+  }),
   "src/routes/work.svelte": () => Promise.resolve().then(function() {
     return work;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-55007ccd.js", "css": ["assets/pages/__layout.svelte-a960b084.css"], "js": ["pages/__layout.svelte-55007ccd.js", "chunks/vendor-d854c7a1.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-76fb3155.js", "css": [], "js": ["error.svelte-76fb3155.js", "chunks/vendor-d854c7a1.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-a6984c15.js", "css": ["assets/pages/index.svelte-77a3fac6.css", "assets/pagination.min-4d3a60e0.css"], "js": ["pages/index.svelte-a6984c15.js", "chunks/vendor-d854c7a1.js"], "styles": [] }, "src/routes/about.svelte": { "entry": "pages/about.svelte-74aade98.js", "css": ["assets/pages/about.svelte-e6bbc2b1.css", "assets/pagination.min-4d3a60e0.css"], "js": ["pages/about.svelte-74aade98.js", "chunks/vendor-d854c7a1.js"], "styles": [] }, "src/routes/work.svelte": { "entry": "pages/work.svelte-55620fc4.js", "css": ["assets/pages/work.svelte-1c67815c.css"], "js": ["pages/work.svelte-55620fc4.js", "chunks/vendor-d854c7a1.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-9be074c9.js", "css": ["assets/pages/__layout.svelte-5c0cc040.css"], "js": ["pages/__layout.svelte-9be074c9.js", "chunks/vendor-336043de.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-086a6be9.js", "css": [], "js": ["error.svelte-086a6be9.js", "chunks/vendor-336043de.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-06131484.js", "css": ["assets/pages/index.svelte-c3abe778.css", "assets/pagination.min-4d3a60e0.css"], "js": ["pages/index.svelte-06131484.js", "chunks/vendor-336043de.js"], "styles": [] }, "src/routes/about.svelte": { "entry": "pages/about.svelte-542f1110.js", "css": ["assets/pages/about.svelte-e6bbc2b1.css", "assets/pagination.min-4d3a60e0.css"], "js": ["pages/about.svelte-542f1110.js", "chunks/vendor-336043de.js"], "styles": [] }, "src/routes/menu.svelte": { "entry": "pages/menu.svelte-9774df1f.js", "css": [], "js": ["pages/menu.svelte-9774df1f.js", "chunks/vendor-336043de.js"], "styles": [] }, "src/routes/work.svelte": { "entry": "pages/work.svelte-3c781599.js", "css": ["assets/pages/work.svelte-76d95d68.css"], "js": ["pages/work.svelte-3c781599.js", "chunks/vendor-336043de.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles: styles2 } = metadata_lookup[file];
   return {
@@ -6395,61 +6393,32 @@ function render(request, {
   const host = request.headers["host"];
   return respond(__spreadProps(__spreadValues({}, request), { host }), options, { prerender: prerender2 });
 }
-var browser$1 = false;
-var dev = false;
-var getStores = () => {
-  const stores = getContext("__svelte__");
-  return {
-    page: {
-      subscribe: stores.page.subscribe
-    },
-    navigating: {
-      subscribe: stores.navigating.subscribe
-    },
-    get preloading() {
-      console.error("stores.preloading is deprecated; use stores.navigating instead");
-      return {
-        subscribe: stores.navigating.subscribe
-      };
-    },
-    session: stores.session
-  };
-};
-var page = {
-  subscribe(fn) {
-    const store = getStores().page;
-    return store.subscribe(fn);
-  }
-};
-var logo = "/_app/assets/visign-logo-668afc02.svg";
 var css$8 = {
-  code: ".menu.svelte-fv80sp.svelte-fv80sp{max-width:1600px;margin:auto}header.svelte-fv80sp.svelte-fv80sp{display:flex;justify-content:space-between;align-items:center;margin:auto}nav.svelte-fv80sp a.svelte-fv80sp{display:block;width:100%}nav.svelte-fv80sp.svelte-fv80sp{display:flex;justify-content:space-between;--background:rgba(224, 193, 193, 0.7)}ul.svelte-fv80sp.svelte-fv80sp{position:relative;padding:0;margin:0;height:2.9em;display:flex;justify-content:space-between;align-items:center;list-style:none}li.svelte-fv80sp.svelte-fv80sp{position:relative;height:100%}li.active.svelte-fv80sp.svelte-fv80sp::before{--size:6px;content:'';width:0;height:0;position:absolute;top:0;left:calc(50% - var(--size));border:var(--size) solid transparent;border-top:var(--size) solid var(--text-color)}nav.svelte-fv80sp a.svelte-fv80sp{display:flex;height:100%;align-items:center;padding:0 1em;color:var(--heading-color);font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s linear}nav.svelte-fv80sp img.svelte-fv80sp{display:block;width:130px}nav.svelte-fv80sp img.svelte-fv80sp:hover{opacity:0.75}a.svelte-fv80sp.svelte-fv80sp:hover{color:var(--accent-color)}a.svelte-fv80sp.svelte-fv80sp:focus{color:var(--text-color)}@media(min-width: 650px){nav.svelte-fv80sp img.svelte-fv80sp{width:150px}ul.svelte-fv80sp.svelte-fv80sp{height:3.5em}}",
-  map: `{"version":3,"file":"Header.svelte","sources":["Header.svelte"],"sourcesContent":["<script>\\n  import { page } from '$app/stores'\\n  import logo from './visign-logo.svg'\\n<\/script>\\n\\n<div class=\\"menu\\">\\n  <header>\\n    <!-- <div class=\\"corner\\">\\n      <a href=\\"/\\">\\n        <img src={logo} alt=\\"visign logo\\" />\\n      </a>\\n    </div> -->\\n\\n    <nav>\\n      <!-- <svg viewBox=\\"0 0 2 3\\" aria-hidden=\\"true\\">\\n      <path d=\\"M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z\\" />\\n    </svg> -->\\n      <ul>\\n        <!-- <li class:active={$page.path === '/'}>\\n          <a sveltekit:prefetch href=\\"/\\">Home</a>\\n        </li> -->\\n        <li class:active={$page.path === '/work'}>\\n          <a sveltekit:prefetch href=\\"/work\\">Work</a>\\n        </li>\\n        <li class:active={$page.path === '/'}>\\n          <a sveltekit:prefetch href=\\"/\\">\\n            <img src={logo} alt=\\"visign logo\\" />\\n          </a>\\n        </li>\\n        <li class:active={$page.path === '/about'}>\\n          <a sveltekit:prefetch href=\\"/about\\">About</a>\\n        </li>\\n      </ul>\\n      <!-- <svg viewBox=\\"0 0 2 3\\" aria-hidden=\\"true\\">\\n      <path d=\\"M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z\\" />\\n    </svg> -->\\n    </nav>\\n\\n    <!-- <div class=\\"corner\\">TODO put something else here? github link?</div> -->\\n  </header>\\n</div>\\n\\n<style>\\n  .menu {\\n    /* width: 100%; */\\n    max-width: 1600px;\\n    margin: auto;\\n  }\\n\\n  header {\\n    display: flex;\\n    justify-content: space-between;\\n    align-items: center;\\n    margin: auto;\\n    /* width: 90%; */\\n    /* border-bottom: 1px solid cadetblue; */\\n  }\\n\\n  /* .corner {\\ncorner\\n    height: auto;\\n  }\\n\\n  .corner a {\\n    display: flex;\\n    align-items: center;\\n    justify-content: center;\\n    width: 100%;\\n    height: 100%;\\n  }\\n  */\\n\\n  nav a {\\n    display: block;\\n    width: 100%;\\n  }\\n\\n  nav {\\n    display: flex;\\n    justify-content: space-between;\\n    --background: rgba(224, 193, 193, 0.7);\\n  }\\n\\n  /* svg {\\n    width: 2em;\\n    height: 3em;\\n    display: block;\\n  }\\n\\n  path {\\n    fill: var(--background);\\n  } */\\n\\n  ul {\\n    position: relative;\\n    padding: 0;\\n    margin: 0;\\n    height: 2.9em;\\n    display: flex;\\n    justify-content: space-between;\\n    align-items: center;\\n    list-style: none;\\n  }\\n\\n  li {\\n    position: relative;\\n    height: 100%;\\n  }\\n\\n  li.active::before {\\n    --size: 6px;\\n    content: '';\\n    width: 0;\\n    height: 0;\\n    position: absolute;\\n    top: 0;\\n    left: calc(50% - var(--size));\\n    border: var(--size) solid transparent;\\n    border-top: var(--size) solid var(--text-color);\\n  }\\n\\n  nav a {\\n    display: flex;\\n    height: 100%;\\n    align-items: center;\\n    padding: 0 1em;\\n    color: var(--heading-color);\\n    font-weight: 700;\\n    font-size: 0.8rem;\\n    text-transform: uppercase;\\n    letter-spacing: 0.1em;\\n    text-decoration: none;\\n    transition: color 0.2s linear;\\n  }\\n\\n  nav img {\\n    display: block;\\n    width: 130px;\\n  }\\n\\n  nav img:hover {\\n    opacity: 0.75;\\n  }\\n\\n  a:hover {\\n    color: var(--accent-color);\\n  }\\n\\n  a:focus {\\n    color: var(--text-color);\\n  }\\n\\n  @media (min-width: 650px) {\\n    nav img {\\n      width: 150px;\\n    }\\n\\n    ul {\\n      height: 3.5em;\\n    }\\n  }\\n</style>\\n"],"names":[],"mappings":"AA2CE,KAAK,4BAAC,CAAC,AAEL,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,IAAI,AACd,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,aAAa,CAC9B,WAAW,CAAE,MAAM,CACnB,MAAM,CAAE,IAAI,AAGd,CAAC,AAgBD,iBAAG,CAAC,CAAC,cAAC,CAAC,AACL,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,AACb,CAAC,AAED,GAAG,4BAAC,CAAC,AACH,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,aAAa,CAC9B,YAAY,CAAE,wBAAwB,AACxC,CAAC,AAYD,EAAE,4BAAC,CAAC,AACF,QAAQ,CAAE,QAAQ,CAClB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,CAAC,CACT,MAAM,CAAE,KAAK,CACb,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,aAAa,CAC9B,WAAW,CAAE,MAAM,CACnB,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,EAAE,4BAAC,CAAC,AACF,QAAQ,CAAE,QAAQ,CAClB,MAAM,CAAE,IAAI,AACd,CAAC,AAED,EAAE,mCAAO,QAAQ,AAAC,CAAC,AACjB,MAAM,CAAE,GAAG,CACX,OAAO,CAAE,EAAE,CACX,KAAK,CAAE,CAAC,CACR,MAAM,CAAE,CAAC,CACT,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,KAAK,GAAG,CAAC,CAAC,CAAC,IAAI,MAAM,CAAC,CAAC,CAC7B,MAAM,CAAE,IAAI,MAAM,CAAC,CAAC,KAAK,CAAC,WAAW,CACrC,UAAU,CAAE,IAAI,MAAM,CAAC,CAAC,KAAK,CAAC,IAAI,YAAY,CAAC,AACjD,CAAC,AAED,iBAAG,CAAC,CAAC,cAAC,CAAC,AACL,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,IAAI,CACZ,WAAW,CAAE,MAAM,CACnB,OAAO,CAAE,CAAC,CAAC,GAAG,CACd,KAAK,CAAE,IAAI,eAAe,CAAC,CAC3B,WAAW,CAAE,GAAG,CAChB,SAAS,CAAE,MAAM,CACjB,cAAc,CAAE,SAAS,CACzB,cAAc,CAAE,KAAK,CACrB,eAAe,CAAE,IAAI,CACrB,UAAU,CAAE,KAAK,CAAC,IAAI,CAAC,MAAM,AAC/B,CAAC,AAED,iBAAG,CAAC,GAAG,cAAC,CAAC,AACP,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,KAAK,AACd,CAAC,AAED,iBAAG,CAAC,iBAAG,MAAM,AAAC,CAAC,AACb,OAAO,CAAE,IAAI,AACf,CAAC,AAED,6BAAC,MAAM,AAAC,CAAC,AACP,KAAK,CAAE,IAAI,cAAc,CAAC,AAC5B,CAAC,AAED,6BAAC,MAAM,AAAC,CAAC,AACP,KAAK,CAAE,IAAI,YAAY,CAAC,AAC1B,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,iBAAG,CAAC,GAAG,cAAC,CAAC,AACP,KAAK,CAAE,KAAK,AACd,CAAC,AAED,EAAE,4BAAC,CAAC,AACF,MAAM,CAAE,KAAK,AACf,CAAC,AACH,CAAC"}`
+  code: ".menu.svelte-16wmh91.svelte-16wmh91{width:90%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem}.menu.svelte-16wmh91 img.svelte-16wmh91{display:block;height:36px}.container.svelte-16wmh91.svelte-16wmh91{cursor:pointer}.bar1.svelte-16wmh91.svelte-16wmh91,.bar2.svelte-16wmh91.svelte-16wmh91,.bar3.svelte-16wmh91.svelte-16wmh91{width:32px;height:3px;background-color:var(--text-color);margin:8px 0;transition:0.4s}.change.svelte-16wmh91 .bar1.svelte-16wmh91{-webkit-transform:rotate(-45deg) translate(-9px, 6px);transform:rotate(-45deg) translate(-9px, 6px)}.change.svelte-16wmh91 .bar2.svelte-16wmh91{opacity:0}.change.svelte-16wmh91 .bar3.svelte-16wmh91{-webkit-transform:rotate(45deg) translate(-8px, -8px);transform:rotate(45deg) translate(-8px, -8px)}.sidenav.svelte-16wmh91.svelte-16wmh91{height:100%;width:0;position:fixed;z-index:9;top:0;left:0;background-color:var(--primary-color);opacity:0.98999;overflow-x:hidden;padding-top:60px;transition:0.5s}.sidenav.svelte-16wmh91 a.svelte-16wmh91{padding:28px 8px 28px 32px;text-decoration:none;font-size:20px;color:var(--text-color);display:block;transition:0.3s;border-bottom:1px solid var(--secondary-color)}.sidenav.svelte-16wmh91 a.svelte-16wmh91:first-child{padding-top:19px}.sidenav.svelte-16wmh91 a.svelte-16wmh91:first-child,.sidenav.svelte-16wmh91 a.svelte-16wmh91:last-child{border-bottom:none}.sidenav.svelte-16wmh91 a.svelte-16wmh91:hover{color:#f1f1f1;color:var(--accent-color)}.sidenav.svelte-16wmh91 .closebtn.svelte-16wmh91{position:absolute;top:0;right:25px;font-size:36px;margin-left:50px}.open.svelte-16wmh91.svelte-16wmh91{width:60%}@media(min-width: 768px){.container.svelte-16wmh91.svelte-16wmh91{display:none}.navigation.svelte-16wmh91.svelte-16wmh91{width:90%;max-width:1600px;margin:auto;display:flex;justify-content:space-between;align-items:center;position:relative;height:fit-content;margin-top:0.75rem}.menu.svelte-16wmh91.svelte-16wmh91{margin:0}.sidenav.svelte-16wmh91.svelte-16wmh91{display:flex;height:100%;width:100%;position:static;background-color:transparent;overflow-x:hidden;padding-top:0;transition:0s;justify-content:flex-end}.sidenav.svelte-16wmh91 a.svelte-16wmh91{font-size:18px}.sidenav.svelte-16wmh91 a.svelte-16wmh91:first-child{display:none}.sidenav.svelte-16wmh91 a.svelte-16wmh91{margin:0;padding:0;padding-left:2.4rem}.sidenav.svelte-16wmh91 .closebtn.svelte-16wmh91{position:static;top:0;right:0;font-size:36px;margin-left:0}}",
+  map: `{"version":3,"file":"Canvas.svelte","sources":["Canvas.svelte"],"sourcesContent":["<script>\\n  let navOpen = false\\n\\n  function handleNav() {\\n    navOpen = !navOpen\\n  }\\n\\n  function handleNavWithKey(e) {\\n    console.log(e.code)\\n    if (e.code === 'F1') {\\n      navOpen = !navOpen\\n    }\\n  }\\n<\/script>\\n\\n<div class=\\"navigation\\">\\n  <div class=\\"menu\\">\\n    <div class=\\"logo\\">\\n      <a href=\\"/\\"><img src=\\"img/visign-logo.svg\\" alt=\\"visign kenya logo\\" /></a>\\n    </div>\\n    <div class=\\"container\\" class:change={navOpen} on:click={handleNav}>\\n      <div class=\\"bar1\\" />\\n      <div class=\\"bar2\\" />\\n      <div class=\\"bar3\\" />\\n    </div>\\n  </div>\\n\\n  <div id=\\"mySidenav\\" class=\\"sidenav\\" class:open={navOpen}>\\n    <a href=\\"#a\\" class=\\"closebtn\\" on:click={handleNav}>&times;</a>\\n    <a href=\\"/\\">Home</a>\\n    <a href=\\"/about\\">About</a>\\n    <a href=\\"/work\\">Work</a>\\n    <!-- <a href=\\"/blog\\">Blog</a> -->\\n    <!-- <a href=\\"/contact\\">Contact</a> -->\\n  </div>\\n</div>\\n\\n<style>\\n  .menu {\\n    width: 90%;\\n    margin: 0 auto;\\n    display: flex;\\n    align-items: center;\\n    justify-content: space-between;\\n    margin-top: 1.2rem;\\n  }\\n\\n  .menu img {\\n    display: block;\\n    height: 36px;\\n  }\\n\\n  /* Hamburger Menu icon */\\n  .container {\\n    cursor: pointer;\\n  }\\n\\n  .bar1,\\n  .bar2,\\n  .bar3 {\\n    width: 32px;\\n    height: 3px;\\n    background-color: var(--text-color);\\n    margin: 8px 0;\\n    transition: 0.4s;\\n  }\\n\\n  .change .bar1 {\\n    -webkit-transform: rotate(-45deg) translate(-9px, 6px);\\n    transform: rotate(-45deg) translate(-9px, 6px);\\n  }\\n\\n  .change .bar2 {\\n    opacity: 0;\\n  }\\n\\n  .change .bar3 {\\n    -webkit-transform: rotate(45deg) translate(-8px, -8px);\\n    transform: rotate(45deg) translate(-8px, -8px);\\n  }\\n\\n  /* The side navigation menu */\\n  .sidenav {\\n    height: 100%;\\n    width: 0; /* 0 width - change this with JavaScript */\\n    position: fixed;\\n    z-index: 9;\\n    top: 0;\\n    left: 0;\\n    background-color: var(--primary-color);\\n    opacity: 0.98999;\\n    overflow-x: hidden; /* Disable horizontal scroll */\\n    padding-top: 60px;\\n    transition: 0.5s;\\n  }\\n\\n  /* The navigation menu links */\\n  .sidenav a {\\n    padding: 28px 8px 28px 32px;\\n    text-decoration: none;\\n    font-size: 20px;\\n    color: var(--text-color);\\n    display: block;\\n    transition: 0.3s;\\n    border-bottom: 1px solid var(--secondary-color);\\n  }\\n\\n  .sidenav a:first-child {\\n    padding-top: 19px;\\n  }\\n\\n  .sidenav a:first-child,\\n  .sidenav a:last-child {\\n    border-bottom: none;\\n  }\\n\\n  /* When you mouse over the navigation links, change their color */\\n  .sidenav a:hover {\\n    color: #f1f1f1;\\n    color: var(--accent-color);\\n  }\\n\\n  /* Position and style the close button (top right corner) */\\n  .sidenav .closebtn {\\n    position: absolute;\\n    top: 0;\\n    right: 25px;\\n    font-size: 36px;\\n    margin-left: 50px;\\n  }\\n\\n  .open {\\n    width: 60%;\\n  }\\n\\n  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */\\n  @media (min-width: 768px) {\\n    .container {\\n      display: none;\\n    }\\n\\n    .navigation {\\n      width: 90%;\\n      max-width: 1600px;\\n      margin: auto;\\n      display: flex;\\n      justify-content: space-between;\\n      align-items: center;\\n      position: relative;\\n      height: fit-content;\\n      /* border: 1px solid rgb(41, 41, 41); */\\n      margin-top: 0.75rem;\\n    }\\n\\n    .menu {\\n      margin: 0;\\n    }\\n\\n    .sidenav {\\n      display: flex;\\n      height: 100%;\\n      width: 100%; /* 0 width - change this with JavaScript */\\n      position: static;\\n      background-color: transparent;\\n      overflow-x: hidden; /* Disable horizontal scroll */\\n      padding-top: 0;\\n      transition: 0s;\\n      justify-content: flex-end;\\n    }\\n\\n    .sidenav a {\\n      font-size: 18px;\\n    }\\n\\n    .sidenav a:first-child {\\n      display: none;\\n    }\\n\\n    .sidenav a {\\n      margin: 0;\\n      padding: 0;\\n      padding-left: 2.4rem;\\n    }\\n\\n    .sidenav .closebtn {\\n      position: static;\\n      top: 0;\\n      right: 0;\\n      font-size: 36px;\\n      margin-left: 0;\\n    }\\n  }\\n</style>\\n"],"names":[],"mappings":"AAsCE,KAAK,8BAAC,CAAC,AACL,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,CAAC,CAAC,IAAI,CACd,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,eAAe,CAAE,aAAa,CAC9B,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,oBAAK,CAAC,GAAG,eAAC,CAAC,AACT,OAAO,CAAE,KAAK,CACd,MAAM,CAAE,IAAI,AACd,CAAC,AAGD,UAAU,8BAAC,CAAC,AACV,MAAM,CAAE,OAAO,AACjB,CAAC,AAED,mCAAK,CACL,mCAAK,CACL,KAAK,8BAAC,CAAC,AACL,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,GAAG,CACX,gBAAgB,CAAE,IAAI,YAAY,CAAC,CACnC,MAAM,CAAE,GAAG,CAAC,CAAC,CACb,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,sBAAO,CAAC,KAAK,eAAC,CAAC,AACb,iBAAiB,CAAE,OAAO,MAAM,CAAC,CAAC,UAAU,IAAI,CAAC,CAAC,GAAG,CAAC,CACtD,SAAS,CAAE,OAAO,MAAM,CAAC,CAAC,UAAU,IAAI,CAAC,CAAC,GAAG,CAAC,AAChD,CAAC,AAED,sBAAO,CAAC,KAAK,eAAC,CAAC,AACb,OAAO,CAAE,CAAC,AACZ,CAAC,AAED,sBAAO,CAAC,KAAK,eAAC,CAAC,AACb,iBAAiB,CAAE,OAAO,KAAK,CAAC,CAAC,UAAU,IAAI,CAAC,CAAC,IAAI,CAAC,CACtD,SAAS,CAAE,OAAO,KAAK,CAAC,CAAC,UAAU,IAAI,CAAC,CAAC,IAAI,CAAC,AAChD,CAAC,AAGD,QAAQ,8BAAC,CAAC,AACR,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,CAAC,CACR,QAAQ,CAAE,KAAK,CACf,OAAO,CAAE,CAAC,CACV,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,gBAAgB,CAAE,IAAI,eAAe,CAAC,CACtC,OAAO,CAAE,OAAO,CAChB,UAAU,CAAE,MAAM,CAClB,WAAW,CAAE,IAAI,CACjB,UAAU,CAAE,IAAI,AAClB,CAAC,AAGD,uBAAQ,CAAC,CAAC,eAAC,CAAC,AACV,OAAO,CAAE,IAAI,CAAC,GAAG,CAAC,IAAI,CAAC,IAAI,CAC3B,eAAe,CAAE,IAAI,CACrB,SAAS,CAAE,IAAI,CACf,KAAK,CAAE,IAAI,YAAY,CAAC,CACxB,OAAO,CAAE,KAAK,CACd,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,iBAAiB,CAAC,AACjD,CAAC,AAED,uBAAQ,CAAC,gBAAC,YAAY,AAAC,CAAC,AACtB,WAAW,CAAE,IAAI,AACnB,CAAC,AAED,uBAAQ,CAAC,gBAAC,YAAY,CACtB,uBAAQ,CAAC,gBAAC,WAAW,AAAC,CAAC,AACrB,aAAa,CAAE,IAAI,AACrB,CAAC,AAGD,uBAAQ,CAAC,gBAAC,MAAM,AAAC,CAAC,AAChB,KAAK,CAAE,OAAO,CACd,KAAK,CAAE,IAAI,cAAc,CAAC,AAC5B,CAAC,AAGD,uBAAQ,CAAC,SAAS,eAAC,CAAC,AAClB,QAAQ,CAAE,QAAQ,CAClB,GAAG,CAAE,CAAC,CACN,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,IAAI,AACnB,CAAC,AAED,KAAK,8BAAC,CAAC,AACL,KAAK,CAAE,GAAG,AACZ,CAAC,AAGD,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,UAAU,8BAAC,CAAC,AACV,OAAO,CAAE,IAAI,AACf,CAAC,AAED,WAAW,8BAAC,CAAC,AACX,KAAK,CAAE,GAAG,CACV,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,IAAI,CACb,eAAe,CAAE,aAAa,CAC9B,WAAW,CAAE,MAAM,CACnB,QAAQ,CAAE,QAAQ,CAClB,MAAM,CAAE,WAAW,CAEnB,UAAU,CAAE,OAAO,AACrB,CAAC,AAED,KAAK,8BAAC,CAAC,AACL,MAAM,CAAE,CAAC,AACX,CAAC,AAED,QAAQ,8BAAC,CAAC,AACR,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,QAAQ,CAAE,MAAM,CAChB,gBAAgB,CAAE,WAAW,CAC7B,UAAU,CAAE,MAAM,CAClB,WAAW,CAAE,CAAC,CACd,UAAU,CAAE,EAAE,CACd,eAAe,CAAE,QAAQ,AAC3B,CAAC,AAED,uBAAQ,CAAC,CAAC,eAAC,CAAC,AACV,SAAS,CAAE,IAAI,AACjB,CAAC,AAED,uBAAQ,CAAC,gBAAC,YAAY,AAAC,CAAC,AACtB,OAAO,CAAE,IAAI,AACf,CAAC,AAED,uBAAQ,CAAC,CAAC,eAAC,CAAC,AACV,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC,CACV,YAAY,CAAE,MAAM,AACtB,CAAC,AAED,uBAAQ,CAAC,SAAS,eAAC,CAAC,AAClB,QAAQ,CAAE,MAAM,CAChB,GAAG,CAAE,CAAC,CACN,KAAK,CAAE,CAAC,CACR,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,CAAC,AAChB,CAAC,AACH,CAAC"}`
 };
-var Header = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let $page, $$unsubscribe_page;
-  $$unsubscribe_page = subscribe(page, (value) => $page = value);
+var Canvas = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$8);
-  $$unsubscribe_page();
-  return `<div class="${"menu svelte-fv80sp"}"><header class="${"svelte-fv80sp"}">
+  return `<div class="${"navigation svelte-16wmh91"}"><div class="${"menu svelte-16wmh91"}"><div class="${"logo"}"><a href="${"/"}"><img src="${"img/visign-logo.svg"}" alt="${"visign kenya logo"}" class="${"svelte-16wmh91"}"></a></div>
+    <div class="${["container svelte-16wmh91", ""].join(" ").trim()}"><div class="${"bar1 svelte-16wmh91"}"></div>
+      <div class="${"bar2 svelte-16wmh91"}"></div>
+      <div class="${"bar3 svelte-16wmh91"}"></div></div></div>
 
-    <nav class="${"svelte-fv80sp"}">
-      <ul class="${"svelte-fv80sp"}">
-        <li class="${["svelte-fv80sp", $page.path === "/work" ? "active" : ""].join(" ").trim()}"><a sveltekit:prefetch href="${"/work"}" class="${"svelte-fv80sp"}">Work</a></li>
-        <li class="${["svelte-fv80sp", $page.path === "/" ? "active" : ""].join(" ").trim()}"><a sveltekit:prefetch href="${"/"}" class="${"svelte-fv80sp"}"><img${add_attribute("src", logo, 0)} alt="${"visign logo"}" class="${"svelte-fv80sp"}"></a></li>
-        <li class="${["svelte-fv80sp", $page.path === "/about" ? "active" : ""].join(" ").trim()}"><a sveltekit:prefetch href="${"/about"}" class="${"svelte-fv80sp"}">About</a></li></ul>
-      </nav>
-
-    </header>
+  <div id="${"mySidenav"}" class="${["sidenav svelte-16wmh91", ""].join(" ").trim()}"><a href="${"#a"}" class="${"closebtn svelte-16wmh91"}">\xD7</a>
+    <a href="${"/"}" class="${"svelte-16wmh91"}">Home</a>
+    <a href="${"/about"}" class="${"svelte-16wmh91"}">About</a>
+    <a href="${"/work"}" class="${"svelte-16wmh91"}">Work</a>
+    
+    </div>
 </div>`;
 });
 var css$7 = {
   code: "main.svelte-b6nfq0.svelte-b6nfq0{flex:1;display:flex;flex-direction:column;padding:1rem;width:100%;margin:0 auto;box-sizing:border-box}footer.svelte-b6nfq0.svelte-b6nfq0{display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:40px}footer.svelte-b6nfq0 a.svelte-b6nfq0{font-weight:bold;text-decoration:none}footer.svelte-b6nfq0 p.svelte-b6nfq0{width:90%;max-width:1024px;margin:0 auto}.social-icons.svelte-b6nfq0.svelte-b6nfq0{display:flex;margin:2rem 0;gap:1rem}.social-icons.svelte-b6nfq0 img.svelte-b6nfq0{display:block;width:100%;max-width:28px}@media(min-width: 480px){}",
-  map: `{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script>\\n  import Header from '$lib/header/Header.svelte'\\n  import '../app.css'\\n<\/script>\\n\\n<Header />\\n\\n<main>\\n  <slot />\\n</main>\\n\\n<footer>\\n  <p>\\n    Thank you for visiting. <a href=\\"mailto:dkibui@visign.co.ke\\"\\n      >Send us an email</a\\n    > to see how we can help.\\n  </p>\\n  <div class=\\"social-icons\\">\\n    <a href=\\"https://www.behance.net\\"\\n      ><img src=\\"img/social/behance.png\\" alt=\\"behance logo\\" /></a\\n    >\\n    <a href=\\"https://www.instagram.com\\"\\n      ><img src=\\"img/social/instagram.png\\" alt=\\"instagram logo\\" /></a\\n    >\\n    <a href=\\"https://www.twitter.com\\"\\n      ><img src=\\"img/social/twitter.png\\" alt=\\"twitter logo\\" /></a\\n    >\\n  </div>\\n</footer>\\n\\n<style>\\n  main {\\n    flex: 1;\\n    display: flex;\\n    flex-direction: column;\\n    padding: 1rem;\\n    width: 100%;\\n    /* max-width: 1024px; */\\n    margin: 0 auto;\\n    box-sizing: border-box;\\n  }\\n\\n  footer {\\n    display: flex;\\n    flex-direction: column;\\n    justify-content: center;\\n    align-items: center;\\n    padding-top: 40px;\\n  }\\n\\n  footer a {\\n    font-weight: bold;\\n    text-decoration: none;\\n  }\\n\\n  footer p {\\n    width: 90%;\\n    max-width: 1024px;\\n    margin: 0 auto;\\n  }\\n\\n  .social-icons {\\n    display: flex;\\n    margin: 2rem 0;\\n    gap: 1rem;\\n  }\\n\\n  .social-icons img {\\n    display: block;\\n    width: 100%;\\n    max-width: 28px;\\n  }\\n\\n  @media (min-width: 480px) {\\n    /* footer {\\n      padding: 40px 0;\\n    } */\\n  }\\n</style>\\n"],"names":[],"mappings":"AA+BE,IAAI,4BAAC,CAAC,AACJ,IAAI,CAAE,CAAC,CACP,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,OAAO,CAAE,IAAI,CACb,KAAK,CAAE,IAAI,CAEX,MAAM,CAAE,CAAC,CAAC,IAAI,CACd,UAAU,CAAE,UAAU,AACxB,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,eAAe,CAAE,MAAM,CACvB,WAAW,CAAE,MAAM,CACnB,WAAW,CAAE,IAAI,AACnB,CAAC,AAED,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,WAAW,CAAE,IAAI,CACjB,eAAe,CAAE,IAAI,AACvB,CAAC,AAED,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,KAAK,CAAE,GAAG,CACV,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,CAAC,CAAC,IAAI,AAChB,CAAC,AAED,aAAa,4BAAC,CAAC,AACb,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,IAAI,CAAC,CAAC,CACd,GAAG,CAAE,IAAI,AACX,CAAC,AAED,2BAAa,CAAC,GAAG,cAAC,CAAC,AACjB,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,AACjB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAI3B,CAAC"}`
+  map: `{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script>\\n  import Canvas from '$lib/header/Canvas.svelte'\\n  import '../app.css'\\n<\/script>\\n\\n<Canvas />\\n\\n<main>\\n  <slot />\\n</main>\\n\\n<footer>\\n  <p>\\n    Thank you for visiting. <a href=\\"mailto:dkibui@visign.co.ke\\"\\n      >Send us an email</a\\n    > to see how we can help.\\n  </p>\\n  <div class=\\"social-icons\\">\\n    <a href=\\"https://www.behance.net\\"\\n      ><img src=\\"img/social/behance.png\\" alt=\\"behance logo\\" /></a\\n    >\\n    <a href=\\"https://www.instagram.com\\"\\n      ><img src=\\"img/social/instagram.png\\" alt=\\"instagram logo\\" /></a\\n    >\\n    <a href=\\"https://www.twitter.com\\"\\n      ><img src=\\"img/social/twitter.png\\" alt=\\"twitter logo\\" /></a\\n    >\\n  </div>\\n</footer>\\n\\n<style>\\n  main {\\n    flex: 1;\\n    display: flex;\\n    flex-direction: column;\\n    padding: 1rem;\\n    width: 100%;\\n    /* max-width: 1024px; */\\n    margin: 0 auto;\\n    box-sizing: border-box;\\n  }\\n\\n  footer {\\n    display: flex;\\n    flex-direction: column;\\n    justify-content: center;\\n    align-items: center;\\n    padding-top: 40px;\\n  }\\n\\n  footer a {\\n    font-weight: bold;\\n    text-decoration: none;\\n  }\\n\\n  footer p {\\n    width: 90%;\\n    max-width: 1024px;\\n    margin: 0 auto;\\n  }\\n\\n  .social-icons {\\n    display: flex;\\n    margin: 2rem 0;\\n    gap: 1rem;\\n  }\\n\\n  .social-icons img {\\n    display: block;\\n    width: 100%;\\n    max-width: 28px;\\n  }\\n\\n  @media (min-width: 480px) {\\n    /* footer {\\n      padding: 40px 0;\\n    } */\\n  }\\n</style>\\n"],"names":[],"mappings":"AA+BE,IAAI,4BAAC,CAAC,AACJ,IAAI,CAAE,CAAC,CACP,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,OAAO,CAAE,IAAI,CACb,KAAK,CAAE,IAAI,CAEX,MAAM,CAAE,CAAC,CAAC,IAAI,CACd,UAAU,CAAE,UAAU,AACxB,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,eAAe,CAAE,MAAM,CACvB,WAAW,CAAE,MAAM,CACnB,WAAW,CAAE,IAAI,AACnB,CAAC,AAED,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,WAAW,CAAE,IAAI,CACjB,eAAe,CAAE,IAAI,AACvB,CAAC,AAED,oBAAM,CAAC,CAAC,cAAC,CAAC,AACR,KAAK,CAAE,GAAG,CACV,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,CAAC,CAAC,IAAI,AAChB,CAAC,AAED,aAAa,4BAAC,CAAC,AACb,OAAO,CAAE,IAAI,CACb,MAAM,CAAE,IAAI,CAAC,CAAC,CACd,GAAG,CAAE,IAAI,AACX,CAAC,AAED,2BAAa,CAAC,GAAG,cAAC,CAAC,AACjB,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,AACjB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AAI3B,CAAC"}`
 };
 var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$7);
-  return `${validate_component(Header, "Header").$$render($$result, {}, {}, {})}
+  return `${validate_component(Canvas, "Canvas").$$render($$result, {}, {}, {})}
 
 <main class="${"svelte-b6nfq0"}">${slots.default ? slots.default({}) : ``}</main>
 
@@ -6491,8 +6460,8 @@ var error = /* @__PURE__ */ Object.freeze({
   load
 });
 var css$6 = {
-  code: "p.svelte-osaoq1.svelte-osaoq1{font-size:0.97rem;margin-left:1.2rem;margin-right:0.75rem;color:var(--text-color);text-align:left;line-height:1.6}button.svelte-osaoq1.svelte-osaoq1{border:1px solid rgba(130, 153, 130, 0.336);border:none;border-radius:5px;background:var(--secondary-color);display:block;width:100%;color:var(--text-color);font-size:17px;cursor:pointer;margin:0.25rem 0;padding-bottom:0.5em;padding-top:0.5em;padding-left:0.5em;text-align:left}svg.svelte-osaoq1.svelte-osaoq1{transition:transform 0.2s ease-in}[aria-expanded='true'].svelte-osaoq1 svg.svelte-osaoq1{transform:rotate(0.25turn)}",
-  map: `{"version":3,"file":"Accordion.svelte","sources":["Accordion.svelte"],"sourcesContent":["<script>\\r\\n  import { slide } from 'svelte/transition'\\r\\n  export let entry\\r\\n  let isOpen = false\\r\\n  const toggle = () => (isOpen = !isOpen)\\r\\n<\/script>\\r\\n\\r\\n<button on:click={toggle} aria-expanded={isOpen}\\r\\n  ><svg\\r\\n    style=\\"tran\\"\\r\\n    width=\\"20\\"\\r\\n    height=\\"20\\"\\r\\n    fill=\\"none\\"\\r\\n    stroke-linecap=\\"round\\"\\r\\n    stroke-linejoin=\\"round\\"\\r\\n    stroke-width=\\"2\\"\\r\\n    viewBox=\\"0 0 24 24\\"\\r\\n    stroke=\\"currentColor\\"><path d=\\"M9 5l7 7-7 7\\" /></svg\\r\\n  >\\r\\n  {entry[0]}\\r\\n</button>\\r\\n\\r\\n{#if isOpen}\\r\\n  <div transition:slide={{ duration: 300 }}>\\r\\n    {#each entry[1] as item}\\r\\n      <p>{item}</p>\\r\\n    {/each}\\r\\n  </div>\\r\\n{/if}\\r\\n\\r\\n<style>\\r\\n  p {\\r\\n    font-size: 0.97rem;\\r\\n    margin-left: 1.2rem;\\r\\n    margin-right: 0.75rem;\\r\\n    color: var(--text-color);\\r\\n    text-align: left;\\r\\n    line-height: 1.6;\\r\\n  }\\r\\n\\r\\n  button {\\r\\n    border: 1px solid rgba(130, 153, 130, 0.336);\\r\\n    border: none;\\r\\n    border-radius: 5px;\\r\\n    background: var(--secondary-color);\\r\\n    display: block;\\r\\n    width: 100%;\\r\\n    color: var(--text-color);\\r\\n    font-size: 17px;\\r\\n    cursor: pointer;\\r\\n    margin: 0.25rem 0;\\r\\n    padding-bottom: 0.5em;\\r\\n    padding-top: 0.5em;\\r\\n    padding-left: 0.5em;\\r\\n    text-align: left;\\r\\n  }\\r\\n\\r\\n  svg {\\r\\n    transition: transform 0.2s ease-in;\\r\\n  }\\r\\n\\r\\n  [aria-expanded='true'] svg {\\r\\n    transform: rotate(0.25turn);\\r\\n  }\\r\\n</style>\\r\\n"],"names":[],"mappings":"AA+BE,CAAC,4BAAC,CAAC,AACD,SAAS,CAAE,OAAO,CAClB,WAAW,CAAE,MAAM,CACnB,YAAY,CAAE,OAAO,CACrB,KAAK,CAAE,IAAI,YAAY,CAAC,CACxB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,KAAK,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,KAAK,CAAC,CAC5C,MAAM,CAAE,IAAI,CACZ,aAAa,CAAE,GAAG,CAClB,UAAU,CAAE,IAAI,iBAAiB,CAAC,CAClC,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,KAAK,CAAE,IAAI,YAAY,CAAC,CACxB,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,OAAO,CACf,MAAM,CAAE,OAAO,CAAC,CAAC,CACjB,cAAc,CAAE,KAAK,CACrB,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,CACnB,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,GAAG,4BAAC,CAAC,AACH,UAAU,CAAE,SAAS,CAAC,IAAI,CAAC,OAAO,AACpC,CAAC,AAED,CAAC,aAAa,CAAC,MAAM,eAAC,CAAC,GAAG,cAAC,CAAC,AAC1B,SAAS,CAAE,OAAO,QAAQ,CAAC,AAC7B,CAAC"}`
+  code: "p.svelte-1iuidu8.svelte-1iuidu8{font-size:0.97rem;margin-left:1.2rem;margin-right:0.75rem;color:var(--text-color);text-align:left;line-height:1.6}button.svelte-1iuidu8.svelte-1iuidu8{border:1px solid rgba(130, 153, 130, 0.336);border:none;border-radius:5px;background:var(--darker);display:block;width:100%;color:var(--text-color);font-size:17px;cursor:pointer;margin:0.25rem 0;padding-bottom:0.5em;padding-top:0.5em;padding-left:0.5em;text-align:left}svg.svelte-1iuidu8.svelte-1iuidu8{transition:transform 0.2s ease-in}[aria-expanded='true'].svelte-1iuidu8 svg.svelte-1iuidu8{transform:rotate(0.25turn)}",
+  map: `{"version":3,"file":"Accordion.svelte","sources":["Accordion.svelte"],"sourcesContent":["<script>\\r\\n  import { slide } from 'svelte/transition'\\r\\n  export let entry\\r\\n  let isOpen = false\\r\\n  const toggle = () => (isOpen = !isOpen)\\r\\n<\/script>\\r\\n\\r\\n<button on:click={toggle} aria-expanded={isOpen}\\r\\n  ><svg\\r\\n    style=\\"tran\\"\\r\\n    width=\\"20\\"\\r\\n    height=\\"20\\"\\r\\n    fill=\\"none\\"\\r\\n    stroke-linecap=\\"round\\"\\r\\n    stroke-linejoin=\\"round\\"\\r\\n    stroke-width=\\"2\\"\\r\\n    viewBox=\\"0 0 24 24\\"\\r\\n    stroke=\\"currentColor\\"><path d=\\"M9 5l7 7-7 7\\" /></svg\\r\\n  >\\r\\n  {entry[0]}\\r\\n</button>\\r\\n\\r\\n{#if isOpen}\\r\\n  <div transition:slide={{ duration: 300 }}>\\r\\n    {#each entry[1] as item}\\r\\n      <p>{item}</p>\\r\\n    {/each}\\r\\n  </div>\\r\\n{/if}\\r\\n\\r\\n<style>\\r\\n  p {\\r\\n    font-size: 0.97rem;\\r\\n    margin-left: 1.2rem;\\r\\n    margin-right: 0.75rem;\\r\\n    color: var(--text-color);\\r\\n    text-align: left;\\r\\n    line-height: 1.6;\\r\\n  }\\r\\n\\r\\n  button {\\r\\n    border: 1px solid rgba(130, 153, 130, 0.336);\\r\\n    border: none;\\r\\n    border-radius: 5px;\\r\\n    background: var(--darker);\\r\\n    display: block;\\r\\n    width: 100%;\\r\\n    color: var(--text-color);\\r\\n    font-size: 17px;\\r\\n    cursor: pointer;\\r\\n    margin: 0.25rem 0;\\r\\n    padding-bottom: 0.5em;\\r\\n    padding-top: 0.5em;\\r\\n    padding-left: 0.5em;\\r\\n    text-align: left;\\r\\n  }\\r\\n\\r\\n  svg {\\r\\n    transition: transform 0.2s ease-in;\\r\\n  }\\r\\n\\r\\n  [aria-expanded='true'] svg {\\r\\n    transform: rotate(0.25turn);\\r\\n  }\\r\\n</style>\\r\\n"],"names":[],"mappings":"AA+BE,CAAC,8BAAC,CAAC,AACD,SAAS,CAAE,OAAO,CAClB,WAAW,CAAE,MAAM,CACnB,YAAY,CAAE,OAAO,CACrB,KAAK,CAAE,IAAI,YAAY,CAAC,CACxB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,MAAM,8BAAC,CAAC,AACN,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,KAAK,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,GAAG,CAAC,CAAC,KAAK,CAAC,CAC5C,MAAM,CAAE,IAAI,CACZ,aAAa,CAAE,GAAG,CAClB,UAAU,CAAE,IAAI,QAAQ,CAAC,CACzB,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,KAAK,CAAE,IAAI,YAAY,CAAC,CACxB,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,OAAO,CACf,MAAM,CAAE,OAAO,CAAC,CAAC,CACjB,cAAc,CAAE,KAAK,CACrB,WAAW,CAAE,KAAK,CAClB,YAAY,CAAE,KAAK,CACnB,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,GAAG,8BAAC,CAAC,AACH,UAAU,CAAE,SAAS,CAAC,IAAI,CAAC,OAAO,AACpC,CAAC,AAED,CAAC,aAAa,CAAC,MAAM,gBAAC,CAAC,GAAG,eAAC,CAAC,AAC1B,SAAS,CAAE,OAAO,QAAQ,CAAC,AAC7B,CAAC"}`
 };
 var Accordion = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { entry } = $$props;
@@ -6500,7 +6469,7 @@ var Accordion = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   if ($$props.entry === void 0 && $$bindings.entry && entry !== void 0)
     $$bindings.entry(entry);
   $$result.css.add(css$6);
-  return `<button${add_attribute("aria-expanded", isOpen, 0)} class="${"svelte-osaoq1"}"><svg style="${"tran"}" width="${"20"}" height="${"20"}" fill="${"none"}" stroke-linecap="${"round"}" stroke-linejoin="${"round"}" stroke-width="${"2"}" viewBox="${"0 0 24 24"}" stroke="${"currentColor"}" class="${"svelte-osaoq1"}"><path d="${"M9 5l7 7-7 7"}"></path></svg>
+  return `<button${add_attribute("aria-expanded", isOpen, 0)} class="${"svelte-1iuidu8"}"><svg style="${"tran"}" width="${"20"}" height="${"20"}" fill="${"none"}" stroke-linecap="${"round"}" stroke-linejoin="${"round"}" stroke-width="${"2"}" viewBox="${"0 0 24 24"}" stroke="${"currentColor"}" class="${"svelte-1iuidu8"}"><path d="${"M9 5l7 7-7 7"}"></path></svg>
   ${escape(entry[0])}</button>
 
 ${``}`;
@@ -7558,7 +7527,7 @@ function getDevice(overrides = {}) {
   }
   return deviceCached;
 }
-var browser;
+var browser$1;
 function calcBrowser() {
   const window2 = getWindow();
   function isSafari() {
@@ -7571,10 +7540,10 @@ function calcBrowser() {
   };
 }
 function getBrowser() {
-  if (!browser) {
-    browser = calcBrowser();
+  if (!browser$1) {
+    browser$1 = calcBrowser();
   }
-  return browser;
+  return browser$1;
 }
 function Resize({
   swiper,
@@ -11442,8 +11411,8 @@ var Swiper_slide = create_ssr_component(($$result, $$props, $$bindings, slots) =
   ])}${add_attribute("this", slideEl, 0)}>${zoom ? `<div class="${"swiper-zoom-container"}"${add_attribute("data-swiper-zoom", typeof zoom === "number" ? zoom : void 0, 0)}>${slots.default ? slots.default({ data: slideData }) : ``}</div>` : `${slots.default ? slots.default({ data: slideData }) : ``}`}</div>`;
 });
 var css$4 = {
-  code: "h2.svelte-7gksf7.svelte-7gksf7{font-size:1.2rem;margin-top:3rem;margin-bottom:0;font-weight:500}.content-500.svelte-7gksf7.svelte-7gksf7{width:100%;max-width:var(--column-width);max-width:530px;margin:var(--column-margin-top) auto 0 auto;margin:2rem auto 0 auto;text-align:center}.content.svelte-7gksf7.svelte-7gksf7{width:100%;max-width:1400px;margin:0.75rem auto 0 auto}.logos.svelte-7gksf7.svelte-7gksf7{display:flex;align-items:center;width:100%;max-width:720px;margin:auto;margin-top:1.5rem;border-top:1px solid var(--secondary-color);padding-top:1rem}.content.svelte-7gksf7 img.svelte-7gksf7{display:block;width:100%;height:auto}.logos.svelte-7gksf7 img.svelte-7gksf7{display:block;height:100%;width:100%;max-width:100px}.accordion.svelte-7gksf7.svelte-7gksf7{width:100%;max-width:720px;margin:auto;margin-top:1rem}@media only screen and (min-width: 568px){h1.svelte-7gksf7.svelte-7gksf7{font-size:2.5em;line-height:1.3}}@media(min-width: 768px){h2.svelte-7gksf7.svelte-7gksf7{font-size:1.6rem;margin-top:5rem}.content-500.svelte-7gksf7.svelte-7gksf7{margin:var(--column-margin-top) auto 0 auto}.content.svelte-7gksf7.svelte-7gksf7{margin:var(--column-margin-top) auto 0 auto}.accordion.svelte-7gksf7.svelte-7gksf7{margin-top:2.2rem}.logos.svelte-7gksf7.svelte-7gksf7{margin-top:2.2rem;padding-top:1.5rem;border-bottom:1px solid var(--secondary-color);padding-bottom:1.2rem}}",
-  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script>\\n  import Accordion from '$lib/Accordion.svelte'\\n  const data = {\\n    'Brand development': [\\n      \\"We perform an exhaustive fact finding mission to understand your business and it's goals. We then audit, research and analyse collected data to draw consumer insight.\\",\\n      'The creative process begins with logo design. We take time to create beautifully simple and memorable logo marks. We carefully select typefaces and colour palette that perfectly and uniquely represent your brand.',\\n      'In the final stage we create branding and identity guides. We deliver creative results in relevant format. This stage marks the initial steps towards your future business success.',\\n    ],\\n    'Graphic design': [\\n      'We create visual content to communicate your marketing messages.',\\n      'Visual identity system e.g. logo, typography, colour, brand elements like patterns, templates and mock-ups.',\\n      'Brand attributes and voice definition aka visual identity.',\\n      'Brand promotional material like Business cards, Letterheads, Posters, Fliers, Banners, Accounting Stationery and social media posts.',\\n    ],\\n    'Web development': [\\n      'Prevalence of the internet has changed the way consumers engage with businesses. Basically, you gotta be online.',\\n      'We specialize in modern web technologies. We make use of modern UI/UX.',\\n      'We create Single Page Apps, (SPAs) for websites that act and feel like smartphone apps.',\\n      'Basically, we start every project from the ground up. That means we can customize the website to look and feel exactly as we want.',\\n    ],\\n    'Branding services': [\\n      'This involves printing, engraving, cutting or pasting any of your brand identity onto promotional items like biro pens, T-shirts, carrier bags and many more.',\\n    ],\\n    Printing: [\\n      'We do paper printing like business cards, fliers, posters, brochures, booklets, magazines among others.',\\n      'We do print banners like Pull up banners, hanging banners, tear drop banners, backdrop/media banners and others.',\\n      'We also do branding for gift items like carrier bags, biro pens, mags among others.',\\n    ],\\n  }\\n\\n  import { Swiper, SwiperSlide } from 'swiper/svelte'\\n  import 'swiper/css'\\n  import 'swiper/css/pagination'\\n\\n  import SwiperCore, { Mousewheel, Autoplay } from 'swiper'\\n  SwiperCore.use([Mousewheel, Autoplay])\\n<\/script>\\n\\n<svelte:head>\\n  <title>\\n    Affordable high quality graphic design and web development services for your\\n    business.\\n  </title>\\n</svelte:head>\\n\\n<div class=\\"content-500\\">\\n  <h1>Our business is making yours look good.</h1>\\n  <p>\\n    We provide brand centred graphic design and web development services to SMEs\\n    and corporates in Nairobi.\\n  </p>\\n</div>\\n\\n<div class=\\"content\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={10}\\n    slidesPerGroup={1}\\n    mousewheel={false}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 3000,\\n      disableOnInteraction: false,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 2,\\n        spaceBetween: 9,\\n      },\\n      768: {\\n        slidesPerView: 3,\\n      },\\n      1100: {\\n        slidesPerView: 5,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/1.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/2.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/3.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/4.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/5.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/6.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<h2>Our services</h2>\\n\\n<div class=\\"accordion\\">\\n  {#each Object.entries(data) as entry}\\n    <Accordion {entry} />\\n  {/each}\\n</div>\\n\\n<h2>Our clients</h2>\\n\\n<div class=\\"logos\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={20}\\n    slidesPerGroup={1}\\n    mousewheel={false}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 1800,\\n      disableOnInteraction: false,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 4,\\n        spaceBetween: 26,\\n      },\\n      768: {\\n        slidesPerView: 5,\\n        spaceBetween: 80,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/logos/Liberte.png\\" alt=\\"Liberte juices logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/amsco.png\\" alt=\\"amsco logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/strathmore.png\\" alt=\\"Strathmore University logo\\" />\\n    </SwiperSlide>\\n    <!--  -->\\n    <SwiperSlide>\\n      <img src=\\"img/logos/anchor.png\\" alt=\\"Anchor builders logo\\" />\\n    </SwiperSlide>\\n\\n    <SwiperSlide>\\n      <img src=\\"img/logos/eaglehr.png\\" alt=\\"Eaglehr kenya logo\\" />\\n    </SwiperSlide>\\n    <!--  -->\\n    <SwiperSlide>\\n      <img src=\\"img/logos/farmhouse.png\\" alt=\\"farmhouse sacco logo\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<style>\\n  h2 {\\n    font-size: 1.2rem;\\n    margin-top: 3rem;\\n    margin-bottom: 0;\\n    font-weight: 500;\\n  }\\n\\n  .content-500 {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 530px;\\n    margin: var(--column-margin-top) auto 0 auto;\\n    margin: 2rem auto 0 auto;\\n    text-align: center;\\n  }\\n\\n  .content {\\n    width: 100%;\\n    max-width: 1400px;\\n    margin: 0.75rem auto 0 auto;\\n  }\\n\\n  .logos {\\n    display: flex;\\n    align-items: center;\\n    width: 100%;\\n    max-width: 720px;\\n    margin: auto;\\n    margin-top: 1.5rem;\\n    border-top: 1px solid var(--secondary-color);\\n    padding-top: 1rem;\\n  }\\n\\n  .content img {\\n    display: block;\\n    width: 100%;\\n    height: auto;\\n  }\\n\\n  .logos img {\\n    display: block;\\n    height: 100%;\\n    width: 100%;\\n    max-width: 100px;\\n  }\\n\\n  .accordion {\\n    width: 100%;\\n    max-width: 720px;\\n    margin: auto;\\n    margin-top: 1rem;\\n  }\\n\\n  @media only screen and (min-width: 568px) {\\n    h1 {\\n      font-size: 2.5em;\\n      line-height: 1.3;\\n    }\\n  }\\n\\n  @media (min-width: 768px) {\\n    h2 {\\n      font-size: 1.6rem;\\n      margin-top: 5rem;\\n    }\\n\\n    .content-500 {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    .content {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    .accordion {\\n      margin-top: 2.2rem;\\n    }\\n\\n    .logos {\\n      margin-top: 2.2rem;\\n      padding-top: 1.5rem;\\n      border-bottom: 1px solid var(--secondary-color);\\n      padding-bottom: 1.2rem;\\n    }\\n  }\\n</style>\\n"],"names":[],"mappings":"AA+JE,EAAE,4BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,CAAC,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,YAAY,4BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,QAAQ,4BAAC,CAAC,AACR,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC7B,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,OAAO,CAAE,IAAI,CACb,WAAW,CAAE,MAAM,CACnB,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,iBAAiB,CAAC,CAC5C,WAAW,CAAE,IAAI,AACnB,CAAC,AAED,sBAAQ,CAAC,GAAG,cAAC,CAAC,AACZ,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,AACd,CAAC,AAED,oBAAM,CAAC,GAAG,cAAC,CAAC,AACV,OAAO,CAAE,KAAK,CACd,MAAM,CAAE,IAAI,CACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,AAClB,CAAC,AAED,UAAU,4BAAC,CAAC,AACV,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,OAAO,IAAI,CAAC,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzC,EAAE,4BAAC,CAAC,AACF,SAAS,CAAE,KAAK,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AACH,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,EAAE,4BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,YAAY,4BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAED,QAAQ,4BAAC,CAAC,AACR,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAED,UAAU,4BAAC,CAAC,AACV,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,MAAM,4BAAC,CAAC,AACN,UAAU,CAAE,MAAM,CAClB,WAAW,CAAE,MAAM,CACnB,aAAa,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,iBAAiB,CAAC,CAC/C,cAAc,CAAE,MAAM,AACxB,CAAC,AACH,CAAC"}`
+  code: "h1.svelte-19oh9wx.svelte-19oh9wx{font-size:2.4rem}h2.svelte-19oh9wx.svelte-19oh9wx{font-size:1.2rem;margin-top:3rem;margin-bottom:0;font-weight:500}.content-500.svelte-19oh9wx.svelte-19oh9wx{width:100%;max-width:var(--column-width);max-width:530px;margin:var(--column-margin-top) auto 0 auto;margin:2rem auto 0 auto;text-align:center}.content.svelte-19oh9wx.svelte-19oh9wx{width:100%;max-width:1400px;margin:0.75rem auto 0 auto}.logos.svelte-19oh9wx.svelte-19oh9wx{width:100%;max-width:720px;margin:auto;margin-top:1.5rem;border-top:1px solid var(--secondary-color);padding-top:1rem}.content.svelte-19oh9wx img.svelte-19oh9wx{display:block;width:100%;height:auto}.logos.svelte-19oh9wx img.svelte-19oh9wx{display:block;max-width:100%}.accordion.svelte-19oh9wx.svelte-19oh9wx{width:100%;max-width:720px;margin:auto;margin-top:1rem}@media only screen and (min-width: 568px){h1.svelte-19oh9wx.svelte-19oh9wx{font-size:2.5em;line-height:1.3}}@media(min-width: 768px){h2.svelte-19oh9wx.svelte-19oh9wx{font-size:1.6rem;margin-top:5rem}.content-500.svelte-19oh9wx.svelte-19oh9wx{margin:var(--column-margin-top) auto 0 auto}.content.svelte-19oh9wx.svelte-19oh9wx{margin:var(--column-margin-top) auto 0 auto}.accordion.svelte-19oh9wx.svelte-19oh9wx{margin-top:2.2rem}.logos.svelte-19oh9wx.svelte-19oh9wx{max-width:720px;margin-top:2.2rem;padding-top:1.5rem;padding-bottom:1.2rem}}",
+  map: `{"version":3,"file":"index.svelte","sources":["index.svelte"],"sourcesContent":["<script>\\n  import Accordion from '$lib/Accordion.svelte'\\n  import FourWayGrid from '$lib/FourWayGrid.svelte'\\n  const data = {\\n    'Brand development': [\\n      \\"We perform an exhaustive fact finding mission to understand your business and it's goals. We then audit, research and analyse collected data to draw consumer insight.\\",\\n      'The creative process begins with logo design. We take time to create beautifully simple and memorable logo marks. We carefully select typefaces and colour palette that perfectly and uniquely represent your brand.',\\n      'In the final stage we create branding and identity guides. We deliver creative results in relevant format. This stage marks the initial steps towards your future business success.',\\n    ],\\n    'Graphic design': [\\n      'We create visual content to communicate your marketing messages.',\\n      'Visual identity system e.g. logo, typography, colour, brand elements like patterns, templates and mock-ups.',\\n      'Brand attributes and voice definition aka visual identity.',\\n      'Brand promotional material like Business cards, Letterheads, Posters, Fliers, Banners, Accounting Stationery and social media posts.',\\n    ],\\n    'Web development': [\\n      'Prevalence of the internet has changed the way consumers engage with businesses. Basically, you gotta be online.',\\n      'We specialize in modern web technologies. We make use of modern UI/UX.',\\n      'We create Single Page Apps, (SPAs) for websites that act and feel like smartphone apps.',\\n      'Basically, we start every project from the ground up. That means we can customize the website to look and feel exactly as we want.',\\n    ],\\n    'Branding services': [\\n      'This involves printing, engraving, cutting or pasting any of your brand identity onto promotional items like biro pens, T-shirts, carrier bags and many more.',\\n    ],\\n    Printing: [\\n      'We do paper printing like business cards, fliers, posters, brochures, booklets, magazines among others.',\\n      'We do print banners like Pull up banners, hanging banners, tear drop banners, backdrop/media banners and others.',\\n      'We also do branding for gift items like carrier bags, biro pens, mags among others.',\\n    ],\\n  }\\n\\n  import { Swiper, SwiperSlide } from 'swiper/svelte'\\n  import 'swiper/css'\\n  import 'swiper/css/pagination'\\n\\n  import SwiperCore, { Mousewheel, Autoplay } from 'swiper'\\n  SwiperCore.use([Mousewheel, Autoplay])\\n<\/script>\\n\\n<svelte:head>\\n  <title>\\n    Affordable high quality graphic design and web development services in\\n    Kenya.\\n  </title>\\n  <!-- <description>\\n    All the graphic design and web development services to take your business to\\n    the next level.\\n  </description> -->\\n</svelte:head>\\n\\n<div class=\\"content-500\\">\\n  <h1>Our business is making yours look good.</h1>\\n  <p>\\n    We provide brand centred graphic design and web development services to SMEs\\n    and corporates in Nairobi.\\n  </p>\\n</div>\\n\\n<div class=\\"content\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={10}\\n    slidesPerGroup={1}\\n    mousewheel={false}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 3000,\\n      disableOnInteraction: false,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 2,\\n        spaceBetween: 9,\\n      },\\n      768: {\\n        slidesPerView: 3,\\n      },\\n      1100: {\\n        slidesPerView: 5,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/recent/8.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/2.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/1.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/9.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/5.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/6.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/liberte.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<h2>Our services</h2>\\n\\n<div class=\\"accordion\\">\\n  {#each Object.entries(data) as entry}\\n    <Accordion {entry} />\\n  {/each}\\n</div>\\n\\n<!-- <h2>Recent projects</h2>\\n\\n<div class=\\"recent\\">\\n  <p class=\\"recent__text\\">\\n    We handle many full brand development projects. Below we showcase the ones\\n    we completed recently\\n  </p>\\n</div>\\n\\n<div class=\\"four-way-grid\\">\\n  <FourWayGrid>\\n    <img slot=\\"one\\" src=\\"img/recent/carrier bags.jpg\\" alt=\\"anchor one\\" />\\n    <img slot=\\"two\\" src=\\"img/recent/brochure.jpg\\" alt=\\"anchor one\\" />\\n    <img slot=\\"three\\" src=\\"img/recent/calendar.jpg\\" alt=\\"anchor one\\" />\\n    <img slot=\\"four\\" src=\\"img/recent/cards.jpg\\" alt=\\"anchor one\\" />\\n  </FourWayGrid>\\n</div> -->\\n\\n<h2>Our clients</h2>\\n\\n<div class=\\"logos\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={20}\\n    slidesPerGroup={1}\\n    mousewheel={false}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 1800,\\n      disableOnInteraction: false,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 4,\\n        spaceBetween: 60,\\n      },\\n      768: {\\n        slidesPerView: 4,\\n        spaceBetween: 155,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/logos/amsco.png\\" alt=\\"amsco logo\\" />\\n    </SwiperSlide>\\n    <!--  -->\\n    <SwiperSlide>\\n      <img src=\\"img/logos/anchor.png\\" alt=\\"Anchor builders logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/strathmore.png\\" alt=\\"Strathmore University logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/eaglehr.png\\" alt=\\"Eaglehr kenya logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/absa.png\\" alt=\\"absa bank logo\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/logos/farmhouse.png\\" alt=\\"farmhouse sacco logo\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<style>\\n  h1 {\\n    font-size: 2.4rem;\\n  }\\n\\n  h2 {\\n    font-size: 1.2rem;\\n    margin-top: 3rem;\\n    margin-bottom: 0;\\n    font-weight: 500;\\n  }\\n\\n  .content-500 {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 530px;\\n    margin: var(--column-margin-top) auto 0 auto;\\n    margin: 2rem auto 0 auto;\\n    text-align: center;\\n  }\\n\\n  .content {\\n    width: 100%;\\n    max-width: 1400px;\\n    margin: 0.75rem auto 0 auto;\\n  }\\n\\n  .four-way-grid img {\\n    display: block;\\n    width: 100%;\\n  }\\n\\n  .logos {\\n    width: 100%;\\n    max-width: 720px;\\n    margin: auto;\\n    margin-top: 1.5rem;\\n    border-top: 1px solid var(--secondary-color);\\n    padding-top: 1rem;\\n  }\\n\\n  .recent {\\n    width: 100%;\\n    margin: auto;\\n    margin-top: 1.5rem;\\n    border-top: 1px solid var(--secondary-color);\\n    padding-top: 1rem;\\n  }\\n\\n  .content img {\\n    display: block;\\n    width: 100%;\\n    height: auto;\\n  }\\n\\n  .logos img {\\n    display: block;\\n    max-width: 100%;\\n  }\\n\\n  .accordion {\\n    width: 100%;\\n    max-width: 720px;\\n    margin: auto;\\n    margin-top: 1rem;\\n  }\\n\\n  @media only screen and (min-width: 568px) {\\n    h1 {\\n      font-size: 2.5em;\\n      line-height: 1.3;\\n    }\\n  }\\n\\n  @media (min-width: 768px) {\\n    h2 {\\n      font-size: 1.6rem;\\n      margin-top: 5rem;\\n    }\\n\\n    .content-500 {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    .content {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    .accordion {\\n      margin-top: 2.2rem;\\n    }\\n\\n    .logos {\\n      max-width: 720px;\\n      margin-top: 2.2rem;\\n      padding-top: 1.5rem;\\n      /* border-bottom: 1px solid var(--secondary-color);*/\\n      padding-bottom: 1.2rem;\\n    }\\n\\n    .recent {\\n      max-width: 1440px;\\n    }\\n  }\\n</style>\\n"],"names":[],"mappings":"AAuLE,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,MAAM,AACnB,CAAC,AAED,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,aAAa,CAAE,CAAC,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,YAAY,8BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,QAAQ,8BAAC,CAAC,AACR,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC7B,CAAC,AAOD,MAAM,8BAAC,CAAC,AACN,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,iBAAiB,CAAC,CAC5C,WAAW,CAAE,IAAI,AACnB,CAAC,AAUD,uBAAQ,CAAC,GAAG,eAAC,CAAC,AACZ,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,AACd,CAAC,AAED,qBAAM,CAAC,GAAG,eAAC,CAAC,AACV,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,IAAI,AACjB,CAAC,AAED,UAAU,8BAAC,CAAC,AACV,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,OAAO,IAAI,CAAC,MAAM,CAAC,GAAG,CAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzC,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,KAAK,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AACH,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,AAClB,CAAC,AAED,YAAY,8BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAED,QAAQ,8BAAC,CAAC,AACR,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAED,UAAU,8BAAC,CAAC,AACV,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,MAAM,8BAAC,CAAC,AACN,SAAS,CAAE,KAAK,CAChB,UAAU,CAAE,MAAM,CAClB,WAAW,CAAE,MAAM,CAEnB,cAAc,CAAE,MAAM,AACxB,CAAC,AAKH,CAAC"}`
 };
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   const data = {
@@ -11476,16 +11445,16 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   Swiper$1.use([Mousewheel, Autoplay]);
   $$result.css.add(css$4);
   return `${$$result.head += `${$$result.title = `<title>
-    Affordable high quality graphic design and web development services for your
-    business.
+    Affordable high quality graphic design and web development services in
+    Kenya.
   </title>`, ""}`, ""}
 
-<div class="${"content-500 svelte-7gksf7"}"><h1 class="${"svelte-7gksf7"}">Our business is making yours look good.</h1>
+<div class="${"content-500 svelte-19oh9wx"}"><h1 class="${"svelte-19oh9wx"}">Our business is making yours look good.</h1>
   <p>We provide brand centred graphic design and web development services to SMEs
     and corporates in Nairobi.
   </p></div>
 
-<div class="${"content svelte-7gksf7"}">${validate_component(Swiper, "Swiper").$$render($$result, {
+<div class="${"content svelte-19oh9wx"}">${validate_component(Swiper, "Swiper").$$render($$result, {
     slidesPerView: 3,
     spaceBetween: 10,
     slidesPerGroup: 1,
@@ -11501,32 +11470,37 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     class: "mySwiper"
   }, {}, {
     default: () => `${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/1.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/8.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/2.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/2.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/3.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/1.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/4.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/9.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/5.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/5.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/6.jpg"}" alt="${""}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/recent/6.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
+    })}
+    ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
+      default: () => `<img src="${"img/recent/liberte.jpg"}" alt="${""}" class="${"svelte-19oh9wx"}">`
     })}`
   })}</div>
 
-<h2 class="${"svelte-7gksf7"}">Our services</h2>
+<h2 class="${"svelte-19oh9wx"}">Our services</h2>
 
-<div class="${"accordion svelte-7gksf7"}">${each$1(Object.entries(data), (entry) => `${validate_component(Accordion, "Accordion").$$render($$result, { entry }, {}, {})}`)}</div>
+<div class="${"accordion svelte-19oh9wx"}">${each$1(Object.entries(data), (entry) => `${validate_component(Accordion, "Accordion").$$render($$result, { entry }, {}, {})}`)}</div>
 
-<h2 class="${"svelte-7gksf7"}">Our clients</h2>
 
-<div class="${"logos svelte-7gksf7"}">${validate_component(Swiper, "Swiper").$$render($$result, {
+
+<h2 class="${"svelte-19oh9wx"}">Our clients</h2>
+
+<div class="${"logos svelte-19oh9wx"}">${validate_component(Swiper, "Swiper").$$render($$result, {
     slidesPerView: 3,
     spaceBetween: 20,
     slidesPerGroup: 1,
@@ -11535,31 +11509,29 @@ var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     loopFillGroupWithBlank: true,
     autoplay: { delay: 1800, disableOnInteraction: false },
     breakpoints: {
-      "@0.00": { slidesPerView: 4, spaceBetween: 26 },
-      768: { slidesPerView: 5, spaceBetween: 80 }
+      "@0.00": { slidesPerView: 4, spaceBetween: 60 },
+      768: { slidesPerView: 4, spaceBetween: 155 }
     },
     class: "mySwiper"
   }, {}, {
     default: () => `${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/Liberte.png"}" alt="${"Liberte juices logo"}" class="${"svelte-7gksf7"}">`
-    })}
-    ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/amsco.png"}" alt="${"amsco logo"}" class="${"svelte-7gksf7"}">`
-    })}
-    ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/strathmore.png"}" alt="${"Strathmore University logo"}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/logos/amsco.png"}" alt="${"amsco logo"}" class="${"svelte-19oh9wx"}">`
     })}
     
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/anchor.png"}" alt="${"Anchor builders logo"}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/logos/anchor.png"}" alt="${"Anchor builders logo"}" class="${"svelte-19oh9wx"}">`
     })}
-
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/eaglehr.png"}" alt="${"Eaglehr kenya logo"}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/logos/strathmore.png"}" alt="${"Strathmore University logo"}" class="${"svelte-19oh9wx"}">`
     })}
-    
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/logos/farmhouse.png"}" alt="${"farmhouse sacco logo"}" class="${"svelte-7gksf7"}">`
+      default: () => `<img src="${"img/logos/eaglehr.png"}" alt="${"Eaglehr kenya logo"}" class="${"svelte-19oh9wx"}">`
+    })}
+    ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
+      default: () => `<img src="${"img/logos/absa.png"}" alt="${"absa bank logo"}" class="${"svelte-19oh9wx"}">`
+    })}
+    ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
+      default: () => `<img src="${"img/logos/farmhouse.png"}" alt="${"farmhouse sacco logo"}" class="${"svelte-19oh9wx"}">`
     })}`
   })}
 </div>`;
@@ -11569,17 +11541,21 @@ var index = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Routes
 });
+var browser = false;
+var dev = false;
 var css$3 = {
   code: "h2.svelte-16pl8vx.svelte-16pl8vx{font-size:1.2rem;margin-top:3rem;font-weight:500}.content-500.svelte-16pl8vx.svelte-16pl8vx{width:100%;max-width:var(--column-width);max-width:530px;margin:var(--column-margin-top) auto 0 auto;margin:2rem auto 0 auto;text-align:center}.content.svelte-16pl8vx.svelte-16pl8vx{width:100%;max-width:var(--column-width);max-width:1400px;margin:0.75rem auto 0 auto}.content.svelte-16pl8vx img.svelte-16pl8vx{display:block;width:100%;height:auto}@media(min-width: 768px){.content-500.svelte-16pl8vx.svelte-16pl8vx{margin:var(--column-margin-top) auto 0 auto}}",
-  map: `{"version":3,"file":"about.svelte","sources":["about.svelte"],"sourcesContent":["<script context=\\"module\\">\\n  import { browser, dev } from '$app/env'\\n  // we don't need any JS on this page, though we'll load\\n  // it in dev so that we get hot module replacement...\\n  export const hydrate = dev\\n  // ...but if the client-side router is already loaded\\n  // (i.e. we came here from elsewhere in the app), use it\\n  export const router = browser\\n  // since there's no dynamic data here, we can prerender\\n  // it so that it gets served as a static asset in prod\\n  export const prerender = true\\n<\/script>\\n\\n<script>\\n  import { Swiper, SwiperSlide } from 'swiper/svelte'\\n  import 'swiper/css'\\n  import 'swiper/css/pagination'\\n\\n  // import Swiper core and required modules\\n  import SwiperCore, { Autoplay, Navigation } from 'swiper'\\n\\n  // install Swiper modules\\n  SwiperCore.use([Autoplay, Navigation])\\n<\/script>\\n\\n<svelte:head>\\n  <title>About</title>\\n</svelte:head>\\n\\n<div class=\\"content-500\\">\\n  <h1>About Us</h1>\\n  <p>\\n    When we started in 2014, we set out to provide high quality graphic design\\n    and printing services to SMEs in Kenya.\\n  </p>\\n  <p>\\n    As we have grown so has our service offering. Now we also offer brand\\n    development, website development and branding of marketing supplies.\\n  </p>\\n</div>\\n\\n<h2>See recent work...</h2>\\n\\n<div class=\\"content\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={10}\\n    slidesPerGroup={1}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 3000,\\n      disableOnInteraction: false,\\n    }}\\n    pagination={{\\n      clickable: true,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 2,\\n        spaceBetween: 9,\\n      },\\n      768: {\\n        slidesPerView: 3,\\n      },\\n      1100: {\\n        slidesPerView: 4,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/1.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/2.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/3.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/4.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/5.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/6.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<style>\\n  h2 {\\n    font-size: 1.2rem;\\n    margin-top: 3rem;\\n    font-weight: 500;\\n  }\\n\\n  .content-500 {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 530px;\\n    margin: var(--column-margin-top) auto 0 auto;\\n    margin: 2rem auto 0 auto;\\n    text-align: center;\\n  }\\n\\n  .content {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 1400px;\\n    margin: 0.75rem auto 0 auto;\\n  }\\n\\n  .content img {\\n    display: block;\\n    width: 100%;\\n    height: auto;\\n  }\\n\\n  @media (min-width: 768px) {\\n    .content-500 {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    /* .content {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    } */\\n  }\\n</style>\\n"],"names":[],"mappings":"AA6FE,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,YAAY,8BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,QAAQ,8BAAC,CAAC,AACR,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC7B,CAAC,AAED,uBAAQ,CAAC,GAAG,eAAC,CAAC,AACZ,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,AACd,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,YAAY,8BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAKH,CAAC"}`
+  map: `{"version":3,"file":"about.svelte","sources":["about.svelte"],"sourcesContent":["<script context=\\"module\\">\\n  import { browser, dev } from '$app/env'\\n  // we don't need any JS on this page, though we'll load\\n  // it in dev so that we get hot module replacement...\\n  export const hydrate = dev\\n  // ...but if the client-side router is already loaded\\n  // (i.e. we came here from elsewhere in the app), use it\\n  export const router = browser\\n  // since there's no dynamic data here, we can prerender\\n  // it so that it gets served as a static asset in prod\\n  export const prerender = true\\n<\/script>\\n\\n<script>\\n  import { Swiper, SwiperSlide } from 'swiper/svelte'\\n  import 'swiper/css'\\n  import 'swiper/css/pagination'\\n\\n  // import Swiper core and required modules\\n  import SwiperCore, { Autoplay, Navigation } from 'swiper'\\n\\n  // install Swiper modules\\n  SwiperCore.use([Autoplay, Navigation])\\n<\/script>\\n\\n<svelte:head>\\n  <title\\n    >We have 7 years of providing affordable high quality branding services to\\n    small and SMEs in Kenya.\\n  </title>\\n  <!-- <description\\n    >All graphic design and web development services to take your business to\\n    the next level\\n  </description> -->\\n</svelte:head>\\n\\n<div class=\\"content-500\\">\\n  <h1>About Us</h1>\\n  <p>\\n    When we started in 2014, we set out to provide high quality graphic design\\n    and printing services to SMEs in Kenya.\\n  </p>\\n  <p>\\n    As we have grown so has our service offering. Now we also offer brand\\n    development, website development and branding of marketing supplies.\\n  </p>\\n</div>\\n\\n<h2>Sample recent work...</h2>\\n\\n<div class=\\"content\\">\\n  <Swiper\\n    slidesPerView={3}\\n    spaceBetween={10}\\n    slidesPerGroup={1}\\n    loop={true}\\n    loopFillGroupWithBlank={true}\\n    autoplay={{\\n      delay: 3000,\\n      disableOnInteraction: false,\\n    }}\\n    pagination={{\\n      clickable: true,\\n    }}\\n    breakpoints={{\\n      '@0.00': {\\n        slidesPerView: 2,\\n        spaceBetween: 9,\\n      },\\n      768: {\\n        slidesPerView: 3,\\n      },\\n      1100: {\\n        slidesPerView: 4,\\n      },\\n    }}\\n    class=\\"mySwiper\\"\\n  >\\n    <SwiperSlide>\\n      <img src=\\"img/recent/1.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/2.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/3.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/4.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/5.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n    <SwiperSlide>\\n      <img src=\\"img/recent/6.jpg\\" alt=\\"\\" />\\n    </SwiperSlide>\\n  </Swiper>\\n</div>\\n\\n<style>\\n  h2 {\\n    font-size: 1.2rem;\\n    margin-top: 3rem;\\n    font-weight: 500;\\n  }\\n\\n  .content-500 {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 530px;\\n    margin: var(--column-margin-top) auto 0 auto;\\n    margin: 2rem auto 0 auto;\\n    text-align: center;\\n  }\\n\\n  .content {\\n    width: 100%;\\n    max-width: var(--column-width);\\n    max-width: 1400px;\\n    margin: 0.75rem auto 0 auto;\\n  }\\n\\n  .content img {\\n    display: block;\\n    width: 100%;\\n    height: auto;\\n  }\\n\\n  @media (min-width: 768px) {\\n    .content-500 {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    }\\n\\n    /* .content {\\n      margin: var(--column-margin-top) auto 0 auto;\\n    } */\\n  }\\n</style>\\n"],"names":[],"mappings":"AAoGE,EAAE,8BAAC,CAAC,AACF,SAAS,CAAE,MAAM,CACjB,UAAU,CAAE,IAAI,CAChB,WAAW,CAAE,GAAG,AAClB,CAAC,AAED,YAAY,8BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,QAAQ,8BAAC,CAAC,AACR,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,OAAO,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC7B,CAAC,AAED,uBAAQ,CAAC,GAAG,eAAC,CAAC,AACZ,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,AACd,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,YAAY,8BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAKH,CAAC"}`
 };
 var hydrate = dev;
-var router = browser$1;
+var router = browser;
 var prerender = true;
 var About = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   Swiper$1.use([Autoplay, Navigation]);
   $$result.css.add(css$3);
-  return `${$$result.head += `${$$result.title = `<title>About</title>`, ""}`, ""}
+  return `${$$result.head += `${$$result.title = `<title>We have 7 years of providing affordable high quality branding services to
+    small and SMEs in Kenya.
+  </title>`, ""}`, ""}
 
 <div class="${"content-500 svelte-16pl8vx"}"><h1>About Us</h1>
   <p>When we started in 2014, we set out to provide high quality graphic design
@@ -11589,7 +11565,7 @@ var About = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     development, website development and branding of marketing supplies.
   </p></div>
 
-<h2 class="${"svelte-16pl8vx"}">See recent work...</h2>
+<h2 class="${"svelte-16pl8vx"}">Sample recent work...</h2>
 
 <div class="${"content svelte-16pl8vx"}">${validate_component(Swiper, "Swiper").$$render($$result, {
     slidesPerView: 3,
@@ -11607,22 +11583,22 @@ var About = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     class: "mySwiper"
   }, {}, {
     default: () => `${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/1.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/1.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/2.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/2.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/3.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/3.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/4.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/4.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/5.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/5.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}
     ${validate_component(Swiper_slide, "SwiperSlide").$$render($$result, {}, {}, {
-      default: () => `<img src="${"img/6.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
+      default: () => `<img src="${"img/recent/6.jpg"}" alt="${""}" class="${"svelte-16pl8vx"}">`
     })}`
   })}
 </div>`;
@@ -11634,6 +11610,14 @@ var about = /* @__PURE__ */ Object.freeze({
   hydrate,
   router,
   prerender
+});
+var Menu = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `<div class="${"menu"}"><h1>Hello canvas</h1></div>`;
+});
+var menu = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Menu
 });
 var css$2 = {
   code: "section.svelte-18pb843{max-width:1400px;margin:auto}section.svelte-18pb843{display:grid;grid-template-columns:1fr;gap:0.75rem}@media(min-width: 768px){section.svelte-18pb843{grid-template-columns:repeat(3, 1fr)}}",
@@ -11657,12 +11641,17 @@ var TwoWayGrid = create_ssr_component(($$result, $$props, $$bindings, slots) => 
 </section>`;
 });
 var css = {
-  code: ".width.svelte-hy6bk3.svelte-hy6bk3{width:100%;max-width:1400px;margin:auto;margin-top:0.75rem}.bg-color.svelte-hy6bk3.svelte-hy6bk3{background-color:var(--secondary-color);background-color:#180040;background-color:#fff;padding:2.5rem 0}.bg-white.svelte-hy6bk3.svelte-hy6bk3{background-color:var(--pure-white)}.bg-white.svelte-hy6bk3 img.svelte-hy6bk3{display:block;max-width:100%;margin-left:0}.img-wrapper.svelte-hy6bk3 img.svelte-hy6bk3{display:block;width:100%}.bg-color.svelte-hy6bk3 div.svelte-hy6bk3{display:block;width:90%;margin:auto}.img-width.svelte-hy6bk3 img.svelte-hy6bk3{display:block;max-width:100%;margin:auto}.content-500.svelte-hy6bk3.svelte-hy6bk3{width:100%;max-width:var(--column-width);max-width:720px;margin:var(--column-margin-top) auto 0 auto;margin:2rem auto 0 auto;text-align:center}@media(min-width: 768px){.content-500.svelte-hy6bk3.svelte-hy6bk3{margin:var(--column-margin-top) auto 0 auto}}",
-  map: `{"version":3,"file":"work.svelte","sources":["work.svelte"],"sourcesContent":["<script>\\r\\n  let work = undefined\\r\\n  import ThreeWayGrid from '$lib/ThreeWayGrid.svelte'\\r\\n  import TwoWayGrid from '$lib/TwoWayGrid.svelte'\\r\\n<\/script>\\r\\n\\r\\n<div class=\\"content-500\\">\\r\\n  <h1>Anchor homes branding project.</h1>\\r\\n  <p>\\r\\n    Anchor approached us to imagine their branding. The main objective was to\\r\\n    establish a sense of trust and closeness with potential home owners through\\r\\n    simple and down to earth communication.\\r\\n  </p>\\r\\n  <p>\\r\\n    We have implemented this based on the principle of simplicity and\\r\\n    recognition.\\r\\n  </p>\\r\\n</div>\\r\\n\\r\\n<article class=\\"width bg-color img-width\\">\\r\\n  <div>\\r\\n    <img src=\\"img/recent/anchor hero.png\\" alt=\\"anchor\\" />\\r\\n  </div>\\r\\n</article>\\r\\n\\r\\n<div class=\\"width work-wrapper\\">\\r\\n  <div class=\\"recent-work\\">\\r\\n    <section class=\\"two-way-grid\\">\\r\\n      <TwoWayGrid>\\r\\n        <div slot=\\"left\\" class=\\"img-wrapper\\">\\r\\n          <img src=\\"img/recent/2.jpg\\" alt=\\"eaglehr\\" />\\r\\n        </div>\\r\\n        <div slot=\\"right\\" class=\\"img-wrapper\\">\\r\\n          <img src=\\"img/recent/1.jpg\\" alt=\\"eaglehr\\" />\\r\\n        </div>\\r\\n      </TwoWayGrid>\\r\\n    </section>\\r\\n  </div>\\r\\n</div>\\r\\n\\r\\n<div class=\\"bg-white width\\">\\r\\n  <img src=\\"img/recent/branded.png\\" alt=\\"anchor one\\" />\\r\\n</div>\\r\\n\\r\\n<div class=\\"width img-width three-way-grid\\">\\r\\n  <ThreeWayGrid>\\r\\n    <img slot=\\"left\\" src=\\"img/recent/carrier bags.jpg\\" alt=\\"anchor one\\" />\\r\\n    <img slot=\\"center\\" src=\\"img/recent/brochure.jpg\\" alt=\\"anchor one\\" />\\r\\n    <img slot=\\"right\\" src=\\"img/recent/cards.jpg\\" alt=\\"anchor one\\" />\\r\\n  </ThreeWayGrid>\\r\\n</div>\\r\\n\\r\\n<style>\\r\\n  .width {\\r\\n    width: 100%;\\r\\n    max-width: 1400px;\\r\\n    margin: auto;\\r\\n    /* margin-top: 3rem; */\\r\\n    margin-top: 0.75rem;\\r\\n  }\\r\\n\\r\\n  .bg-color {\\r\\n    background-color: var(--secondary-color);\\r\\n    background-color: #180040;\\r\\n    background-color: #fff;\\r\\n    padding: 2.5rem 0;\\r\\n  }\\r\\n\\r\\n  .bg-white {\\r\\n    background-color: var(--pure-white);\\r\\n  }\\r\\n\\r\\n  .bg-white img {\\r\\n    display: block;\\r\\n    max-width: 100%;\\r\\n    margin-left: 0;\\r\\n  }\\r\\n\\r\\n  .img-wrapper img {\\r\\n    display: block;\\r\\n    width: 100%;\\r\\n  }\\r\\n\\r\\n  .bg-color div {\\r\\n    display: block;\\r\\n    width: 90%;\\r\\n    margin: auto;\\r\\n  }\\r\\n\\r\\n  .img-width img {\\r\\n    display: block;\\r\\n    max-width: 100%;\\r\\n    margin: auto;\\r\\n  }\\r\\n\\r\\n  /* .two-way-grid {\\r\\n    margin-top: 0.75rem;\\r\\n  } */\\r\\n\\r\\n  /* h2 {\\r\\n    font-size: 1.2rem;\\r\\n    margin-top: 3rem;\\r\\n    font-weight: 500;\\r\\n  } */\\r\\n\\r\\n  .content-500 {\\r\\n    width: 100%;\\r\\n    max-width: var(--column-width);\\r\\n    max-width: 720px;\\r\\n    margin: var(--column-margin-top) auto 0 auto;\\r\\n    margin: 2rem auto 0 auto;\\r\\n    text-align: center;\\r\\n  }\\r\\n\\r\\n  @media (min-width: 768px) {\\r\\n    .content-500 {\\r\\n      margin: var(--column-margin-top) auto 0 auto;\\r\\n    }\\r\\n  }\\r\\n</style>\\r\\n"],"names":[],"mappings":"AAqDE,MAAM,4BAAC,CAAC,AACN,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,IAAI,CAEZ,UAAU,CAAE,OAAO,AACrB,CAAC,AAED,SAAS,4BAAC,CAAC,AACT,gBAAgB,CAAE,IAAI,iBAAiB,CAAC,CACxC,gBAAgB,CAAE,OAAO,CACzB,gBAAgB,CAAE,IAAI,CACtB,OAAO,CAAE,MAAM,CAAC,CAAC,AACnB,CAAC,AAED,SAAS,4BAAC,CAAC,AACT,gBAAgB,CAAE,IAAI,YAAY,CAAC,AACrC,CAAC,AAED,uBAAS,CAAC,GAAG,cAAC,CAAC,AACb,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,CAAC,AAChB,CAAC,AAED,0BAAY,CAAC,GAAG,cAAC,CAAC,AAChB,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,AACb,CAAC,AAED,uBAAS,CAAC,GAAG,cAAC,CAAC,AACb,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,IAAI,AACd,CAAC,AAED,wBAAU,CAAC,GAAG,cAAC,CAAC,AACd,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,IAAI,AACd,CAAC,AAYD,YAAY,4BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,YAAY,4BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AACH,CAAC"}`
+  code: ".width.svelte-7o8txp.svelte-7o8txp{width:100%;max-width:1000px;margin:auto;margin-top:0.75rem}.bg-color.svelte-7o8txp.svelte-7o8txp{background-color:var(--secondary-color);background-color:#180040;background-color:#fff;padding:2.5rem 0;margin:2rem auto 0 auto}.bg-white.svelte-7o8txp.svelte-7o8txp{background-color:var(--pure-white)}.bg-white.svelte-7o8txp img.svelte-7o8txp{display:block;max-width:100%;margin-left:0}.img-wrapper.svelte-7o8txp img.svelte-7o8txp{display:block;width:100%}.bg-color.svelte-7o8txp div.svelte-7o8txp{display:block;width:90%;margin:auto}.img-width.svelte-7o8txp img.svelte-7o8txp{display:block;max-width:100%;margin:auto}.content-500.svelte-7o8txp.svelte-7o8txp{width:100%;max-width:var(--column-width);max-width:720px;margin:var(--column-margin-top) auto 0 auto;margin:2rem auto 0 auto;text-align:center}@media(min-width: 768px){.content-500.svelte-7o8txp.svelte-7o8txp{margin:var(--column-margin-top) auto 0 auto}.bg-color.svelte-7o8txp.svelte-7o8txp{margin:var(--column-margin-top) auto 0 auto}}",
+  map: `{"version":3,"file":"work.svelte","sources":["work.svelte"],"sourcesContent":["<script>\\r\\n  let work = undefined\\r\\n  import ThreeWayGrid from '$lib/ThreeWayGrid.svelte'\\r\\n  import TwoWayGrid from '$lib/TwoWayGrid.svelte'\\r\\n<\/script>\\r\\n\\r\\n<svelte:head>\\r\\n  <title>\\r\\n    Here we showcase our approach to the brand development project for Anchor\\r\\n    homes project.\\r\\n  </title>\\r\\n</svelte:head>\\r\\n\\r\\n<div class=\\"content-500\\">\\r\\n  <h1>Anchor homes branding project.</h1>\\r\\n  <p>\\r\\n    Anchor approached us to imagine their branding. The main objective was to\\r\\n    establish a sense of trust and closeness with potential home owners through\\r\\n    simple and down to earth communication.\\r\\n  </p>\\r\\n  <p>\\r\\n    We have implemented this based on the principle of simplicity and\\r\\n    recognition.\\r\\n  </p>\\r\\n</div>\\r\\n\\r\\n<article class=\\"width bg-color img-width\\">\\r\\n  <div>\\r\\n    <img src=\\"img/recent/anchor hero.png\\" alt=\\"anchor\\" />\\r\\n  </div>\\r\\n</article>\\r\\n\\r\\n<div class=\\"width work-wrapper\\">\\r\\n  <div class=\\"recent-work\\">\\r\\n    <section class=\\"two-way-grid\\">\\r\\n      <TwoWayGrid>\\r\\n        <div slot=\\"left\\" class=\\"img-wrapper\\">\\r\\n          <img src=\\"img/recent/2.jpg\\" alt=\\"eaglehr\\" />\\r\\n        </div>\\r\\n        <div slot=\\"right\\" class=\\"img-wrapper\\">\\r\\n          <img src=\\"img/recent/1.jpg\\" alt=\\"eaglehr\\" />\\r\\n        </div>\\r\\n      </TwoWayGrid>\\r\\n    </section>\\r\\n  </div>\\r\\n</div>\\r\\n\\r\\n<div class=\\"bg-white width\\">\\r\\n  <img src=\\"img/recent/branded.png\\" alt=\\"anchor one\\" />\\r\\n</div>\\r\\n\\r\\n<div class=\\"width img-width three-way-grid\\">\\r\\n  <ThreeWayGrid>\\r\\n    <img slot=\\"left\\" src=\\"img/recent/carrier bags.jpg\\" alt=\\"anchor one\\" />\\r\\n    <img slot=\\"center\\" src=\\"img/recent/brochure.jpg\\" alt=\\"anchor one\\" />\\r\\n    <img slot=\\"right\\" src=\\"img/recent/7.jpg\\" alt=\\"anchor tshirt branding\\" />\\r\\n  </ThreeWayGrid>\\r\\n</div>\\r\\n\\r\\n<style>\\r\\n  .width {\\r\\n    width: 100%;\\r\\n    max-width: 1000px;\\r\\n    margin: auto;\\r\\n    margin-top: 0.75rem;\\r\\n  }\\r\\n\\r\\n  .bg-color {\\r\\n    background-color: var(--secondary-color);\\r\\n    background-color: #180040;\\r\\n    background-color: #fff;\\r\\n    padding: 2.5rem 0;\\r\\n    margin: 2rem auto 0 auto;\\r\\n  }\\r\\n\\r\\n  .bg-white {\\r\\n    background-color: var(--pure-white);\\r\\n  }\\r\\n\\r\\n  .bg-white img {\\r\\n    display: block;\\r\\n    max-width: 100%;\\r\\n    margin-left: 0;\\r\\n  }\\r\\n\\r\\n  .img-wrapper img {\\r\\n    display: block;\\r\\n    width: 100%;\\r\\n  }\\r\\n\\r\\n  .bg-color div {\\r\\n    display: block;\\r\\n    width: 90%;\\r\\n    margin: auto;\\r\\n  }\\r\\n\\r\\n  .img-width img {\\r\\n    display: block;\\r\\n    max-width: 100%;\\r\\n    margin: auto;\\r\\n  }\\r\\n\\r\\n  /* .two-way-grid {\\r\\n    margin-top: 0.75rem;\\r\\n  } */\\r\\n\\r\\n  /* h2 {\\r\\n    font-size: 1.2rem;\\r\\n    margin-top: 3rem;\\r\\n    font-weight: 500;\\r\\n  } */\\r\\n\\r\\n  .content-500 {\\r\\n    width: 100%;\\r\\n    max-width: var(--column-width);\\r\\n    max-width: 720px;\\r\\n    margin: var(--column-margin-top) auto 0 auto;\\r\\n    margin: 2rem auto 0 auto;\\r\\n    text-align: center;\\r\\n  }\\r\\n\\r\\n  @media (min-width: 768px) {\\r\\n    .content-500 {\\r\\n      margin: var(--column-margin-top) auto 0 auto;\\r\\n    }\\r\\n\\r\\n    .bg-color {\\r\\n      margin: var(--column-margin-top) auto 0 auto;\\r\\n    }\\r\\n  }\\r\\n</style>\\r\\n"],"names":[],"mappings":"AA4DE,MAAM,4BAAC,CAAC,AACN,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,MAAM,CACjB,MAAM,CAAE,IAAI,CACZ,UAAU,CAAE,OAAO,AACrB,CAAC,AAED,SAAS,4BAAC,CAAC,AACT,gBAAgB,CAAE,IAAI,iBAAiB,CAAC,CACxC,gBAAgB,CAAE,OAAO,CACzB,gBAAgB,CAAE,IAAI,CACtB,OAAO,CAAE,MAAM,CAAC,CAAC,CACjB,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC1B,CAAC,AAED,SAAS,4BAAC,CAAC,AACT,gBAAgB,CAAE,IAAI,YAAY,CAAC,AACrC,CAAC,AAED,uBAAS,CAAC,GAAG,cAAC,CAAC,AACb,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,CAAC,AAChB,CAAC,AAED,0BAAY,CAAC,GAAG,cAAC,CAAC,AAChB,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,IAAI,AACb,CAAC,AAED,uBAAS,CAAC,GAAG,cAAC,CAAC,AACb,OAAO,CAAE,KAAK,CACd,KAAK,CAAE,GAAG,CACV,MAAM,CAAE,IAAI,AACd,CAAC,AAED,wBAAU,CAAC,GAAG,cAAC,CAAC,AACd,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,IAAI,AACd,CAAC,AAYD,YAAY,4BAAC,CAAC,AACZ,KAAK,CAAE,IAAI,CACX,SAAS,CAAE,IAAI,cAAc,CAAC,CAC9B,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CAC5C,MAAM,CAAE,IAAI,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,CACxB,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,MAAM,AAAC,YAAY,KAAK,CAAC,AAAC,CAAC,AACzB,YAAY,4BAAC,CAAC,AACZ,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AAED,SAAS,4BAAC,CAAC,AACT,MAAM,CAAE,IAAI,mBAAmB,CAAC,CAAC,IAAI,CAAC,CAAC,CAAC,IAAI,AAC9C,CAAC,AACH,CAAC"}`
 };
 var Work = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
-  return `<div class="${"content-500 svelte-hy6bk3"}"><h1>Anchor homes branding project.</h1>
+  return `${$$result.head += `${$$result.title = `<title>
+    Here we showcase our approach to the brand development project for Anchor
+    homes project.
+  </title>`, ""}`, ""}
+
+<div class="${"content-500 svelte-7o8txp"}"><h1>Anchor homes branding project.</h1>
   <p>Anchor approached us to imagine their branding. The main objective was to
     establish a sense of trust and closeness with potential home owners through
     simple and down to earth communication.
@@ -11671,19 +11660,19 @@ var Work = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     recognition.
   </p></div>
 
-<article class="${"width bg-color img-width svelte-hy6bk3"}"><div class="${"svelte-hy6bk3"}"><img src="${"img/recent/anchor hero.png"}" alt="${"anchor"}" class="${"svelte-hy6bk3"}"></div></article>
+<article class="${"width bg-color img-width svelte-7o8txp"}"><div class="${"svelte-7o8txp"}"><img src="${"img/recent/anchor hero.png"}" alt="${"anchor"}" class="${"svelte-7o8txp"}"></div></article>
 
-<div class="${"width work-wrapper svelte-hy6bk3"}"><div class="${"recent-work"}"><section class="${"two-way-grid"}">${validate_component(TwoWayGrid, "TwoWayGrid").$$render($$result, {}, {}, {
-    right: () => `<div slot="${"right"}" class="${"img-wrapper svelte-hy6bk3"}"><img src="${"img/recent/1.jpg"}" alt="${"eaglehr"}" class="${"svelte-hy6bk3"}"></div>`,
-    left: () => `<div slot="${"left"}" class="${"img-wrapper svelte-hy6bk3"}"><img src="${"img/recent/2.jpg"}" alt="${"eaglehr"}" class="${"svelte-hy6bk3"}"></div>`
+<div class="${"width work-wrapper svelte-7o8txp"}"><div class="${"recent-work"}"><section class="${"two-way-grid"}">${validate_component(TwoWayGrid, "TwoWayGrid").$$render($$result, {}, {}, {
+    right: () => `<div slot="${"right"}" class="${"img-wrapper svelte-7o8txp"}"><img src="${"img/recent/1.jpg"}" alt="${"eaglehr"}" class="${"svelte-7o8txp"}"></div>`,
+    left: () => `<div slot="${"left"}" class="${"img-wrapper svelte-7o8txp"}"><img src="${"img/recent/2.jpg"}" alt="${"eaglehr"}" class="${"svelte-7o8txp"}"></div>`
   })}</section></div></div>
 
-<div class="${"bg-white width svelte-hy6bk3"}"><img src="${"img/recent/branded.png"}" alt="${"anchor one"}" class="${"svelte-hy6bk3"}"></div>
+<div class="${"bg-white width svelte-7o8txp"}"><img src="${"img/recent/branded.png"}" alt="${"anchor one"}" class="${"svelte-7o8txp"}"></div>
 
-<div class="${"width img-width three-way-grid svelte-hy6bk3"}">${validate_component(ThreeWayGrid, "ThreeWayGrid").$$render($$result, {}, {}, {
-    right: () => `<img slot="${"right"}" src="${"img/recent/cards.jpg"}" alt="${"anchor one"}" class="${"svelte-hy6bk3"}">`,
-    center: () => `<img slot="${"center"}" src="${"img/recent/brochure.jpg"}" alt="${"anchor one"}" class="${"svelte-hy6bk3"}">`,
-    left: () => `<img slot="${"left"}" src="${"img/recent/carrier bags.jpg"}" alt="${"anchor one"}" class="${"svelte-hy6bk3"}">`
+<div class="${"width img-width three-way-grid svelte-7o8txp"}">${validate_component(ThreeWayGrid, "ThreeWayGrid").$$render($$result, {}, {}, {
+    right: () => `<img slot="${"right"}" src="${"img/recent/7.jpg"}" alt="${"anchor tshirt branding"}" class="${"svelte-7o8txp"}">`,
+    center: () => `<img slot="${"center"}" src="${"img/recent/brochure.jpg"}" alt="${"anchor one"}" class="${"svelte-7o8txp"}">`,
+    left: () => `<img slot="${"left"}" src="${"img/recent/carrier bags.jpg"}" alt="${"anchor one"}" class="${"svelte-7o8txp"}">`
   })}
 </div>`;
 });
