@@ -42,7 +42,7 @@
     border: 1px solid rgba(130, 153, 130, 0.336);
     border: none;
     border-radius: 5px;
-    background: var(--secondary-color);
+    background: var(--darker);
     display: block;
     width: 100%;
     color: var(--text-color);

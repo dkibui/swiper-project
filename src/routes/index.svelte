@@ -1,5 +1,6 @@
 <script>
   import Accordion from '$lib/Accordion.svelte'
+  import FourWayGrid from '$lib/FourWayGrid.svelte'
   const data = {
     'Brand development': [
       "We perform an exhaustive fact finding mission to understand your business and it's goals. We then audit, research and analyse collected data to draw consumer insight.",
@@ -38,9 +39,13 @@
 
 <svelte:head>
   <title>
-    Affordable high quality graphic design and web development services for your
-    business.
+    Affordable high quality graphic design and web development services in
+    Kenya.
   </title>
+  <!-- <description>
+    All the graphic design and web development services to take your business to
+    the next level.
+  </description> -->
 </svelte:head>
 
 <div class="content-500">
@@ -78,22 +83,25 @@
     class="mySwiper"
   >
     <SwiperSlide>
-      <img src="img/1.jpg" alt="" />
+      <img src="img/recent/8.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/2.jpg" alt="" />
+      <img src="img/recent/2.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/3.jpg" alt="" />
+      <img src="img/recent/1.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/4.jpg" alt="" />
+      <img src="img/recent/9.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/5.jpg" alt="" />
+      <img src="img/recent/5.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/6.jpg" alt="" />
+      <img src="img/recent/6.jpg" alt="" />
+    </SwiperSlide>
+    <SwiperSlide>
+      <img src="img/recent/liberte.jpg" alt="" />
     </SwiperSlide>
   </Swiper>
 </div>
@@ -105,6 +113,24 @@
     <Accordion {entry} />
   {/each}
 </div>
+
+<!-- <h2>Recent projects</h2>
+
+<div class="recent">
+  <p class="recent__text">
+    We handle many full brand development projects. Below we showcase the ones
+    we completed recently
+  </p>
+</div>
+
+<div class="four-way-grid">
+  <FourWayGrid>
+    <img slot="one" src="img/recent/carrier bags.jpg" alt="anchor one" />
+    <img slot="two" src="img/recent/brochure.jpg" alt="anchor one" />
+    <img slot="three" src="img/recent/calendar.jpg" alt="anchor one" />
+    <img slot="four" src="img/recent/cards.jpg" alt="anchor one" />
+  </FourWayGrid>
+</div> -->
 
 <h2>Our clients</h2>
 
@@ -123,33 +149,31 @@
     breakpoints={{
       '@0.00': {
         slidesPerView: 4,
-        spaceBetween: 26,
+        spaceBetween: 60,
       },
       768: {
-        slidesPerView: 5,
-        spaceBetween: 80,
+        slidesPerView: 4,
+        spaceBetween: 155,
       },
     }}
     class="mySwiper"
   >
     <SwiperSlide>
-      <img src="img/logos/Liberte.png" alt="Liberte juices logo" />
-    </SwiperSlide>
-    <SwiperSlide>
       <img src="img/logos/amsco.png" alt="amsco logo" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/logos/strathmore.png" alt="Strathmore University logo" />
     </SwiperSlide>
     <!--  -->
     <SwiperSlide>
       <img src="img/logos/anchor.png" alt="Anchor builders logo" />
     </SwiperSlide>
-
+    <SwiperSlide>
+      <img src="img/logos/strathmore.png" alt="Strathmore University logo" />
+    </SwiperSlide>
     <SwiperSlide>
       <img src="img/logos/eaglehr.png" alt="Eaglehr kenya logo" />
     </SwiperSlide>
-    <!--  -->
+    <SwiperSlide>
+      <img src="img/logos/absa.png" alt="absa bank logo" />
+    </SwiperSlide>
     <SwiperSlide>
       <img src="img/logos/farmhouse.png" alt="farmhouse sacco logo" />
     </SwiperSlide>
@@ -157,6 +181,10 @@
 </div>
 
 <style>
+  h1 {
+    font-size: 2.4rem;
+  }
+
   h2 {
     font-size: 1.2rem;
     margin-top: 3rem;
@@ -179,11 +207,22 @@
     margin: 0.75rem auto 0 auto;
   }
 
+  .four-way-grid img {
+    display: block;
+    width: 100%;
+  }
+
   .logos {
-    display: flex;
-    align-items: center;
     width: 100%;
     max-width: 720px;
+    margin: auto;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--secondary-color);
+    padding-top: 1rem;
+  }
+
+  .recent {
+    width: 100%;
     margin: auto;
     margin-top: 1.5rem;
     border-top: 1px solid var(--secondary-color);
@@ -198,9 +237,7 @@
 
   .logos img {
     display: block;
-    height: 100%;
-    width: 100%;
-    max-width: 100px;
+    max-width: 100%;
   }
 
   .accordion {
@@ -236,10 +273,15 @@
     }
 
     .logos {
+      max-width: 720px;
       margin-top: 2.2rem;
       padding-top: 1.5rem;
-      border-bottom: 1px solid var(--secondary-color);
+      /* border-bottom: 1px solid var(--secondary-color);*/
       padding-bottom: 1.2rem;
+    }
+
+    .recent {
+      max-width: 1440px;
     }
   }
 </style>

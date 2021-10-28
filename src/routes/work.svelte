@@ -4,6 +4,13 @@
   import TwoWayGrid from '$lib/TwoWayGrid.svelte'
 </script>
 
+<svelte:head>
+  <title>
+    Here we showcase our approach to the brand development project for Anchor
+    homes project.
+  </title>
+</svelte:head>
+
 <div class="content-500">
   <h1>Anchor homes branding project.</h1>
   <p>
@@ -46,16 +53,15 @@
   <ThreeWayGrid>
     <img slot="left" src="img/recent/carrier bags.jpg" alt="anchor one" />
     <img slot="center" src="img/recent/brochure.jpg" alt="anchor one" />
-    <img slot="right" src="img/recent/cards.jpg" alt="anchor one" />
+    <img slot="right" src="img/recent/7.jpg" alt="anchor tshirt branding" />
   </ThreeWayGrid>
 </div>
 
 <style>
   .width {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: auto;
-    /* margin-top: 3rem; */
     margin-top: 0.75rem;
   }
 
@@ -64,6 +70,7 @@
     background-color: #180040;
     background-color: #fff;
     padding: 2.5rem 0;
+    margin: 2rem auto 0 auto;
   }
 
   .bg-white {
@@ -114,6 +121,10 @@
 
   @media (min-width: 768px) {
     .content-500 {
+      margin: var(--column-margin-top) auto 0 auto;
+    }
+
+    .bg-color {
       margin: var(--column-margin-top) auto 0 auto;
     }
   }

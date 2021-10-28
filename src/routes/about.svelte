@@ -24,7 +24,14 @@
 </script>
 
 <svelte:head>
-  <title>About</title>
+  <title
+    >We have 7 years of providing affordable high quality branding services to
+    small and SMEs in Kenya.
+  </title>
+  <!-- <description
+    >All graphic design and web development services to take your business to
+    the next level
+  </description> -->
 </svelte:head>
 
 <div class="content-500">
@@ -39,7 +46,7 @@
   </p>
 </div>
 
-<h2>See recent work...</h2>
+<h2>Sample recent work...</h2>
 
 <div class="content">
   <Swiper
@@ -70,22 +77,22 @@
     class="mySwiper"
   >
     <SwiperSlide>
-      <img src="img/1.jpg" alt="" />
+      <img src="img/recent/1.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/2.jpg" alt="" />
+      <img src="img/recent/2.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/3.jpg" alt="" />
+      <img src="img/recent/3.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/4.jpg" alt="" />
+      <img src="img/recent/4.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/5.jpg" alt="" />
+      <img src="img/recent/5.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/6.jpg" alt="" />
+      <img src="img/recent/6.jpg" alt="" />
     </SwiperSlide>
   </Swiper>
 </div>

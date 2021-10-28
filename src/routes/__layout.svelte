@@ -1,9 +1,9 @@
 <script>
-  import Header from '$lib/header/Header.svelte'
+  import Canvas from '$lib/header/Canvas.svelte'
   import '../app.css'
 </script>
 
-<Header />
+<Canvas />
 
 <main>
   <slot />
