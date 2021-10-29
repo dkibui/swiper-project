@@ -37,7 +37,7 @@
 
 <style>
   .menu {
-    width: 87%;
+    width: 94%;
     margin: 0 auto;
     display: flex;
     align-items: center;
