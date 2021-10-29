@@ -7,12 +7,12 @@
 <svelte:head>
   <title>
     Here we showcase our approach to the brand development project for Anchor
-    homes project.
+    homes project
   </title>
 </svelte:head>
 
 <div class="content-500">
-  <h1>Anchor homes branding project.</h1>
+  <h1>Anchor homes branding project</h1>
   <p>
     Anchor approached us to imagine their branding. The main objective was to
     establish a sense of trust and closeness with potential home owners through

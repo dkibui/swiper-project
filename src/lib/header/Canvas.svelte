@@ -89,7 +89,7 @@
     top: 0;
     left: 0;
     background-color: var(--primary-color);
-    opacity: 0.98999;
+    opacity: 0.95275;
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px;
     transition: 0.5s;

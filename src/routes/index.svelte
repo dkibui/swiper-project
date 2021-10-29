@@ -132,7 +132,14 @@
   </FourWayGrid>
 </div> -->
 
-<h2>Our clients</h2>
+<div class="clients">
+  <h2>Our clients</h2>
+  <p>
+    We work with companies of all sizes. Start-ups, SMES or corporates.
+    Regardless of your size our goal is always the same, do work that helps you
+    stand out in the market place.
+  </p>
+</div>
 
 <div class="logos">
   <Swiper
@@ -200,7 +207,14 @@
   .content {
     width: 100%;
     max-width: 1400px;
-    margin: 0.75rem auto 0 auto;
+    margin: 2rem auto 0 auto;
+  }
+
+  .clients {
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+    margin-top: 1.5rem;
   }
 
   .four-way-grid img {
@@ -213,8 +227,8 @@
     max-width: 720px;
     margin: auto;
     margin-top: 1.5rem;
-    border-top: 1px solid var(--secondary-color);
-    padding-top: 1rem;
+    border-top: 1px solid var(--primary-color);
+    padding-top: 0.65rem;
   }
 
   .recent {
