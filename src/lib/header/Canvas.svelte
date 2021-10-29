@@ -37,12 +37,12 @@
 
 <style>
   .menu {
-    width: 95%;
+    width: 87%;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1.1rem;
+    margin-top: 1.3rem;
   }
 
   .menu img {
