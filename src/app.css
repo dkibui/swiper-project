@@ -61,6 +61,10 @@ body::before {
   flex-direction: column;
 }
 
+h1 {
+  line-height: 1.3;
+}
+
 h1,
 h2,
 p {

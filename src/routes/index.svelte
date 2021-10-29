@@ -49,10 +49,10 @@
 </svelte:head>
 
 <div class="content-500">
-  <h1>Our business is making yours look good.</h1>
+  <h1>Our business is to make yours look good</h1>
   <p>
     We provide brand centred graphic design and web development services to SMEs
-    and corporates in Nairobi.
+    and corporates in Nairobi
   </p>
 </div>
 
@@ -181,10 +181,6 @@
 </div>
 
 <style>
-  h1 {
-    font-size: 2.4rem;
-  }
-
   h2 {
     font-size: 1.2rem;
     margin-top: 3rem;

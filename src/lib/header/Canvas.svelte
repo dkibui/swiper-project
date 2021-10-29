@@ -26,7 +26,7 @@
   </div>
 
   <div id="mySidenav" class="sidenav" class:open={navOpen}>
-    <a href="#a" class="closebtn" on:click={handleNav}>&times;</a>
+    <a href="" class="closebtn" on:click={handleNav}>&times;</a>
     <a href="/" on:click={handleNav}>Home</a>
     <a href="/about" on:click={handleNav}>About</a>
     <a href="/work" on:click={handleNav}>Work</a>
@@ -37,17 +37,17 @@
 
 <style>
   .menu {
-    width: 94%;
+    width: 93%;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 0.725rem;
+    margin-top: 0.75rem;
   }
 
   .menu img {
     display: block;
-    height: 36px;
+    height: 32px;
   }
 
   /* Hamburger Menu icon */
@@ -61,6 +61,7 @@
     width: 32px;
     height: 3px;
     background-color: var(--text-color);
+    opacity: 85%;
     margin: 8px 0;
     transition: 0.4s;
   }
@@ -106,7 +107,7 @@
   }
 
   .sidenav a:first-child {
-    padding-top: 19px;
+    padding-top: 17px;
   }
 
   .sidenav a:first-child,
@@ -123,14 +124,14 @@
   /* Position and style the close button (top right corner) */
   .sidenav .closebtn {
     position: absolute;
-    top: 0;
+    top: -5px;
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
   }
 
   .open {
-    width: 70%;
+    width: 60%;
   }
 
   /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -148,12 +149,16 @@
       align-items: center;
       position: relative;
       height: fit-content;
-      /* border: 1px solid rgb(41, 41, 41); */
       margin-top: 0.75rem;
     }
 
     .menu {
       margin: 0;
+    }
+
+    .menu img {
+      display: block;
+      height: 36px;
     }
 
     .sidenav {
@@ -162,7 +167,6 @@
       width: 100%; /* 0 width - change this with JavaScript */
       position: static;
       background-color: transparent;
-      overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 0;
       transition: 0s;
       justify-content: flex-end;
