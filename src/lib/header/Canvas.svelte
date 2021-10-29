@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1.3rem;
+    margin-top: 0.725rem;
   }
 
   .menu img {
