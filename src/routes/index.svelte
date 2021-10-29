@@ -226,9 +226,9 @@
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--primary-color);
-    padding-top: 0.65rem;
+    margin-top: 1rem;
+    /* border-top: 1px solid var(--primary-color);
+    padding-top: 0.65rem; */
   }
 
   .recent {
