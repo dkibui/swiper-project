@@ -27,11 +27,11 @@
 
   <div id="mySidenav" class="sidenav" class:open={navOpen}>
     <a href="#a" class="closebtn" on:click={handleNav}>&times;</a>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/work">Work</a>
-    <!-- <a href="/blog">Blog</a> -->
-    <!-- <a href="/contact">Contact</a> -->
+    <a href="/" on:click={handleNav}>Home</a>
+    <a href="/about" on:click={handleNav}>About</a>
+    <a href="/work" on:click={handleNav}>Work</a>
+    <!-- <a href="/blog" on:click={handleNav}>Blog</a> -->
+    <!-- <a href="/contact" on:click={handleNav}>Contact</a> -->
   </div>
 </div>
 
@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1.2rem;
+    margin-top: 1.1rem;
   }
 
   .menu img {
@@ -130,7 +130,7 @@
   }
 
   .open {
-    width: 60%;
+    width: 70%;
   }
 
   /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

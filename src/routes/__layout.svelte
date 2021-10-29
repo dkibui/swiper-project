@@ -11,20 +11,21 @@
 
 <footer>
   <p>
-    Thank you for visiting. <a href="mailto:dkibui@visign.co.ke"
-      >Send us an email</a
-    > to see how we can help.
+    Thank you for visiting. <a href="mailto:dkibui@visign.co.ke">
+      Send us an email
+    </a>
+    to see how we can help.
   </p>
   <div class="social-icons">
-    <a href="https://www.behance.net"
-      ><img src="img/social/behance.png" alt="behance logo" /></a
-    >
-    <a href="https://www.instagram.com"
-      ><img src="img/social/instagram.png" alt="instagram logo" /></a
-    >
-    <a href="https://www.twitter.com"
-      ><img src="img/social/twitter.png" alt="twitter logo" /></a
-    >
+    <a href="https://www.behance.net">
+      <img src="img/social/behance.png" alt="behance logo" />
+    </a>
+    <a href="https://www.instagram.com">
+      <img src="img/social/instagram.png" alt="instagram logo" />
+    </a>
+    <a href="https://www.twitter.com">
+      <img src="img/social/twitter.png" alt="twitter logo" />
+    </a>
   </div>
 </footer>
 
@@ -33,9 +34,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
-    width: 100%;
-    /* max-width: 1024px; */
+    width: 90%;
     margin: 0 auto;
     box-sizing: border-box;
   }
@@ -45,7 +44,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 40px;
+    padding-top: 4rem;
   }
 
   footer a {
@@ -61,7 +60,7 @@
 
   .social-icons {
     display: flex;
-    margin: 2rem 0;
+    margin: 2.75rem 0 2.5rem 0;
     gap: 1rem;
   }
 
