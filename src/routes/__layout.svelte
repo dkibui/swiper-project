@@ -34,7 +34,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    width: 87%;
+    width: 90%;
     margin: 0 auto;
     box-sizing: border-box;
   }
@@ -53,7 +53,7 @@
   }
 
   footer p {
-    width: 87%;
+    width: 90%;
     max-width: 1024px;
     margin: 0 auto;
   }
