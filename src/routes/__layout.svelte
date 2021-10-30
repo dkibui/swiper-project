@@ -44,7 +44,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 4rem;
+    padding-top: var(--top-margin-mobile);
   }
 
   footer a {
@@ -59,8 +59,10 @@
   }
 
   .social-icons {
-    display: flex;
-    margin: 2.75rem 0 2.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
     gap: 1rem;
   }
 

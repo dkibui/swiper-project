@@ -70,7 +70,7 @@
     }}
     breakpoints={{
       '@0.00': {
-        slidesPerView: 2,
+        slidesPerView: 1,
         spaceBetween: 9,
       },
       768: {
@@ -106,12 +106,13 @@
   </Swiper>
 </div>
 
-<h2>Our services</h2>
-
-<div class="accordion">
-  {#each Object.entries(data) as entry}
-    <Accordion {entry} />
-  {/each}
+<div class="services">
+  <h2>Our services</h2>
+  <div class="accordion">
+    {#each Object.entries(data) as entry}
+      <Accordion {entry} />
+    {/each}
+  </div>
 </div>
 
 <!-- <h2>Recent projects</h2>
@@ -190,8 +191,6 @@
 <style>
   h2 {
     font-size: 1.2rem;
-    margin-top: 3rem;
-    margin-bottom: 0;
     font-weight: 500;
   }
 
@@ -199,22 +198,33 @@
     width: 100%;
     max-width: var(--column-width);
     max-width: 530px;
-    margin: var(--column-margin-top) auto 0 auto;
-    margin: 2rem auto 0 auto;
+    margin: var(--top-margin-mobile) auto 0 auto;
     text-align: center;
+  }
+
+  .content-500 p {
+    margin-top: 1rem;
+  }
+
+  .services {
+    margin-top: var(--top-margin-mobile);
   }
 
   .content {
     width: 100%;
     max-width: 1400px;
-    margin: 2rem auto 0 auto;
+    margin: var(--top-margin-mobile) auto 0 auto;
   }
 
   .clients {
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1.5rem;
+    margin-top: var(--top-margin-mobile);
+  }
+
+  .clients p {
+    margin-top: 1rem;
   }
 
   .four-way-grid img {
@@ -227,8 +237,8 @@
     max-width: 720px;
     margin: auto;
     margin-top: 1rem;
-    /* border-top: 1px solid var(--primary-color);
-    padding-top: 0.65rem; */
+    border-top: 1px solid var(--primary-color);
+    padding-top: 0.65rem;
   }
 
   .recent {

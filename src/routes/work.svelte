@@ -70,7 +70,7 @@
     background-color: #180040;
     background-color: #fff;
     padding: 2.5rem 0;
-    margin: 2rem auto 0 auto;
+    margin: var(--top-margin-mobile) auto 0 auto;
   }
 
   .bg-white {
@@ -100,23 +100,16 @@
     margin: auto;
   }
 
-  /* .two-way-grid {
-    margin-top: 0.75rem;
-  } */
-
-  /* h2 {
-    font-size: 1.2rem;
-    margin-top: 3rem;
-    font-weight: 500;
-  } */
-
   .content-500 {
     width: 100%;
     max-width: var(--column-width);
     max-width: 720px;
-    margin: var(--column-margin-top) auto 0 auto;
-    margin: 2rem auto 0 auto;
+    margin: var(--top-margin-mobile) auto 0 auto;
     text-align: center;
+  }
+
+  .content-500 p {
+    margin-top: 1rem;
   }
 
   @media (min-width: 768px) {
@@ -126,6 +119,10 @@
 
     .bg-color {
       margin: var(--column-margin-top) auto 0 auto;
+    }
+
+    .img-width img {
+      max-width: 100%;
     }
   }
 </style>

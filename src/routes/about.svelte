@@ -46,7 +46,9 @@
   </p>
 </div>
 
-<h2>Sample recent work...</h2>
+<div class="sample">
+  <h2>Sample recent work...</h2>
+</div>
 
 <div class="content">
   <Swiper
@@ -64,14 +66,14 @@
     }}
     breakpoints={{
       '@0.00': {
-        slidesPerView: 2,
+        slidesPerView: 1,
         spaceBetween: 9,
       },
       768: {
         slidesPerView: 3,
       },
       1100: {
-        slidesPerView: 4,
+        slidesPerView: 5,
       },
     }}
     class="mySwiper"
@@ -100,7 +102,6 @@
 <style>
   h2 {
     font-size: 1.2rem;
-    margin-top: 3rem;
     font-weight: 500;
   }
 
@@ -108,16 +109,23 @@
     width: 100%;
     max-width: var(--column-width);
     max-width: 530px;
-    margin: var(--column-margin-top) auto 0 auto;
-    margin: 2rem auto 0 auto;
+    margin: var(--top-margin-mobile) auto 0 auto;
     text-align: center;
+  }
+
+  .content-500 p {
+    margin-top: 1rem;
+  }
+
+  .sample {
+    margin-top: var(--top-margin-mobile);
   }
 
   .content {
     width: 100%;
     max-width: var(--column-width);
     max-width: 1400px;
-    margin: 0.75rem auto 0 auto;
+    margin: 1.75rem auto 0 auto;
   }
 
   .content img {
