@@ -70,7 +70,7 @@
     }}
     breakpoints={{
       '@0.00': {
-        slidesPerView: 1,
+        slidesPerView: 2,
         spaceBetween: 9,
       },
       768: {
