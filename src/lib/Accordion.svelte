@@ -33,9 +33,14 @@
     font-size: 0.97rem;
     margin-left: 1.2rem;
     margin-right: 0.75rem;
+    margin-top: 0.95rem;
     color: var(--text-color);
     text-align: left;
     line-height: 1.6;
+  }
+
+  p:last-child {
+    margin-bottom: 1rem;
   }
 
   button {

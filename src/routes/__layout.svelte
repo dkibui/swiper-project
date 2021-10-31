@@ -72,9 +72,9 @@
     max-width: 28px;
   }
 
-  @media (min-width: 480px) {
-    /* footer {
-      padding: 40px 0;
-    } */
+  @media (min-width: 768px) {
+    footer {
+      padding-top: var(--column-margin-top);
+    }
   }
 </style>

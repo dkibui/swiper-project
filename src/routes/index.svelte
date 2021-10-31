@@ -77,7 +77,7 @@
         slidesPerView: 3,
       },
       1100: {
-        slidesPerView: 5,
+        slidesPerView: 4,
       },
     }}
     class="mySwiper"
@@ -236,9 +236,11 @@
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     border-top: 1px solid var(--primary-color);
-    padding-top: 0.65rem;
+    border-bottom: 1px solid var(--primary-color);
+    padding-top: 0.75rem;
+    padding-bottom: 0.65rem;
   }
 
   .recent {
@@ -277,7 +279,6 @@
   @media (min-width: 768px) {
     h2 {
       font-size: 1.6rem;
-      margin-top: 5rem;
     }
 
     .content-500 {
@@ -289,15 +290,22 @@
     }
 
     .accordion {
-      margin-top: 2.2rem;
+      margin-top: 1.2rem;
     }
 
     .logos {
       max-width: 720px;
       margin-top: 2.2rem;
       padding-top: 1.5rem;
-      /* border-bottom: 1px solid var(--secondary-color);*/
       padding-bottom: 1.2rem;
+    }
+
+    .services {
+      margin-top: var(--column-margin-top);
+    }
+
+    .clients {
+      margin-top: var(--column-margin-top);
     }
 
     .recent {
