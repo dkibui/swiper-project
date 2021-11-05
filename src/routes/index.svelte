@@ -1,6 +1,8 @@
 <script>
   import Accordion from '$lib/Accordion.svelte'
   import FourWayGrid from '$lib/FourWayGrid.svelte'
+  // import RecentComponent from '$lib/RecentComponent.svelte'
+  import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [
       "We perform an exhaustive fact finding mission to understand your business and it's goals. We then audit, research and analyse collected data to draw consumer insight.",
@@ -49,10 +51,10 @@
 </svelte:head>
 
 <div class="content-500">
-  <h1>Our business is to make yours look good</h1>
+  <h1>Our business is making yours look good.</h1>
   <p>
     We provide brand centred graphic design and web development services to SMEs
-    and corporates in Nairobi
+    and corporates in Nairobi.
   </p>
 </div>
 
@@ -89,13 +91,13 @@
       <img src="img/recent/2.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/1.jpg" alt="" />
+      <img src="img/recent/11.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/9.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/5.jpg" alt="" />
+      <img src="img/recent/55.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/6.jpg" alt="" />
@@ -115,9 +117,8 @@
   </div>
 </div>
 
-<!-- <h2>Recent projects</h2>
-
 <div class="recent">
+  <h2>Recent projects</h2>
   <p class="recent__text">
     We handle many full brand development projects. Below we showcase the ones
     we completed recently
@@ -125,13 +126,8 @@
 </div>
 
 <div class="four-way-grid">
-  <FourWayGrid>
-    <img slot="one" src="img/recent/carrier bags.jpg" alt="anchor one" />
-    <img slot="two" src="img/recent/brochure.jpg" alt="anchor one" />
-    <img slot="three" src="img/recent/calendar.jpg" alt="anchor one" />
-    <img slot="four" src="img/recent/cards.jpg" alt="anchor one" />
-  </FourWayGrid>
-</div> -->
+  <Recent />
+</div>
 
 <div class="clients">
   <h2>Our clients</h2>
@@ -227,6 +223,10 @@
     margin-top: 1rem;
   }
 
+  .four-way-grid {
+    margin-top: var(--top-margin-mobile);
+  }
+
   .four-way-grid img {
     display: block;
     width: 100%;
@@ -236,19 +236,26 @@
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1.2rem;
+    margin-top: 2rem;
     border-top: 1px solid var(--primary-color);
     border-bottom: 1px solid var(--primary-color);
     padding-top: 0.75rem;
     padding-bottom: 0.65rem;
   }
 
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
   .recent {
     width: 100%;
     margin: auto;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--secondary-color);
-    padding-top: 1rem;
+    margin-top: var(--top-margin-mobile);
+  }
+
+  .recent p {
+    margin-top: 1rem;
   }
 
   .content img {
@@ -257,16 +264,11 @@
     height: auto;
   }
 
-  .logos img {
-    display: block;
-    max-width: 100%;
-  }
-
   .accordion {
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
   }
 
   @media only screen and (min-width: 568px) {
@@ -310,6 +312,7 @@
 
     .recent {
       max-width: 1440px;
+      margin-top: var(--column-margin-top);
     }
   }
 </style>

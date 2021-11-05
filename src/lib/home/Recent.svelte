@@ -1,0 +1,71 @@
+<script>
+  import RecentCard from '$lib/RecentCard.svelte'
+  import FourWayGrid from '$lib/FourWayGrid.svelte'
+
+  const cards = [
+    {
+      image: 'img/recent/anchor.jpg',
+      alt: 'Anchor logo',
+      description:
+        'We recently worked with the founder of Anchor homes to help bring his brand to life. Learn more about this project...',
+      link: 'Learn more',
+      slot: 'one',
+    },
+    {
+      image: 'img/recent/liberte_project.jpg',
+      alt: 'liberte logo',
+      description:
+        'Liberte juices helps you liberate your thirst while boosting your health. This was a fun project to work on. See more details here...',
+      link: 'Learn more',
+      slot: 'two',
+    },
+    {
+      image: 'img/recent/imex.jpg',
+      alt: 'Imex Africa logo',
+      description:
+        'Imex Africa is a pan african civil engineering firm that specializes in supplies, construction and consultancy. See details...',
+      link: 'Learn more',
+      slot: 'three',
+    },
+    {
+      image: 'img/recent/eaglehr.jpg',
+      alt: 'eaglehr kenya logo',
+      description:
+        'Africa is a continent on the rise. Eaglehr is on the forefront to ensure the labour market is well trained to match demand explo...',
+      link: 'Learn more',
+      slot: 'four',
+    },
+  ]
+</script>
+
+<FourWayGrid>
+  {#each cards as card}
+    <RecentCard>
+      <img slot="image" src={card.image} alt={card.alt} />
+      <p slot="description">{card.description}</p>
+      <a slot="link" href="/work">{card.link}</a>
+    </RecentCard>
+  {/each}
+</FourWayGrid>
+
+<style>
+  img {
+    display: block;
+    max-width: 100%;
+    object-fit: cover;
+    transition: transform 350ms ease-out;
+  }
+
+  img:hover {
+    /* W3C */
+    transform: scale(1.025) rotate(2deg);
+    /* Safari & Chrome */
+    -webkit-transform: scale(1.025) rotate(2deg);
+    /* Firefox */
+    -moz-transform: scale(1.025) rotate(2deg);
+  }
+
+  p {
+    text-align: left;
+  }
+</style>

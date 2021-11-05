@@ -1,5 +1,6 @@
 <section>
-  <div>
+  <slot />
+  <!-- <div>
     <slot name="one" />
   </div>
   <div>
@@ -10,7 +11,7 @@
   </div>
   <div>
     <slot name="four" />
-  </div>
+  </div> -->
 </section>
 
 <style>
