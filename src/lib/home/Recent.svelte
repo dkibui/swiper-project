@@ -58,11 +58,11 @@
 
   img:hover {
     /* W3C */
-    transform: scale(1.025) rotate(2deg);
+    transform: scale(1.055) rotate(1deg);
     /* Safari & Chrome */
-    -webkit-transform: scale(1.025) rotate(2deg);
+    -webkit-transform: scale(1.055) rotate(1deg);
     /* Firefox */
-    -moz-transform: scale(1.025) rotate(2deg);
+    -moz-transform: scale(1.055) rotate(1deg);
   }
 
   p {
