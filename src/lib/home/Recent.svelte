@@ -20,7 +20,7 @@
       slot: 'two',
     },
     {
-      image: 'img/recent/imex.jpg',
+      image: 'img/recent/imexafrica.jpg',
       alt: 'Imex Africa logo',
       description:
         'Imex Africa is a pan african civil engineering firm that specializes in supplies, construction and consultancy. See details...',
