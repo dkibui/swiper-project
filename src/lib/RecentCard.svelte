@@ -30,9 +30,9 @@
     border-bottom-right-radius: 32px;
     overflow: hidden;
     margin-bottom: 1rem;
-    -webkit-box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
+    /* -webkit-box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
     -moz-box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
-    box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
+    box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589); */
   }
 
   @media (min-width: 768px) {
