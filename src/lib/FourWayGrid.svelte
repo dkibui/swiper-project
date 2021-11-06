@@ -23,11 +23,12 @@
   section {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 2.2rem;
   }
 
   @media (min-width: 768px) {
     section {
+      gap: 0.75rem;
       grid-template-columns: repeat(2, 1fr);
     }
   }

@@ -56,16 +56,18 @@
     transition: transform 350ms ease-out;
   }
 
-  img:hover {
-    /* W3C */
-    transform: scale(1.055) rotate(1deg);
-    /* Safari & Chrome */
-    -webkit-transform: scale(1.055) rotate(1deg);
-    /* Firefox */
-    -moz-transform: scale(1.055) rotate(1deg);
-  }
-
   p {
     text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    img:hover {
+      /* W3C */
+      transform: scale(1.055) rotate(1deg);
+      /* Safari & Chrome */
+      -webkit-transform: scale(1.055) rotate(1deg);
+      /* Firefox */
+      -moz-transform: scale(1.055) rotate(1deg);
+    }
   }
 </style>

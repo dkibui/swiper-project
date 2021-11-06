@@ -1,9 +1,8 @@
 <script>
-  export let img = 'img'
 </script>
 
 <article>
-  <div class={img}>
+  <div class="img">
     <slot name="image" />
   </div>
   <div>
@@ -22,19 +21,26 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.85rem;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 14px 10px -10px;
+  }
+
+  article div:first-child {
+    margin-bottom: 1rem;
   }
 
   .img {
-    border-bottom-left-radius: 32px;
-    border-bottom-right-radius: 32px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     overflow: hidden;
-    margin-bottom: 1rem;
-    /* -webkit-box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
-    -moz-box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589);
-    box-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.589); */
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    /* -webkit-box-shadow: 0px 10px 10px -10px rgba(33, 35, 38, 0.1);
+    -moz-box-shadow: 0px 10px 10px -10px rgba(33, 35, 38, 0.1); */
   }
 
   @media (min-width: 768px) {
+    article {
+      gap: 0.75rem;
+    }
   }
 </style>
