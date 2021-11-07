@@ -224,12 +224,7 @@
   }
 
   .four-way-grid {
-    margin-top: 2rem;
-  }
-
-  .four-way-grid img {
-    display: block;
-    width: 100%;
+    margin-top: 1.5rem;
   }
 
   .logos {
