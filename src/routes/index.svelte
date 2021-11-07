@@ -209,7 +209,7 @@
   .content {
     width: 100%;
     max-width: 1400px;
-    margin: var(--top-margin-mobile) auto 0 auto;
+    margin: 2.7rem auto 0 auto;
   }
 
   .clients {
@@ -237,10 +237,10 @@
     max-width: 720px;
     margin: auto;
     margin-top: 2rem;
-    border-top: 1px solid var(--primary-color);
-    border-bottom: 1px solid var(--primary-color);
-    padding-top: 0.75rem;
-    padding-bottom: 0.65rem;
+    /* border-top: 1px solid var(--primary-color); */
+    /* border-bottom: 1px solid var(--primary-color); */
+    /* padding-top: 0.75rem; */
+    /* padding-bottom: 0.65rem; */
   }
 
   img {

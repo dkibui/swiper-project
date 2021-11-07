@@ -61,7 +61,7 @@
   .social-icons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    margin-top: 2.875rem;
+    margin-top: 2.54rem;
     margin-bottom: 1.5rem;
     gap: 1rem;
   }
