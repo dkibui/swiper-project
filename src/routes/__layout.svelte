@@ -44,7 +44,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: var(--top-margin-mobile);
+    margin-top: var(--top-margin-mobile);
   }
 
   footer a {
@@ -61,7 +61,7 @@
   .social-icons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    margin-top: 2.5rem;
+    margin-top: 2.875rem;
     margin-bottom: 1.5rem;
     gap: 1rem;
   }

@@ -224,7 +224,7 @@
   }
 
   .four-way-grid {
-    margin-top: var(--top-margin-mobile);
+    margin-top: 2rem;
   }
 
   .four-way-grid img {

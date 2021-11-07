@@ -33,7 +33,7 @@
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     overflow: hidden;
-    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 7px 0;
     /* -webkit-box-shadow: 0px 10px 10px -10px rgba(33, 35, 38, 0.1);
     -moz-box-shadow: 0px 10px 10px -10px rgba(33, 35, 38, 0.1); */
   }
