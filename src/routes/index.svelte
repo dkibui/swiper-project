@@ -5,29 +5,21 @@
   import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [
-      "We perform an exhaustive fact finding mission to understand your business and it's goals. We then audit, research and analyse collected data to draw consumer insight.",
-      'The creative process begins with logo design. We take time to create beautifully simple and memorable logo marks. We carefully select typefaces and colour palette that perfectly and uniquely represent your brand.',
-      'In the final stage we create branding and identity guides. We deliver creative results in relevant format. This stage marks the initial steps towards your future business success.',
+      "We conduct exhaustive fact finding mission to understand your business and it's goals. We audit, research and analyse collected data to draw consumer insight.",
+      'Our creative process begins with logo design. We take time to explore different creative directions so as to come up with a beautiful, simple and memorable logo mark for your brand. We carefully select colours and typefaces to uniquely and perfectly represent your brand.',
+      'To finalize the process, we create your branding and identity guide and deliver creative results in relevant format. This marks the offset of your future business success.',
     ],
     'Graphic design': [
-      'We create visual content to communicate your marketing messages.',
-      'Visual identity system e.g. logo, typography, colour, brand elements like patterns, templates and mock-ups.',
-      'Brand attributes and voice definition aka visual identity.',
-      'Brand promotional material like Business cards, Letterheads, Posters, Fliers, Banners, Accounting Stationery and social media posts.',
+      'We create visual content to communicate your marketing message. These could be promotional material like fliers and banners or branded items like notebooks or t-shirts.',
     ],
     'Web development': [
-      'Prevalence of the internet has changed the way consumers engage with businesses. Basically, you gotta be online.',
-      'We specialize in modern web technologies. We make use of modern UI/UX.',
-      'We create Single Page Apps, (SPAs) for websites that act and feel like smartphone apps.',
-      'Basically, we start every project from the ground up. That means we can customize the website to look and feel exactly as we want.',
-    ],
-    'Branding services': [
-      'This involves printing, engraving, cutting or pasting any of your brand identity onto promotional items like biro pens, T-shirts, carrier bags and many more.',
+      'Internet has changed the way consumers engage with businesses. Your customers expect to find you online.',
+      ' We specialize in modern web technologies that take you online fast and affordably. We use modern frameworks to make websites that act and feel like smartphone apps.',
     ],
     Printing: [
-      'We do paper printing like business cards, fliers, posters, brochures, booklets, magazines among others.',
-      'We do print banners like Pull up banners, hanging banners, tear drop banners, backdrop/media banners and others.',
-      'We also do branding for gift items like carrier bags, biro pens, mags among others.',
+      'Paper printing like business cards, fliers, posters, brochures, booklets, magazines among others.',
+      'Banner printing like Pull up banners, hanging banners, tear drop banners, backdrop/media banners among others.',
+      'We also do item branding like writing pads, notebooks, gift bags, folders, mugs among others.',
     ],
   }
 
@@ -95,6 +87,9 @@
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/9.jpg" alt="" />
+    </SwiperSlide>
+    <SwiperSlide>
+      <img src="img/recent/eaglehr-banners.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/55.jpg" alt="" />
