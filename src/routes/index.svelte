@@ -1,7 +1,6 @@
 <script>
   import Accordion from '$lib/Accordion.svelte'
   import FourWayGrid from '$lib/FourWayGrid.svelte'
-  // import RecentComponent from '$lib/RecentComponent.svelte'
   import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [

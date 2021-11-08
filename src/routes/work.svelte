@@ -7,24 +7,24 @@
 <svelte:head>
   <title>
     Here we showcase our approach to the brand development project for Anchor
-    homes project
+    homes project.
   </title>
 </svelte:head>
 
 <div class="content-500">
-  <h1>Anchor homes branding project</h1>
+  <h1>Anchor homes branding project.</h1>
   <p>
-    Anchor approached us to imagine their branding. The main objective was to
-    establish a sense of trust and closeness with potential home owners through
-    simple and down to earth communication.
+    Anchor approached us to imagine their branding. Our objective for this
+    project was to create a sense of trust and closeness with potential home
+    owners by using simple and down to earth communication.
   </p>
   <p>
-    We have implemented this based on the principle of simplicity and
-    recognition.
+    Our approach and implementation for this project was based on simplicity and
+    clarity.
   </p>
 </div>
 
-<article class="width bg-color img-width">
+<article class="width bg-color img-width hero">
   <div>
     <img src="img/recent/anchor hero.png" alt="anchor" />
   </div>
@@ -57,12 +57,21 @@
   </ThreeWayGrid>
 </div>
 
+<div class="width single-img">
+  <img src="img/recent/calendar2.jpg" alt="anchor one" />
+</div>
+
 <style>
   .width {
     width: 100%;
     max-width: 1000px;
     margin: auto;
     margin-top: 0.75rem;
+  }
+
+  .single-img img {
+    display: block;
+    width: 100%;
   }
 
   .bg-color {
@@ -98,6 +107,10 @@
     display: block;
     max-width: 100%;
     margin: auto;
+  }
+
+  .hero img {
+    max-width: 65%;
   }
 
   .content-500 {
