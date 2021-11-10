@@ -58,7 +58,7 @@
 </div>
 
 <div class="width single-img">
-  <img src="img/recent/calendar2.jpg" alt="anchor one" />
+  <img src="img/recent/calendar.jpg" alt="anchor one" />
 </div>
 
 <style>

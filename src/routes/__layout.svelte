@@ -27,6 +27,9 @@
       <img src="img/social/twitter.png" alt="twitter logo" />
     </a>
   </div>
+  <div class="copyright">
+    <p>Designed by visign © 2021.</p>
+  </div>
 </footer>
 
 <style>
@@ -72,9 +75,26 @@
     max-width: 28px;
   }
 
+  .copyright {
+    display: block;
+    width: 100%;
+    background-color: var(--secondary-color);
+    padding: 0.75rem 0;
+    margin-top: 1.75rem;
+  }
+
+  .copyright p {
+    text-align: center;
+  }
+
   @media (min-width: 768px) {
     footer {
       padding-top: var(--column-margin-top);
+    }
+
+    .copyright p {
+      text-align: center;
+      font-size: 0.925rem;
     }
   }
 </style>

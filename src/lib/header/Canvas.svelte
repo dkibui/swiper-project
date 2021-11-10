@@ -1,17 +1,23 @@
 <script>
   let navOpen = false
 
-  function handleNav() {
+  function handleNav(e) {
+    e.stopPropagation()
     navOpen = !navOpen
   }
 
-  function handleNavWithKey(e) {
-    console.log(e.code)
-    if (e.code === 'F1') {
-      navOpen = !navOpen
+  function handleClick(e) {
+    e.stopPropagation()
+    const menubtn = document.querySelector('.container')
+    if (e.target !== menubtn) {
+      if (navOpen) {
+        navOpen = false
+      }
     }
   }
 </script>
+
+<svelte:body on:click={handleClick} />
 
 <div class="navigation">
   <div class="menu">
@@ -36,6 +42,10 @@
 </div>
 
 <style>
+  .navigation {
+    z-index: 10;
+  }
+
   .menu {
     width: 93%;
     margin: 0 auto;
