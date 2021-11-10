@@ -182,26 +182,31 @@
       justify-content: flex-end;
     }
 
+    .sidenav a:first-child {
+      padding-top: 0;
+    }
+
     .sidenav a {
       font-size: 18px;
     }
 
-    .sidenav a:first-child {
+    /* .sidenav a:first-child {
       display: none;
-    }
+    } */
 
     .sidenav a {
       margin: 0;
       padding: 0;
-      padding-left: 2.4rem;
+      margin-left: 2.4rem;
+      display: inline-block;
     }
 
-    .sidenav .closebtn {
+    /* .sidenav .closebtn {
       position: static;
       top: 0;
       right: 0;
       font-size: 36px;
       margin-left: 0;
-    }
+    } */
   }
 </style>

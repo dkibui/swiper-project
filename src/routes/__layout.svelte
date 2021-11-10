@@ -28,7 +28,7 @@
     </a>
   </div>
   <div class="copyright">
-    <p>Designed by visign © 2021.</p>
+    <p>Designed by Visign © {new Date().getFullYear()}</p>
   </div>
 </footer>
 
