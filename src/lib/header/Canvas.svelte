@@ -6,18 +6,18 @@
     navOpen = !navOpen
   }
 
-  function handleClick(e) {
+  function handleBodyClick(e) {
     e.stopPropagation()
     const menubtn = document.querySelector('.container')
     if (e.target !== menubtn) {
       if (navOpen) {
-        navOpen = false
+        navOpen = !navOpen
       }
     }
   }
 </script>
 
-<svelte:body on:click={handleClick} />
+<svelte:body on:click={handleBodyClick} />
 
 <div class="navigation">
   <div class="menu">
@@ -32,7 +32,7 @@
   </div>
 
   <div id="mySidenav" class="sidenav" class:open={navOpen}>
-    <a href="" class="closebtn" on:click={handleNav}>&times;</a>
+    <!-- <a href="/#" class="closebtn" on:click={handleNav}>&times;</a> -->
     <a href="/" on:click={handleNav}>Home</a>
     <a href="/about" on:click={handleNav}>About</a>
     <a href="/work" on:click={handleNav}>Work</a>
@@ -120,7 +120,7 @@
     padding-top: 17px;
   }
 
-  .sidenav a:first-child,
+  /* .sidenav a:first-child, */
   .sidenav a:last-child {
     border-bottom: none;
   }
