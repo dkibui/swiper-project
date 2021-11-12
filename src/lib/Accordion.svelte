@@ -22,7 +22,7 @@
 </div>
 
 {#if isOpen}
-  <div transition:slide={{ duration: 250, easing: quadInOut }}>
+  <div class="slide" transition:slide={{ duration: 250, easing: quadInOut }}>
     {#each entry[1] as item}
       <p>{item}</p>
     {/each}
@@ -42,15 +42,19 @@
     margin-bottom: 1rem;
   }
 
+  div {
+    border-radius: 3px;
+  }
+
   .btn {
     display: flex;
     align-items: center;
-    border-radius: 3px;
     background: var(--darker);
     color: var(--text-color);
     font-size: 17px;
     cursor: pointer;
-    margin: 0.25rem 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0.35rem;
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     padding-left: 0.5em;
@@ -63,6 +67,13 @@
     margin: 0;
     margin-left: 0.35em;
     padding: 0;
+  }
+
+  .slide {
+    background-color: rgba(211, 228, 235, 0.325);
+    /* outline: 1px solid rgba(176, 215, 228, 0.75); */
+    /* border-top-left-radius: 3px;
+    border-top-right-radius: 3px; */
   }
 
   svg {
