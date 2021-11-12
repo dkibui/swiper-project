@@ -24,7 +24,7 @@
 </div>
 
 {#if state}
-  <div transition:slide={{ delay: 250, duration: 300, easing: quadInOut }}>
+  <div transition:slide={{ delay: 25, duration: 400, easing: quadInOut }}>
     <p>
       In the code snippet above, we import the transition functions we’ll be
       using.
@@ -65,7 +65,7 @@
   }
 
   svg {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.4s ease-in-out;
   }
 
   .svg {

@@ -7,18 +7,11 @@
 </script>
 
 <div class="btn" on:click={toggle} aria-expanded={isOpen}>
-  <svg
-    style="tran"
-    width="20"
-    height="20"
-    fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    stroke-width="2"
-    viewBox="0 0 24 24"
-    stroke="currentColor"><path d="M9 5l7 7-7 7" /></svg
-  >
   <p>{entry[0]}</p>
+  <svg class="svg" height="17" width="17">
+    <line x1="0" y1="8.5" x2="17" y2="8.5" />
+    <line x1="8.5" y1="17" x2="8.5" y2="0" />
+  </svg>
 </div>
 
 {#if isOpen}
@@ -30,6 +23,16 @@
 {/if}
 
 <style>
+  svg {
+    transition: transform 0.4s ease-in-out;
+    stroke: #444444;
+    stroke-width: 1.725;
+  }
+
+  /* .svg:hover {
+    transform: rotate(0.125turn);
+  } */
+
   p {
     font-size: 0.97rem;
     padding: 0.75em;
@@ -49,6 +52,7 @@
   .btn {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: var(--darker);
     color: var(--text-color);
     font-size: 17px;
@@ -58,6 +62,7 @@
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     padding-left: 0.5em;
+    padding-right: 0.75em;
     text-align: left;
   }
 
@@ -70,7 +75,8 @@
   }
 
   .slide {
-    background-color: rgba(211, 228, 235, 0.325);
+    /* background-color: rgba(211, 228, 235, 0.625); */
+    background-color: rgba(173, 192, 209, 0.2125);
     /* outline: 1px solid rgba(176, 215, 228, 0.75); */
     /* border-top-left-radius: 3px;
     border-top-right-radius: 3px; */
@@ -81,6 +87,6 @@
   }
 
   [aria-expanded='true'] svg {
-    transform: rotate(0.25turn);
+    transform: rotate(0.875turn);
   }
 </style>

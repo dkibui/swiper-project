@@ -4,3 +4,4 @@ node_modules
 /package
 algo.js
 src/routes/test.svelte
+src/routes/plus.svelte
