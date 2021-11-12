@@ -35,10 +35,6 @@
     Affordable high quality graphic design and web development services in
     Kenya.
   </title>
-  <!-- <description>
-    All the graphic design and web development services to take your business to
-    the next level.
-  </description> -->
 </svelte:head>
 
 <div class="content-500">
@@ -226,10 +222,6 @@
     max-width: 720px;
     margin: auto;
     margin-top: 2rem;
-    /* border-top: 1px solid var(--primary-color); */
-    /* border-bottom: 1px solid var(--primary-color); */
-    /* padding-top: 0.75rem; */
-    /* padding-bottom: 0.65rem; */
   }
 
   img {

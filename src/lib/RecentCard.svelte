@@ -18,7 +18,8 @@
     padding: 0.875rem;
     max-width: 500px;
     background-color: var(--pure-white);
-    border-radius: 8px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
     display: flex;
     flex-direction: column;
     gap: 0.85rem;
