@@ -8,9 +8,9 @@
 
 <div class="btn" on:click={toggle} aria-expanded={isOpen}>
   <p>{entry[0]}</p>
-  <svg class="svg" height="17" width="17">
-    <line x1="0" y1="8.5" x2="17" y2="8.5" />
-    <line x1="8.5" y1="17" x2="8.5" y2="0" />
+  <svg class="svg" height="12" width="12">
+    <line x1="0" y1="6" x2="12" y2="6" />
+    <line x1="6" y1="12" x2="6" y2="0" />
   </svg>
 </div>
 
@@ -25,13 +25,9 @@
 <style>
   svg {
     transition: transform 0.4s ease-in-out;
-    stroke: #444444;
+    stroke: rgb(68, 68, 68, 0.75);
     stroke-width: 1.725;
   }
-
-  /* .svg:hover {
-    transform: rotate(0.125turn);
-  } */
 
   p {
     font-size: 0.97rem;
@@ -87,6 +83,6 @@
   }
 
   [aria-expanded='true'] svg {
-    transform: rotate(0.875turn);
+    transform: rotate(0.625turn);
   }
 </style>
