@@ -53,21 +53,28 @@
     display: block;
     max-width: 100%;
     object-fit: cover;
-    transition: transform 350ms ease-out;
+    transition: transform 400ms ease-in-out;
   }
 
   p {
     text-align: left;
   }
 
+  a {
+    color: var(--text-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
   @media (min-width: 768px) {
     img:hover {
       /* W3C */
-      transform: scale(1.055) rotate(1deg);
+      transform: scale(1.055);
       /* Safari & Chrome */
-      -webkit-transform: scale(1.055) rotate(1deg);
+      -webkit-transform: scale(1.055);
       /* Firefox */
-      -moz-transform: scale(1.055) rotate(1deg);
+      -moz-transform: scale(1.055);
+      /* -moz-transform: scale(1.055) rotate(1deg); */
     }
   }
 </style>

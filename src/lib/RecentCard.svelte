@@ -18,6 +18,7 @@
     padding: 0.875rem;
     max-width: 500px;
     background-color: var(--pure-white);
+    border-radius: 5px;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
     display: flex;
@@ -28,6 +29,10 @@
 
   article div:first-child {
     margin-bottom: 1rem;
+  }
+
+  article div:last-child {
+    margin-top: auto;
   }
 
   .img {
