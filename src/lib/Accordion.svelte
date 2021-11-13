@@ -73,7 +73,7 @@
   }
 
   [aria-expanded='true'] svg {
-    transform: rotate(0.625turn);
+    transform: rotate(0.375turn);
   }
 
   @media (min-width: 768px) {

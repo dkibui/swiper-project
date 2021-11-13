@@ -53,6 +53,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 0.75rem;
+    margin-top: 1.1rem;
   }
 
   .menu img {
