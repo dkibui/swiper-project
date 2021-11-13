@@ -9,16 +9,16 @@
       'To finalize the process, we create your branding and identity guide and deliver creative results in relevant format. This marks the offset of your future business success.',
     ],
     'Graphic design': [
-      'We create visual content to communicate your marketing message. These could be promotional material like fliers and banners or branded items like notebooks or t-shirts.',
+      "Our creative experience helps us create designs that capture your marketing message and catch your audience's eyes. Graphic design is broad and wide but we can help you use it to broaden your brand's appeal through creative marketing.",
     ],
     'Web development': [
-      'Internet has changed the way consumers engage with businesses. Your customers expect to find you online.',
-      ' We specialize in modern web technologies that take you online fast and affordably. We use modern frameworks to make websites that act and feel like smartphone apps.',
+      'The internet changed the way people engage with businesses. Your customers expect to find you online. Our services helps you take your brand online fast and affordably.',
+      ' We specialize in modern web technologies that make websites that are fast and optimized for the modern consumer.',
     ],
     Printing: [
-      'Paper printing like business cards, fliers, posters, brochures, booklets, magazines among others.',
-      'Banner printing like Pull up banners, hanging banners, tear drop banners, backdrop/media banners among others.',
-      'We also do item branding like writing pads, notebooks, gift bags, folders, mugs among others.',
+      'We do paper printing like business cards, fliers, posters, brochures, booklets, magazines and many others.',
+      'We also print banners like pull-up, hanging banners, tear drop banners, backdrop/media banners among others.',
+      'Sometimes you need customized items to promote your brand. We can help you brand writing pads, notebooks, gift bags, folders, t-shirts and many other items.',
     ],
   }
 
@@ -59,7 +59,7 @@
     }}
     breakpoints={{
       '@0.00': {
-        slidesPerView: 1,
+        slidesPerView: 2,
         spaceBetween: 9,
       },
       768: {
@@ -73,9 +73,6 @@
   >
     <SwiperSlide>
       <img src="img/recent/8.jpg" alt="" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/recent/2.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/11.jpg" alt="" />

@@ -30,15 +30,11 @@
   }
 
   p {
-    font-size: 0.97rem;
-    padding: 0.75em;
+    font-size: 0.96rem;
+    padding: 0.76em;
     color: var(--text-color);
     text-align: left;
     line-height: 1.6;
-  }
-
-  p:last-child {
-    margin-bottom: 1rem;
   }
 
   div {
@@ -53,8 +49,7 @@
     color: var(--text-color);
     font-size: 17px;
     cursor: pointer;
-    margin-top: 0.25rem;
-    margin-bottom: 0.35rem;
+    margin: 0.385rem 0;
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     padding-left: 0.5em;
@@ -63,19 +58,14 @@
   }
 
   .btn p {
-    font-size: 1.0125em;
-    font-weight: 500;
+    font-size: 1.007125em;
     margin: 0;
     margin-left: 0.35em;
     padding: 0;
   }
 
   .slide {
-    /* background-color: rgba(211, 228, 235, 0.625); */
     background-color: rgba(173, 192, 209, 0.2125);
-    /* outline: 1px solid rgba(176, 215, 228, 0.75); */
-    /* border-top-left-radius: 3px;
-    border-top-right-radius: 3px; */
   }
 
   svg {
@@ -84,5 +74,11 @@
 
   [aria-expanded='true'] svg {
     transform: rotate(0.625turn);
+  }
+
+  @media (min-width: 768px) {
+    p {
+      font-size: 0.97rem;
+    }
   }
 </style>
