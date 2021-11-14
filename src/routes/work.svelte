@@ -64,7 +64,7 @@
 <style>
   .width {
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px;
     margin: auto;
     margin-top: 0.75rem;
   }

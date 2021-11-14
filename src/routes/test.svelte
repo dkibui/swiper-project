@@ -33,6 +33,10 @@
 {/if}
 <p>Hello world</p>
 
+<article>
+  <img src="img/recent/11.jpg" alt="" />
+</article>
+
 <style>
   .btn {
     display: flex;
@@ -58,6 +62,7 @@
   div {
     background-color: lightblue;
     padding: 1.2em;
+    border-radius: 5px;
   }
 
   p {
@@ -70,5 +75,14 @@
 
   .svg {
     transform: rotate(0.25turn);
+  }
+
+  article {
+    background-color: lightsteelblue;
+  }
+
+  article img {
+    display: block;
+    max-width: 100%;
   }
 </style>

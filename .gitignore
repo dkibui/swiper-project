@@ -5,3 +5,4 @@ node_modules
 algo.js
 src/routes/test.svelte
 src/routes/plus.svelte
+src/routes/try.svelte

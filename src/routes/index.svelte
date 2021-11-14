@@ -195,7 +195,7 @@
 
   .content {
     width: 100%;
-    max-width: 1400px;
+    max-width: 500px;
     margin: 2.7rem auto 0 auto;
   }
 
@@ -238,7 +238,7 @@
 
   .content img {
     display: block;
-    width: 100%;
+    max-width: 100%;
     height: auto;
   }
 
@@ -266,6 +266,7 @@
     }
 
     .content {
+      max-width: 1400px;
       margin: var(--column-margin-top) auto 0 auto;
     }
 

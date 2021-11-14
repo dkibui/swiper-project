@@ -23,7 +23,7 @@
       image: 'img/recent/imexafrica.jpg',
       alt: 'Imex Africa logo',
       description:
-        'Imex Africa is a pan african civil engineering firm that specializes in supplies, construction and consultancy. See details...',
+        'Imex is a pan african civil engineering firm that specializes in supplies, construction and consultancy. See details...',
       link: 'Learn more',
       slot: 'three',
     },
@@ -31,7 +31,7 @@
       image: 'img/recent/eaglehr.jpg',
       alt: 'eaglehr kenya logo',
       description:
-        'Africa is a continent on the rise. Eaglehr is on the forefront to ensure the labour market is well trained to match demand explo...',
+        "Africa's economies are on the rise and Eaglehr is on the forefront of ensuring the labour market matches expected...",
       link: 'Learn more',
       slot: 'four',
     },
