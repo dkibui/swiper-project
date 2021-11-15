@@ -32,8 +32,7 @@
 
 <svelte:head>
   <title>
-    Affordable high quality graphic design and web development services in
-    Kenya.
+    High quality graphic design and web development services in Nairobi.
   </title>
 </svelte:head>
 
