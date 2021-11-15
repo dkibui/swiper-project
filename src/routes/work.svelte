@@ -45,6 +45,32 @@
   </div>
 </div>
 
+<div class="intersection">
+  <h2>Brand application for Anchor homes.</h2>
+  <p>
+    Our approach and implementation for this project was based on simplicity and
+    clarity.
+  </p>
+</div>
+
+<div class="width work-wrapper">
+  <div class="recent-work">
+    <section class="two-way-grid">
+      <TwoWayGrid>
+        <div slot="left" class="img-wrapper">
+          <img
+            src="img/recent/anchor advert.jpg"
+            alt="anchor construction advert"
+          />
+        </div>
+        <div slot="right" class="img-wrapper">
+          <img src="img/recent/table-calendar.jpg" alt="eaglehr" />
+        </div>
+      </TwoWayGrid>
+    </section>
+  </div>
+</div>
+
 <div class="bg-white width">
   <img src="img/recent/branded.png" alt="anchor one" />
 </div>
@@ -66,6 +92,19 @@
     width: 100%;
     max-width: 900px;
     margin: auto;
+    margin-top: 0.75rem;
+  }
+
+  .intersection {
+    margin: var(--top-margin-mobile) auto 1rem auto;
+  }
+
+  .intersection h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .intersection p {
     margin-top: 0.75rem;
   }
 
@@ -128,6 +167,14 @@
   @media (min-width: 768px) {
     .content-500 {
       margin: var(--column-margin-top) auto 0 auto;
+    }
+
+    .intersection {
+      margin: var(--column-margin-top) auto 1.75rem auto;
+    }
+
+    .intersection h2 {
+      font-size: 1.6rem;
     }
 
     .bg-color {
