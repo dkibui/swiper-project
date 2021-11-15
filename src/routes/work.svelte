@@ -45,11 +45,12 @@
   </div>
 </div>
 
-<div class="intersection">
-  <h2>Brand application for Anchor homes.</h2>
+<div class="intersection width">
+  <h2>Anchor homes brand application</h2>
   <p>
-    Our approach and implementation for this project was based on simplicity and
-    clarity.
+    We explored different ideas to come up with the brand logo. We then selected
+    brand colours and typeface. Below we showcase how we apply the logo to
+    different communication medium.
   </p>
 </div>
 
@@ -58,13 +59,13 @@
     <section class="two-way-grid">
       <TwoWayGrid>
         <div slot="left" class="img-wrapper">
+          <img src="img/recent/anchor-elements.jpg" alt="anchor" />
+        </div>
+        <div slot="right" class="img-wrapper">
           <img
             src="img/recent/anchor advert.jpg"
             alt="anchor construction advert"
           />
-        </div>
-        <div slot="right" class="img-wrapper">
-          <img src="img/recent/table-calendar.jpg" alt="eaglehr" />
         </div>
       </TwoWayGrid>
     </section>
