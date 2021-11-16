@@ -14,13 +14,13 @@
 <div class="content-500">
   <h1>Anchor homes branding project.</h1>
   <p>
-    Anchor approached us to imagine their branding. Our objective for this
-    project was to create a sense of trust and closeness with potential home
-    owners by using simple and down to earth communication.
+    Anchor approached us to imagine their branding. For this project we wanted
+    to create a brand that is emotional and caring. A brand that lets you know
+    we've got your back.
   </p>
   <p>
-    Our approach and implementation for this project was based on simplicity and
-    clarity.
+    We hope to establish trust with potential home owners by using simple and
+    down to earth communication.
   </p>
 </div>
 
@@ -29,6 +29,15 @@
     <img src="img/recent/anchor hero.png" alt="anchor" />
   </div>
 </article>
+
+<div class="intersection width">
+  <h2>Anchor identity</h2>
+  <p>
+    To establish Anchor's identity we, we carefully selected five colours,
+    created a brand pattern, chose a typeface and created a guide on image use.
+    All together these elements create a recognisable and unique brand.
+  </p>
+</div>
 
 <div class="width work-wrapper">
   <div class="recent-work">
@@ -43,15 +52,6 @@
       </TwoWayGrid>
     </section>
   </div>
-</div>
-
-<div class="intersection width">
-  <h2>Anchor homes brand application</h2>
-  <p>
-    We explored different ideas to come up with the brand logo. We then selected
-    brand colours and typeface. Below we showcase how we apply the logo to
-    different communication medium.
-  </p>
 </div>
 
 <div class="width work-wrapper">
@@ -72,6 +72,15 @@
   </div>
 </div>
 
+<div class="intersection width">
+  <h2>Anchor identity application</h2>
+  <p>
+    We explored different ideas to come up with the brand logo. We then selected
+    brand colours and typeface. Below we showcase how we apply the logo to
+    different communication medium.
+  </p>
+</div>
+
 <div class="bg-white width">
   <img src="img/recent/branded.png" alt="anchor one" />
 </div>
@@ -79,13 +88,16 @@
 <div class="width img-width three-way-grid">
   <ThreeWayGrid>
     <img slot="left" src="img/recent/carrier bags.jpg" alt="anchor one" />
-    <img slot="center" src="img/recent/brochure.jpg" alt="anchor one" />
+    <img slot="center" src="img/recent/anchor-cap.jpg" alt="anchor one" />
     <img slot="right" src="img/recent/7.jpg" alt="anchor tshirt branding" />
   </ThreeWayGrid>
 </div>
 
 <div class="width single-img">
   <img src="img/recent/calendar.jpg" alt="anchor one" />
+</div>
+<div class="width single-img">
+  <img src="img/recent/anchor-helmet.jpg" alt="anchor one" />
 </div>
 
 <style>
@@ -107,6 +119,7 @@
 
   .intersection p {
     margin-top: 0.75rem;
+    /* width: 98%; */
   }
 
   .single-img img {
@@ -176,6 +189,12 @@
 
     .intersection h2 {
       font-size: 1.6rem;
+    }
+
+    .intersection p {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 720px;
     }
 
     .bg-color {
