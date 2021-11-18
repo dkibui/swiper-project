@@ -1,6 +1,6 @@
 <script>
   import { slide } from 'svelte/transition'
-  import { sineInOut, quadInOut } from 'svelte/easing'
+  import { sineIn, circOut, circIn } from 'svelte/easing'
   export let entry
   let isOpen = false
   const toggle = () => (isOpen = !isOpen)
@@ -15,7 +15,7 @@
 </div>
 
 {#if isOpen}
-  <div class="slide" transition:slide={{ duration: 250, easing: quadInOut }}>
+  <div class="slide" transition:slide={{ duration: 400, easing: sineIn }}>
     {#each entry[1] as item}
       <p>{item}</p>
     {/each}
@@ -31,14 +31,14 @@
 
   p {
     font-size: 0.96rem;
-    padding: 0.76em;
+    padding: 0.96em;
     color: var(--text-color);
     text-align: left;
     line-height: 1.6;
   }
 
   div {
-    border-radius: 3px;
+    /* border-radius: 3px; */
   }
 
   .btn {
@@ -49,9 +49,7 @@
     color: var(--text-color);
     font-size: 17px;
     cursor: pointer;
-    margin: 0.385rem 0;
-    padding-bottom: 0.5em;
-    padding-top: 0.5em;
+    padding: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.75em;
     text-align: left;
@@ -62,10 +60,6 @@
     margin: 0;
     margin-left: 0.35em;
     padding: 0;
-  }
-
-  .slide {
-    background-color: rgba(173, 192, 209, 0.2125);
   }
 
   svg {

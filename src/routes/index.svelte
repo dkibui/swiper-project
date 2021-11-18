@@ -98,7 +98,9 @@
   <h2>Our services</h2>
   <div class="accordion">
     {#each Object.entries(data) as entry}
-      <Accordion {entry} />
+      <div class="accordion-entry">
+        <Accordion {entry} />
+      </div>
     {/each}
   </div>
 </div>
@@ -246,6 +248,13 @@
     max-width: 720px;
     margin: auto;
     margin-top: 1.2rem;
+  }
+
+  .accordion-entry {
+    background-color: rgba(173, 192, 209, 0.3475);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.485rem;
   }
 
   @media only screen and (min-width: 568px) {
