@@ -31,7 +31,7 @@
 </article>
 
 <div class="intersection width">
-  <h2>Anchor identity</h2>
+  <h2>Our identity</h2>
   <p>
     To establish Anchor's identity we, we selected brand colours and fonts. We
     created brand patterns and established guides on how to use the logo, images
@@ -74,7 +74,7 @@
 </div>
 
 <div class="intersection width">
-  <h2>Identity application</h2>
+  <h2>Identity and application</h2>
   <p>
     Anchor's logo is versatile and adaptable in it's application. It works well
     in various forms of marketing communication.
