@@ -12,16 +12,16 @@
 </svelte:head>
 
 <div class="content-500">
-  <h1>Anchor homes branding project.</h1>
+  <h1>Anchor homes branding.</h1>
   <p>
     Anchor approached us to imagine their branding. For this project we wanted
     to create a brand that is emotional and caring. A brand that lets you know
     we've got your back.
   </p>
-  <p>
+  <!-- <p>
     We hope to establish trust with potential home owners by using simple and
     down to earth communication.
-  </p>
+  </p> -->
 </div>
 
 <article class="width bg-color img-width hero">
@@ -33,9 +33,10 @@
 <div class="intersection width">
   <h2>Anchor identity</h2>
   <p>
-    To establish Anchor's identity we, we carefully selected five colours,
-    created a brand pattern, chose a typeface and created a guide on image use.
-    All together these elements create a recognisable and unique brand.
+    To establish Anchor's identity we, we selected brand colours and fonts. We
+    created brand patterns and established guides on how to use the logo, images
+    and colours. Put together these elements create a unique and recognisable
+    brand.
   </p>
 </div>
 
@@ -73,11 +74,10 @@
 </div>
 
 <div class="intersection width">
-  <h2>Anchor identity application</h2>
+  <h2>Identity application</h2>
   <p>
-    We explored different ideas to come up with the brand logo. We then selected
-    brand colours and typeface. Below we showcase how we apply the logo to
-    different communication medium.
+    Anchor's logo is versatile and adaptable in it's application. It works well
+    in various forms of marketing communication.
   </p>
 </div>
 
@@ -93,11 +93,22 @@
   </ThreeWayGrid>
 </div>
 
-<div class="width single-img">
-  <img src="img/recent/calendar.jpg" alt="anchor one" />
-</div>
-<div class="width single-img">
-  <img src="img/recent/anchor-helmet.jpg" alt="anchor one" />
+<div class="width work-wrapper">
+  <div class="recent-work">
+    <section class="two-way-grid">
+      <TwoWayGrid>
+        <div slot="left" class="img-wrapper">
+          <img
+            src="img/recent/hanging-banner.jpg"
+            alt="anchor hanging banner"
+          />
+        </div>
+        <div slot="right" class="img-wrapper">
+          <img src="img/recent/anchor-helmet.jpg" alt="anchor helmet" />
+        </div>
+      </TwoWayGrid>
+    </section>
+  </div>
 </div>
 
 <style>
