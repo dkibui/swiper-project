@@ -209,7 +209,7 @@
     }
 
     .bg-color {
-      margin: var(--column-margin-top) auto 0 auto;
+      margin: var(--small-margin-top) auto 0 auto;
     }
 
     .img-width img {

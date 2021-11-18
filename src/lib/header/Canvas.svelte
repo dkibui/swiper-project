@@ -36,6 +36,8 @@
     <a href="/" on:click={handleNav}>Home</a>
     <a href="/about" on:click={handleNav}>About</a>
     <a href="/work" on:click={handleNav}>Work</a>
+    <a href="/blog" on:click={handleNav}>Blog</a>
+    <a href="/contact" on:click={handleNav}>Contact</a>
     <!-- <a href="/blog" on:click={handleNav}>Blog</a> -->
     <!-- <a href="/contact" on:click={handleNav}>Contact</a> -->
   </div>
