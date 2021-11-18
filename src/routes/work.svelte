@@ -64,7 +64,7 @@
         </div>
         <div slot="right" class="img-wrapper">
           <img
-            src="img/recent/anchor advert.jpg"
+            src="img/recent/anchor-advert.jpg"
             alt="anchor construction advert"
           />
         </div>
@@ -131,11 +131,6 @@
   .intersection p {
     margin-top: 0.75rem;
     /* width: 98%; */
-  }
-
-  .single-img img {
-    display: block;
-    width: 100%;
   }
 
   .bg-color {

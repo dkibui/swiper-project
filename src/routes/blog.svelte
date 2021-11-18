@@ -10,7 +10,7 @@
     src="img/recent/graphicdesign.png"
     alt="Common misconceptions about graphic design"
   />
-  <h1>Common misconceptions about graphic design</h1>
+  <h1>Why you need a graphic designer</h1>
   <p>
     We have entered an era in marketing and advertising that puts greater value
     in graphic design services than ever before.
