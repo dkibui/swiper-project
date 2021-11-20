@@ -1,8 +1,5 @@
 <svelte:head>
-  <title
-    >We have 7 years of providing affordable high quality branding services to
-    small and SMEs in Kenya.
-  </title>
+  <title>Why great marketing is tied to graphic design.</title>
 </svelte:head>
 
 <div class="content-500">

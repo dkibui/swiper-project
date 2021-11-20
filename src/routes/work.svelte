@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="content-500">
-  <h1>Anchor homes branding.</h1>
+  <h1>Anchor homes branding</h1>
   <p>
     Anchor approached us to imagine their branding. For this project we wanted
     to create a brand that is emotional and caring. A brand that lets you know
@@ -82,7 +82,7 @@
 </div>
 
 <div class="bg-white width">
-  <img src="img/recent/branded.png" alt="anchor one" />
+  <img src="img/recent/branded.jpg" alt="anchor one" />
 </div>
 
 <div class="width img-width three-way-grid">
@@ -125,12 +125,11 @@
 
   .intersection h2 {
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .intersection p {
     margin-top: 0.75rem;
-    /* width: 98%; */
   }
 
   .bg-color {

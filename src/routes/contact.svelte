@@ -7,11 +7,14 @@
 
 <div class="content-500">
   <h1>Contact us</h1>
-  <p>We're here for you. Give us a call or send us an Email.</p>
   <p>
-    Our goal is to provide you professional brand development services at a
-    price you can afford. We're really excited to work with you. Your brand's
-    journey to the next level begins now.
+    We're here for you. To see how we can help you, talk to us or send us an
+    email
+  </p>
+  <p>
+    Our desire is to help you brand your business at a price you can afford.
+    We're really excited to work with you so feel free to give us a call. Your
+    journey to the next level begins here
   </p>
   <a href="mailto:dkibui@visign.co.ke"> <button>Email us</button> </a>
 

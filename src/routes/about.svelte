@@ -66,22 +66,22 @@
     class="mySwiper"
   >
     <SwiperSlide>
-      <img src="img/recent/1.jpg" alt="" />
+      <img src="img/recent/anchor-cap.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/2.jpg" alt="" />
+      <img src="img/recent/carrier bags.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/3.jpg" alt="" />
+      <img src="img/recent/9.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/4.jpg" alt="" />
+      <img src="img/recent/hanging-banner.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/5.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/6.jpg" alt="" />
+      <img src="img/recent/anchor-advert.jpg" alt="" />
     </SwiperSlide>
   </Swiper>
 </div>
