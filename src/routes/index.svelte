@@ -32,12 +32,12 @@
 
 <svelte:head>
   <title>
-    High quality graphic design and web development services in Nairobi.
+    High quality graphic design and web development services in Nairobi
   </title>
 </svelte:head>
 
 <div class="content-500">
-  <h1>Our business is making yours look good.</h1>
+  <h1>Our business is making yours look good</h1>
   <p>
     We provide brand centred graphic design and web development services to SMEs
     and corporates in Nairobi.
