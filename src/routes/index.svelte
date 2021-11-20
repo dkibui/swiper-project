@@ -96,7 +96,7 @@
 
 <div class="services">
   <h2>Our services</h2>
-  <div class="accordion">
+  <div class="accordion top-margin">
     {#each Object.entries(data) as entry}
       <div class="accordion-entry">
         <Accordion {entry} />
@@ -106,8 +106,8 @@
 </div>
 
 <div class="recent">
-  <h2>Recent projects</h2>
-  <p class="recent__text">
+  <h2>Sample projects</h2>
+  <p class="top-margin">
     We handle many full brand development projects. Below we showcase the ones
     we completed recently
   </p>
@@ -119,7 +119,7 @@
 
 <div class="clients">
   <h2>Our clients</h2>
-  <p>
+  <p class="top-margin">
     We work with companies of all sizes. Start-ups, SMES or corporates.
     Regardless of your size our goal is always the same, do work that helps you
     stand out in the market place.
@@ -173,11 +173,6 @@
 </div>
 
 <style>
-  h2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-  }
-
   .content-500 {
     width: 100%;
     max-width: var(--column-width);
@@ -207,10 +202,6 @@
     margin-top: var(--top-margin-mobile);
   }
 
-  .clients p {
-    margin-top: 1rem;
-  }
-
   .four-way-grid {
     margin-top: 1.5rem;
   }
@@ -233,10 +224,6 @@
     margin-top: var(--top-margin-mobile);
   }
 
-  .recent p {
-    margin-top: 1rem;
-  }
-
   .content img {
     display: block;
     max-width: 100%;
@@ -247,7 +234,6 @@
     width: 100%;
     max-width: 720px;
     margin: auto;
-    margin-top: 1.2rem;
   }
 
   .accordion-entry {
@@ -257,18 +243,11 @@
     margin-bottom: 0.485rem;
   }
 
-  @media only screen and (min-width: 568px) {
-    h1 {
-      font-size: 2.5em;
-      line-height: 1.3;
-    }
+  .top-margin {
+    margin-top: 1.2rem;
   }
 
   @media (min-width: 768px) {
-    h2 {
-      font-size: 1.6rem;
-    }
-
     .content-500 {
       margin: var(--column-margin-top) auto 0 auto;
     }
@@ -300,6 +279,10 @@
     .recent {
       max-width: 1440px;
       margin-top: var(--column-margin-top);
+    }
+
+    .top-margin {
+      margin-top: 2.2rem;
     }
   }
 </style>

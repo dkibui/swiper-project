@@ -123,11 +123,6 @@
     margin: var(--top-margin-mobile) auto 1rem auto;
   }
 
-  .intersection h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-
   .intersection p {
     margin-top: 0.75rem;
   }
@@ -137,7 +132,7 @@
     background-color: #180040;
     background-color: #fff;
     padding: 2.5rem 0;
-    margin: var(--top-margin-mobile) auto 0 auto;
+    margin: 3rem auto 0 auto;
   }
 
   .bg-white {
@@ -192,18 +187,10 @@
       margin: var(--column-margin-top) auto 1.75rem auto;
     }
 
-    .intersection h2 {
-      font-size: 1.6rem;
-    }
-
     .intersection p {
       margin-left: auto;
       margin-right: auto;
       max-width: 720px;
-    }
-
-    .bg-color {
-      margin: var(--small-margin-top) auto 0 auto;
     }
 
     .img-width img {
