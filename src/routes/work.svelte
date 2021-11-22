@@ -6,8 +6,8 @@
 
 <svelte:head>
   <title>
-    Here we showcase our approach to the brand development project for Anchor
-    homes project.
+    Get to see how we approach our brand development projects. Here we showcase
+    the Anchor homes branding project.
   </title>
 </svelte:head>
 
@@ -104,7 +104,7 @@
           />
         </div>
         <div slot="right" class="img-wrapper">
-          <img src="img/recent/anchor-helmet.jpg" alt="anchor helmet" />
+          <img src="img/recent/giftbags.jpg" alt="anchor helmet" />
         </div>
       </TwoWayGrid>
     </section>
