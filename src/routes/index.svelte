@@ -4,7 +4,7 @@
   import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [
-      "We conduct comprehensive research to understand your business and it's goals. We zero in on collected data to draw consumer insight.",
+      "We conduct comprehensive research to understand your business and it's goals. We then audit and analyse collected data to draw consumer insight.",
       'Our creative process begins with logo design. We take time to explore different creative directions so as to come up with a beautiful, simple and memorable logo mark for your business. We carefully select colours and a typeface to uniquely represent your brand.',
       'To finalize the process, we create your branding and identity guide and deliver creative results in relevant format. This marks the foundation of your future business success.',
     ],
