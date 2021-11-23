@@ -4,12 +4,12 @@
   import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [
-      "We conduct exhaustive fact finding mission to understand your business and it's goals. We audit, research and analyse collected data to draw consumer insight.",
-      'Our creative process begins with logo design. We take time to explore different creative directions so as to come up with a beautiful, simple and memorable logo mark for your brand. We carefully select colours and typefaces to uniquely and perfectly represent your brand.',
-      'To finalize the process, we create your branding and identity guide and deliver creative results in relevant format. This marks the offset of your future business success.',
+      "We conduct comprehensive research to understand your business and it's goals. We zero in on collected data to draw consumer insight.",
+      'Our creative process begins with logo design. We take time to explore different creative directions so as to come up with a beautiful, simple and memorable logo mark for your business. We carefully select colours and a typeface to uniquely represent your brand.',
+      'To finalize the process, we create your branding and identity guide and deliver creative results in relevant format. This marks the foundation of your future business success.',
     ],
     'Graphic design': [
-      "Our creative experience helps us create designs that capture your marketing message and catch your audience's eyes. Graphic design is broad and wide but we can help you use it to broaden your brand's appeal through creative marketing.",
+      'Our creative experience helps us create designs that capture your marketing message and catch the eye of your audience. Graphic design is broad and wide but we can help you use it to broaden your brand appeal through creative marketing.',
     ],
     'Web development': [
       'The internet changed the way people engage with businesses. Your customers expect to find you online. Our services helps you take your brand online fast and affordably.',
@@ -31,16 +31,18 @@
 </script>
 
 <svelte:head>
-  <title>
-    High quality graphic design and web development services in Nairobi
-  </title>
+  <title>High quality graphic design and web design services in Nairobi</title>
+  <meta
+    name="description"
+    content="We are a creative design studio in Nairobi offering graphic design and web development services. We also do printing and branding for startups and corporates. The quality of our work paired with our pricing is simply unmatched. Get in touch with us to see how we can help you."
+  />
 </svelte:head>
 
 <div class="content-500">
   <h1>Our business is making yours look good</h1>
   <p>
-    We provide brand centred graphic design and web development services to SMEs
-    and corporates in Nairobi.
+    We provide brand centric graphic design and web development services to
+    businesses in East Africa.
   </p>
 </div>
 

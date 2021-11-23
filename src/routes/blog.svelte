@@ -1,5 +1,9 @@
 <svelte:head>
   <title>Why great marketing is tied to graphic design.</title>
+  <meta
+    name="description"
+    content="We are a creative design studio in Nairobi offering graphic design and web development services. We also do printing and branding for startups and corporates. The quality of our work paired with our pricing is simply unmatched. Get in touch with us to see how we can help you."
+  />
 </svelte:head>
 
 <div class="content-500">
