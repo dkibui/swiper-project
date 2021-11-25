@@ -12,7 +12,7 @@
       'Our creative experience helps us create designs that capture your marketing message and catch the eye of your audience. Graphic design is broad and wide but we can help you use it to broaden your brand appeal through creative marketing.',
     ],
     'Web development': [
-      'The internet changed the way people engage with businesses. Your customers expect to find you online. Our services helps you take your brand online fast and affordably.',
+      'The internet has changed the way people engage with businesses. Your customers expect to find you online. Our web development service helps you take your business online fast and affordably.',
       ' We specialize in modern web technologies that make websites that are fast and optimized for the modern consumer.',
     ],
     Printing: [
