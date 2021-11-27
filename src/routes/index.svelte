@@ -1,6 +1,5 @@
 <script>
   import Accordion from '$lib/Accordion.svelte'
-  import FourWayGrid from '$lib/FourWayGrid.svelte'
   import Recent from '$lib/home/Recent.svelte'
   const data = {
     'Brand development': [
@@ -61,10 +60,11 @@
     breakpoints={{
       '@0.00': {
         slidesPerView: 2,
-        spaceBetween: 9,
+        spaceBetween: 4.5,
       },
       768: {
         slidesPerView: 3,
+        spaceBetween: 6,
       },
       1100: {
         slidesPerView: 4,
@@ -195,6 +195,8 @@
     width: 100%;
     max-width: 500px;
     margin: 2.7rem auto 0 auto;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   .clients {
@@ -230,6 +232,7 @@
     display: block;
     max-width: 100%;
     height: auto;
+    border-radius: 5px;
   }
 
   .accordion {

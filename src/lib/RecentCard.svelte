@@ -26,7 +26,7 @@
     flex-direction: column;
     gap: 0.85rem;
     box-shadow: rgba(33, 35, 38, 0.1) 0px 14px 10px -10px;
-    border: 2px solid rgba(68, 68, 68, 0.082);
+    border-bottom: 2px solid rgba(173, 192, 209, 0.65);
     padding-bottom: 1.225rem;
   }
 

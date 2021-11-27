@@ -125,9 +125,5 @@
     .content-500 {
       margin: var(--column-margin-top) auto 0 auto;
     }
-
-    /* .content {
-      margin: var(--column-margin-top) auto 0 auto;
-    } */
   }
 </style>

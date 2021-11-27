@@ -1,204 +1,157 @@
 <script>
-  let work = undefined
   import ThreeWayGrid from '$lib/ThreeWayGrid.svelte'
   import TwoWayGrid from '$lib/TwoWayGrid.svelte'
 </script>
 
 <svelte:head>
-  <title>
-    Get to see how we approach our brand development projects. Here we showcase
-    the Anchor homes branding project.
-  </title>
+  <title>Check out our design portfolio here</title>
   <meta
     name="description"
     content="We are a creative design studio in Nairobi offering graphic design and web development services. We also do printing and branding for startups and corporates. The quality of our work paired with our pricing is simply unmatched. Get in touch with us to see how we can help you."
   />
 </svelte:head>
 
-<div class="content-500">
-  <h1>Anchor homes branding</h1>
+<div class="hero-image">
+  <h1>Our design portfolio</h1>
+  <p>
+    We had the privilege to work on some amazing design projects over the years.
+    Get to see some of our recent design work here.
+  </p>
+</div>
+
+<div class="container">
+  <h2>Logos</h2>
   <p>
     Anchor approached us to imagine their branding. For this project we wanted
     to create a brand that is emotional and caring. A brand that lets you know
     we've got your back.
   </p>
-  <!-- <p>
-    We hope to establish trust with potential home owners by using simple and
-    down to earth communication.
-  </p> -->
+  <section class="fourwaygrid">
+    <div><img src="img/recent/anchor.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/eaglehr.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/imexafrica.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/liberte_project.jpg" alt="anchor logo" /></div>
+  </section>
 </div>
 
-<article class="width bg-color img-width hero">
-  <div>
-    <img src="img/recent/anchor hero.png" alt="anchor" />
-  </div>
-</article>
-
-<div class="intersection width">
-  <h2>Our identity</h2>
+<div class="container">
+  <section class="twofronefr">
+    <div><img src="img/recent/9.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/giftbags.jpg" alt="anchor logo" /></div>
+  </section>
+</div>
+<div class="container">
+  <h2>Social media posts</h2>
   <p>
-    To establish Anchor's identity we, we selected brand colours and fonts. We
-    created brand patterns and established guides on how to use the logo, images
-    and colours. Put together these elements create a unique and recognisable
-    brand.
+    The importance of social media for marketing has exploded in the last
+    decade. We will help you market to your target audience through creative
+    posts.
   </p>
+  <section class="threewaygrid">
+    <div><img src="img/recent/liberte.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/11.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/6.jpg" alt="anchor logo" /></div>
+  </section>
 </div>
 
-<div class="width work-wrapper">
-  <div class="recent-work">
-    <section class="two-way-grid">
-      <TwoWayGrid>
-        <div slot="left" class="img-wrapper">
-          <img src="img/recent/2.jpg" alt="eaglehr" />
-        </div>
-        <div slot="right" class="img-wrapper">
-          <img src="img/recent/1.jpg" alt="eaglehr" />
-        </div>
-      </TwoWayGrid>
-    </section>
-  </div>
-</div>
-
-<div class="width work-wrapper">
-  <div class="recent-work">
-    <section class="two-way-grid">
-      <TwoWayGrid>
-        <div slot="left" class="img-wrapper">
-          <img src="img/recent/anchor-elements.jpg" alt="anchor" />
-        </div>
-        <div slot="right" class="img-wrapper">
-          <img
-            src="img/recent/anchor-advert.jpg"
-            alt="anchor construction advert"
-          />
-        </div>
-      </TwoWayGrid>
-    </section>
-  </div>
-</div>
-
-<div class="intersection width">
-  <h2>Identity and application</h2>
+<div class="container">
+  <h2>Branding</h2>
   <p>
-    Anchor's logo is versatile and adaptable in it's application. It works well
-    in various forms of marketing communication.
+    We specialize in mercherndise design and supply. Merch distribution is a
+    marketing gift that keeps giving. Get your merch from us today.
   </p>
-</div>
-
-<div class="bg-white width">
-  <img src="img/recent/branded.jpg" alt="anchor one" />
-</div>
-
-<div class="width img-width three-way-grid">
-  <ThreeWayGrid>
-    <img slot="left" src="img/recent/carrier bags.jpg" alt="anchor one" />
-    <img slot="center" src="img/recent/anchor-cap.jpg" alt="anchor one" />
-    <img slot="right" src="img/recent/7.jpg" alt="anchor tshirt branding" />
-  </ThreeWayGrid>
-</div>
-
-<div class="width work-wrapper">
-  <div class="recent-work">
-    <section class="two-way-grid">
-      <TwoWayGrid>
-        <div slot="left" class="img-wrapper">
-          <img
-            src="img/recent/hanging-banner.jpg"
-            alt="anchor hanging banner"
-          />
-        </div>
-        <div slot="right" class="img-wrapper">
-          <img src="img/recent/giftbags.jpg" alt="anchor helmet" />
-        </div>
-      </TwoWayGrid>
-    </section>
-  </div>
+  <section class="threewaygrid">
+    <div><img src="img/recent/carrier bags.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/9.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/anchor-cap.jpg" alt="anchor logo" /></div>
+  </section>
 </div>
 
 <style>
-  .width {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    margin-top: 0.75rem;
+  .hero-image {
+    margin-top: var(--top-margin-mobile);
   }
 
-  .intersection {
-    margin: var(--top-margin-mobile) auto 1rem auto;
-  }
-
-  .intersection p {
-    margin-top: 0.75rem;
-  }
-
-  .bg-color {
-    background-color: var(--secondary-color);
-    background-color: #180040;
-    background-color: #fff;
-    padding: 2.5rem 0;
-    margin: 3rem auto 0 auto;
-  }
-
-  .bg-white {
-    background-color: var(--pure-white);
-  }
-
-  .bg-white img {
-    display: block;
-    max-width: 100%;
-    margin-left: 0;
-  }
-
-  .img-wrapper img {
-    display: block;
-    width: 100%;
-  }
-
-  .bg-color div {
-    display: block;
-    width: 90%;
-    margin: auto;
-  }
-
-  .img-width img {
-    display: block;
-    max-width: 100%;
-    margin: auto;
-  }
-
-  .hero img {
-    max-width: 65%;
-  }
-
-  .content-500 {
-    width: 100%;
-    max-width: var(--column-width);
-    max-width: 720px;
-    margin: var(--top-margin-mobile) auto 0 auto;
-    text-align: center;
-  }
-
-  .content-500 p {
+  p {
+    max-width: 560px;
+    margin: 0 auto;
     margin-top: 1rem;
   }
 
+  h2 {
+    max-width: 560px;
+    margin: 0 auto;
+    margin-top: 3rem;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    /* margin-top: auto; */
+  }
+
+  div {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .fourwaygrid {
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 1.25rem;
+  }
+
+  .twofronefr {
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 5rem;
+  }
+
+  .threewaygrid {
+    display: grid;
+    gap: 0.25rem;
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 1.25rem;
+  }
+
+  .container div {
+    background-color: white;
+  }
+
   @media (min-width: 768px) {
-    .content-500 {
+    .hero-image {
       margin: var(--column-margin-top) auto 0 auto;
     }
 
-    .intersection {
-      margin: var(--column-margin-top) auto 1.75rem auto;
+    .fourwaygrid {
+      gap: 0.45rem;
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 2.25rem;
     }
 
-    .intersection p {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 720px;
+    .twofronefr {
+      display: grid;
+      gap: 0.45rem;
+      grid-template-columns: 2fr 1fr;
     }
 
-    .img-width img {
-      max-width: 100%;
+    .threewaygrid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.45rem;
+      margin-top: 2.25rem;
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .fourwaygrid {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>
