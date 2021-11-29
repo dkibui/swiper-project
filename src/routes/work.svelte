@@ -22,9 +22,12 @@
 <div class="container">
   <h2>Logos</h2>
   <p>
-    Anchor approached us to imagine their branding. For this project we wanted
-    to create a brand that is emotional and caring. A brand that lets you know
-    we've got your back.
+    Logo is the most visible among your identity elements. No wonder it takes
+    the most time when developing a visual brand.
+  </p>
+  <p>
+    A good logo should be simple in appearance and easy to remember. Visual
+    appeal is cool too.
   </p>
   <section class="fourwaygrid">
     <div><img src="img/recent/anchor.jpg" alt="anchor logo" /></div>

@@ -8,10 +8,12 @@
 
 <div class="btn" on:click={toggle} aria-expanded={isOpen}>
   <p>{entry[0]}</p>
-  <svg class="svg" height="12" width="12">
-    <line x1="0" y1="6" x2="12" y2="6" />
-    <line x1="6" y1="12" x2="6" y2="0" />
-  </svg>
+  <div class="svg-div">
+    <svg class="svg" height="12" width="12">
+      <line x1="0" y1="6" x2="12" y2="6" />
+      <line x1="6" y1="12" x2="6" y2="0" />
+    </svg>
+  </div>
 </div>
 
 {#if isOpen}
@@ -27,6 +29,12 @@
     transition: transform 0.4s ease-in-out;
     stroke: rgb(68, 68, 68, 0.75);
     stroke-width: 1.725;
+    margin: 0.96em;
+  }
+
+  .svg-div {
+    height: 100%;
+    transition: background-color 0.4s ease-in-out;
   }
 
   p {
@@ -37,10 +45,6 @@
     line-height: 1.6;
   }
 
-  div {
-    /* border-radius: 3px; */
-  }
-
   .btn {
     display: flex;
     align-items: center;
@@ -49,9 +53,8 @@
     color: var(--text-color);
     font-size: 17px;
     cursor: pointer;
-    padding: 0.5em;
     padding-left: 0.5em;
-    padding-right: 0.75em;
+    /* padding-right: 0.75em; */
     text-align: left;
   }
 
@@ -63,11 +66,17 @@
   }
 
   svg {
-    transition: transform 0.4s ease-in-out;
+    transition: transform background-color 0.4s ease-in-out;
+  }
+
+  [aria-expanded='true'] .svg-div {
+    background-color: rgb(252, 50, 50);
+    /* background-color: var(--accent-color); */
   }
 
   [aria-expanded='true'] svg {
     transform: rotate(0.375turn);
+    stroke: rgb(0, 0, 0);
   }
 
   @media (min-width: 768px) {
