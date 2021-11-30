@@ -70,13 +70,12 @@
   }
 
   [aria-expanded='true'] .svg-div {
-    background-color: rgb(252, 50, 50);
-    /* background-color: var(--accent-color); */
+    background-color: var(--tertiary-color);
   }
 
   [aria-expanded='true'] svg {
     transform: rotate(0.375turn);
-    stroke: rgb(0, 0, 0);
+    stroke: rgb(255, 0, 0);
   }
 
   @media (min-width: 768px) {
