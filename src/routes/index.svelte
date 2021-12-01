@@ -73,6 +73,9 @@
     class="mySwiper"
   >
     <SwiperSlide>
+      <img src="img/recent/amsco.jpg" alt="amsco" />
+    </SwiperSlide>
+    <SwiperSlide>
       <img src="img/recent/8.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
@@ -82,10 +85,7 @@
       <img src="img/recent/9.jpg" alt="" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/eaglehr-banners.jpg" alt="" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/recent/55.jpg" alt="" />
+      <img src="img/recent/strathmore-3.jpg" alt="strathmore" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/6.jpg" alt="" />
@@ -237,7 +237,7 @@
 
   .accordion {
     width: 100%;
-    max-width: 720px;
+    max-width: 960px;
     margin: auto;
   }
 
