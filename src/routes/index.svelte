@@ -73,25 +73,22 @@
     class="mySwiper"
   >
     <SwiperSlide>
+      <img src="img/recent/11.jpg" alt="Anchor homes" />
+    </SwiperSlide>
+    <SwiperSlide>
+      <img src="img/recent/9.jpg" alt="Anchor homes" />
+    </SwiperSlide>
+    <SwiperSlide>
       <img src="img/recent/amsco.jpg" alt="amsco" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/8.jpg" alt="" />
+      <img src="img/recent/6.jpg" alt="liberte juices post" />
     </SwiperSlide>
     <SwiperSlide>
-      <img src="img/recent/11.jpg" alt="" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/recent/9.jpg" alt="" />
+      <img src="img/recent/liberte.jpg" alt="liberte juices" />
     </SwiperSlide>
     <SwiperSlide>
       <img src="img/recent/strathmore-3.jpg" alt="strathmore" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/recent/6.jpg" alt="" />
-    </SwiperSlide>
-    <SwiperSlide>
-      <img src="img/recent/liberte.jpg" alt="" />
     </SwiperSlide>
   </Swiper>
 </div>
@@ -108,10 +105,10 @@
 </div>
 
 <div class="recent">
-  <h2>Sample projects</h2>
+  <h2>Sample work</h2>
   <p class="top-margin">
-    We handle many full brand development projects. Below we showcase the ones
-    we completed recently
+    We have been involved in many brand development projects. Below see some
+    that we completed recently
   </p>
 </div>
 

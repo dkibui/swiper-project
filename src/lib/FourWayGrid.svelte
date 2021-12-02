@@ -22,14 +22,14 @@
 
   section {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2.2rem;
+    column-gap: 0.25rem;
   }
 
   @media (min-width: 768px) {
     section {
       gap: 0.75rem;
-      grid-template-columns: repeat(2, 1fr);
     }
   }
 
