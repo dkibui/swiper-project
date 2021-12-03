@@ -39,7 +39,7 @@
 
 <div class="container">
   <section class="twofronefr">
-    <div><img src="img/recent/9.jpg" alt="anchor logo" /></div>
+    <div><img src="img/recent/anchor.png" alt="anchor logo" /></div>
     <div><img src="img/recent/giftbags.jpg" alt="anchor logo" /></div>
   </section>
 </div>
