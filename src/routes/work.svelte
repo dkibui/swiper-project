@@ -39,8 +39,12 @@
 
 <div class="container">
   <section class="twofronefr">
-    <div><img src="img/recent/anchor.png" alt="anchor logo" /></div>
-    <div><img src="img/recent/giftbags.jpg" alt="anchor logo" /></div>
+    <div class="twofr">
+      <img src="img/recent/hoody.jpg" alt="anchor logo" />
+    </div>
+    <div class="onefr">
+      <img src="img/recent/giftbags.jpg" alt="anchor logo" />
+    </div>
   </section>
 </div>
 <div class="container">
@@ -55,6 +59,20 @@
     <div><img src="img/recent/11.jpg" alt="anchor logo" /></div>
     <div><img src="img/recent/6.jpg" alt="anchor logo" /></div>
   </section>
+</div>
+
+<div class="container small-margin">
+  <div>
+    <img
+      src="img/recent/anchor-brand-guidelines.jpg"
+      alt="anchor brand guidelines"
+    />
+  </div>
+</div>
+<div class="container small-margin">
+  <div>
+    <img src="img/recent/overview.jpg" alt="anchor brand guidelines" />
+  </div>
 </div>
 
 <div class="container">
@@ -89,8 +107,7 @@
 
   img {
     display: block;
-    max-width: 100%;
-    /* margin-top: auto; */
+    width: 100%;
   }
 
   div {
@@ -101,6 +118,10 @@
   .container {
     max-width: 960px;
     margin: 0 auto;
+  }
+
+  .small-margin {
+    margin-top: 0.25rem;
   }
 
   .fourwaygrid {
@@ -115,6 +136,15 @@
     gap: 0.25rem;
     grid-template-columns: 1fr 1fr;
     margin-top: 5rem;
+  }
+
+  .onefr {
+    display: flex;
+    align-items: center;
+  }
+
+  .twofr img {
+    max-width: 420px;
   }
 
   .threewaygrid {
