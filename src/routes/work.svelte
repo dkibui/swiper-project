@@ -19,7 +19,13 @@
   </p>
 </div>
 
-<div class="container">
+<div class="container overview">
+  <div>
+    <img src="img/recent/overview.jpg" alt="anchor brand guidelines" />
+  </div>
+</div>
+
+<!-- <div class="container">
   <h2>Logos</h2>
   <p>
     Logo is the most visible among your identity elements. No wonder it takes
@@ -35,18 +41,36 @@
     <div><img src="img/recent/imexafrica.jpg" alt="anchor logo" /></div>
     <div><img src="img/recent/liberte_project.jpg" alt="anchor logo" /></div>
   </section>
-</div>
+</div> -->
+
+<!-- <div class="container">
+  <h2>Logos</h2>
+  <p>
+    Logo is the most visible among your identity elements. No wonder it takes
+    the most time when developing a visual brand.
+  </p>
+</div> -->
 
 <div class="container">
   <section class="twofronefr">
-    <div class="twofr">
-      <img src="img/recent/hoody.jpg" alt="anchor logo" />
+    <div class="onefr wireframe">
+      <img src="img/recent/anchor-wireframe.svg" alt="anchor logo" />
     </div>
     <div class="onefr">
       <img src="img/recent/giftbags.jpg" alt="anchor logo" />
     </div>
   </section>
 </div>
+
+<div class="container small-margin">
+  <div>
+    <img
+      src="img/recent/anchor-brand-guidelines.jpg"
+      alt="anchor brand guidelines"
+    />
+  </div>
+</div>
+
 <div class="container">
   <h2>Social media posts</h2>
   <p>
@@ -59,20 +83,6 @@
     <div><img src="img/recent/11.jpg" alt="anchor logo" /></div>
     <div><img src="img/recent/6.jpg" alt="anchor logo" /></div>
   </section>
-</div>
-
-<div class="container small-margin">
-  <div>
-    <img
-      src="img/recent/anchor-brand-guidelines.jpg"
-      alt="anchor brand guidelines"
-    />
-  </div>
-</div>
-<div class="container small-margin">
-  <div>
-    <img src="img/recent/overview.jpg" alt="anchor brand guidelines" />
-  </div>
 </div>
 
 <div class="container">
@@ -124,6 +134,10 @@
     margin-top: 0.25rem;
   }
 
+  .overview {
+    margin-top: 3rem;
+  }
+
   .fourwaygrid {
     display: grid;
     gap: 0.25rem;
@@ -135,7 +149,7 @@
     display: grid;
     gap: 0.25rem;
     grid-template-columns: 1fr 1fr;
-    margin-top: 5rem;
+    margin-top: 0.25rem;
   }
 
   .onefr {
@@ -143,15 +157,15 @@
     align-items: center;
   }
 
-  .twofr img {
-    max-width: 420px;
-  }
-
   .threewaygrid {
     display: grid;
     gap: 0.25rem;
     grid-template-columns: repeat(1, 1fr);
     margin-top: 1.25rem;
+  }
+
+  .container div:first-child {
+    background-color: #fff;
   }
 
   .container div {
@@ -169,10 +183,20 @@
       margin-top: 2.25rem;
     }
 
+    .wireframe img {
+      max-width: 86%;
+      margin: auto;
+    }
+
+    .small-margin {
+      margin-top: 0.45rem;
+    }
+
     .twofronefr {
       display: grid;
       gap: 0.45rem;
       grid-template-columns: 2fr 1fr;
+      margin-top: 0.45rem;
     }
 
     .threewaygrid {
