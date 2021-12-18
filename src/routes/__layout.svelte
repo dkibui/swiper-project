@@ -1,6 +1,6 @@
 <script>
-  import Canvas from '$lib/header/Canvas.svelte'
-  import '../app.css'
+  import Canvas from "$lib/header/Canvas.svelte";
+  import "../app.css";
 </script>
 
 <Canvas />
@@ -11,7 +11,7 @@
 
 <footer>
   <p>
-    Thank you for visiting. <a href="mailto:dkibui@visign.co.ke">
+    Thank you for visiting. <a href="mailto:info@visign.co.ke">
       Send us an email
     </a>
     to see how we can help.

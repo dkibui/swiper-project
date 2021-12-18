@@ -20,10 +20,10 @@
     We're really excited to work with you so feel free to give us a call. Your
     journey to the next level begins here
   </p>
-  <a href="mailto:dkibui@visign.co.ke"> <button>Email us</button> </a>
+  <a href="mailto:info@visign.co.ke"> <button>Email us</button> </a>
 
   <p class="contacts">
-    Cell: +254 728 49 4090 <br /> Email: dkibui@visign.co.ke <br /> Office: 6th
+    Cell: +254 728 49 4090 <br /> Email: info@visign.co.ke <br /> Office: 6th
     Floor, Westend <br />
     Towers. Westlands Nairobi.
   </p>
